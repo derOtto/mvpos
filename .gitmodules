@@ -1,0 +1,21 @@
+[submodule "online-retail"]
+	path = online-retail
+	url = https://git.jc-otto.de:3000/MV-Angelbachtal/online-retail.git
+[submodule "restaurant-service"]
+	path = restaurant-service
+	url = https://git.jc-otto.de:3000/MV-Angelbachtal/restaurant-service.git
+[submodule "product-catalog"]
+	path = product-catalog
+	url = https://git.jc-otto.de:3000/MV-Angelbachtal/product-catalog.git
+[submodule "escpos-display"]
+	path = escpos-display
+	url = https://git.jc-otto.de:3000/MV-Angelbachtal/escpos-display.git
+[submodule "device"]
+	path = device
+	url = https://git.jc-otto.de:3000/MV-Angelbachtal/device.git
+[submodule "nordpos-webapps"]
+	path = nordpos-webapps
+	url = https://git.jc-otto.de:3000/MV-Angelbachtal/nordpos-webapps.git
+[submodule "mobile-stripes"]
+	path = mobile-stripes
+	url = https://git.jc-otto.de:3000/MV-Angelbachtal/mobile-stripes.git
