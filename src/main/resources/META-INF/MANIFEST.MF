@@ -1,0 +1,39 @@
+Archiver-Version: Plexus Archiver
+Built-By: jan
+Created-By: 1.8.0_91-b14 (Oracle Corporation)
+Class-Path: lib/barcode4j-2.1.jar lib/bsh-2.1.8.jar lib/imgscalr-lib-4
+ .2.jar lib/nrjavaserial-3.11.0.jar lib/rsyntaxtextarea-2.5.8.jar lib/
+ swingx-1.6.1.jar lib/velocity-1.7.jar lib/commons-beanutils-1.9.2.jar
+  lib/commons-codec-1.10.jar lib/commons-collections-3.2.2.jar lib/com
+ mons-digester-1.7.jar lib/commons-discovery-0.5.jar lib/commons-lang-
+ 2.6.jar lib/commons-logging-1.2.jar lib/derby.jar lib/derbynet.jar li
+ b/laf-plugin-7.3.jar lib/laf-widget-7.3.jar lib/substance-7.3-lite.ja
+ r lib/substance-7.3-tools.jar lib/substance-swingx-7.3.jar lib/triden
+ t-7.3-base.jar lib/trident-7.3-swing.jar lib/trident-7.3.jar lib/jasp
+ erreports-6.2.0.jar lib/jasperreports-fonts-6.2.0.jar lib/jasperrepor
+ ts-javaflow-6.2.0.jar lib/batik-anim.jar lib/batik-awt-util.jar lib/b
+ atik-bridge.jar lib/batik-css.jar lib/batik-dom.jar lib/batik-ext.jar
+  lib/batik-gvt.jar lib/batik-parser.jar lib/batik-script.jar lib/bati
+ k-svg-dom.jar lib/batik-svggen.jar lib/batik-util.jar lib/batik-xml.j
+ ar lib/itext-2.1.7.js4.jar lib/jcommon-1.0.23.jar lib/jfreechart-1.0.
+ 19.jar lib/JMapViewer.jar lib/poi-3.10.1.jar lib/poi-ooxml-3.10.1.jar lib/poi-ooxml-sche
+ mas-3.10.1.jar lib/saaj-api-1.3.jar lib/xml-apis-ext.jar lib/xml-apis
+ .jar lib/xmlbeans-2.5.0.jar lib/jetty-annotations-9.3.6.v20151106.jar
+  lib/jetty-http-9.3.6.v20151106.jar lib/jetty-io-9.3.6.v20151106.jar
+ lib/jetty-jmx-9.3.6.v20151106.jar lib/jetty-plus-9.3.6.v20151106.jar
+ lib/jetty-security-9.3.6.v20151106.jar lib/jetty-server-9.3.6.v201511
+ 06.jar lib/jetty-servlet-9.3.6.v20151106.jar lib/jetty-servlets-9.3.6
+ .v20151106.jar lib/jetty-util-9.3.6.v20151106.jar lib/jetty-webapp-9.
+ 3.6.v20151106.jar lib/jetty-xml-9.3.6.v20151106.jar lib/servlet-api-3
+ .1.jar lib/asm-5.0.1.jar lib/asm-commons-5.0.1.jar lib/javax.annotati
+ on-api-1.2.jar lib/org.eclipse.jdt.core.compiler.ecj-4.4.2.jar lib/or
+ g.eclipse.jetty.apache-jsp-9.3.6.v20151106.jar lib/org.mortbay.jasper
+ .apache-el-8.0.27.jar lib/org.mortbay.jasper.apache-jsp-8.0.27.jar li
+ b/kettle-core-6.1.0.1-196.jar lib/kettle-dbdialog-6.1.0.1-196.jar lib
+ /kettle-engine-6.1.0.1-196.jar lib/kettle5-log4j-plugin-6.1.0.1-196.j
+ ar lib/commons-vfs2-2.1-20150824.jar lib/guava-17.0.jar lib/javassist
+ -3.12.1.GA.jar lib/js-1.7R3.jar lib/jug-lgpl-2.0.0.jar lib/log4j-1.2.
+ 17.jar lib/mail-1.4.7.jar lib/metastore-6.1.0.1-196.jar lib/scannotat
+ ion-1.0.2.jar lib/core-3.2.1.jar lib/javase-3.2.1.jar
+Build-Jdk: 1.8.0_131
+Main-Class: com.openbravo.pos.forms.StartPOS
