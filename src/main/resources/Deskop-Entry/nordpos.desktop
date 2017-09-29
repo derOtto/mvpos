@@ -1,0 +1,19 @@
+[Desktop Entry]
+Version=3.1.0CE
+Encoding=UTF-8
+Name=Nord POS
+Terminal=false
+Exec=/opt/pos/start.sh
+Icon=nordpos
+Type=Application
+InitialPreference=6
+Categories=Application;Office;
+StartupNotify=false
+GenericName=Nord POS
+Comment=Nord POS is a point of sale designed for touch screens, based on Openbravo POS
+Name[en_US]=Nord POS
+GenericName[en_US]=Nord POS
+Name[de_DE]=Nord POS
+GenericName[de_DE]=Nord POS
+Keywords=cash;POS
+Keywords[de_DE]=Kasse;POS
