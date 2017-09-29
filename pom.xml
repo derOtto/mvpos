@@ -9,6 +9,14 @@
     <version>3.1.0CE</version>
     <packaging>jar</packaging>
     <build>
+        <resources>
+            <resource>
+                <directory>src/resources</directory>
+                <excludes>
+                    <exclude>**/*</exclude>
+                </excludes>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
@@ -27,6 +35,28 @@
                                     <directory>src/main/java/com/openbravo/images</directory>
                                     <includes>
                                         <include>**/*.png</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>copy-nordpos-templates</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${basedir}/target/classes/com/nordpos/templates</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>src/main/java/com/nordpos/templates</directory>
+                                    <includes>
+                                        <include>**/*.txt</include>
+                                        <include>**/*.png</include>
+                                        <include>**/*.bsh</include>
+                                        <include>**/*.xml</include>
+                                        <include>**/*.xsd</include>
                                     </includes>
                                 </resource>
                             </resources>
