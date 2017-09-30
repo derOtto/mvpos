@@ -72,13 +72,15 @@
                         <xs:sequence maxOccurs="unbounded" minOccurs="0">
                             <xs:element name="barcode" maxOccurs="unbounded" minOccurs="0">
                                 <xs:complexType>
-                                        <xs:simpleContent>
-                                                <xs:extension base="xs:string">
-                                                        <xs:attribute name="type" type="BarcodeType" default="EAN13" use="optional"/>
-                                                            <xs:attribute name="position" type="BarcodePosition" default="bottom" use="optional"/>
-                                                    </xs:extension>
-                                            </xs:simpleContent>
-                                    </xs:complexType>
+                                    <xs:simpleContent>
+                                        <xs:extension base="xs:string">
+                                            <xs:attribute name="type" type="BarcodeType" default="EAN13"
+                                                          use="optional"/>
+                                            <xs:attribute name="position" type="BarcodePosition" default="bottom"
+                                                          use="optional"/>
+                                        </xs:extension>
+                                    </xs:simpleContent>
+                                </xs:complexType>
                             </xs:element>
                             <xs:element name="image" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
 
@@ -90,7 +92,8 @@
                                                 <xs:simpleContent>
                                                     <xs:extension base="xs:string">
                                                         <xs:attribute name="bold" type="xs:boolean" default="false"/>
-                                                        <xs:attribute name="underline" type="UnderlineType" default="none"/>
+                                                        <xs:attribute name="underline" type="UnderlineType"
+                                                                      default="none"/>
                                                         <xs:attribute name="align" type="TextAlign" default="left"/>
                                                         <xs:attribute name="length" type="xs:unsignedInt" default="0"/>
                                                         <xs:attribute name="size" type="xs:unsignedInt"/>
@@ -173,12 +176,12 @@
                     <xs:complexType>
                         <xs:sequence minOccurs="0" maxOccurs="unbounded">
                             <xs:element name="fiscalcashin" minOccurs="0">
-                               <xs:complexType>
+                                <xs:complexType>
                                     <xs:attribute name="value" type="xs:double" default="0.0"/>
                                 </xs:complexType>
                             </xs:element>
                             <xs:element name="fiscalcashout" minOccurs="0">
-                               <xs:complexType>
+                                <xs:complexType>
                                     <xs:attribute name="value" type="xs:double" default="0.0"/>
                                 </xs:complexType>
                             </xs:element>
@@ -206,8 +209,10 @@
                                 <xs:complexType>
                                     <xs:simpleContent>
                                         <xs:extension base="xs:string">
-                                            <xs:attribute name="position" type="BarcodePosition" default="bottom" use="optional"/>
-                                            <xs:attribute name="type" type="BarcodeType" default="EAN13" use="optional"/>
+                                            <xs:attribute name="position" type="BarcodePosition" default="bottom"
+                                                          use="optional"/>
+                                            <xs:attribute name="type" type="BarcodeType" default="EAN13"
+                                                          use="optional"/>
                                             <xs:attribute name="orientation" type="xs:unsignedInt"/>
                                             <xs:attribute name="y" type="xs:unsignedInt"/>
                                             <xs:attribute name="x" type="xs:unsignedInt"/>

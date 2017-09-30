@@ -27,121 +27,127 @@ import com.openbravo.data.loader.SerializerWriteBasic;
 import com.openbravo.format.Formats;
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.forms.AppView;
+
 import java.awt.Component;
 
 /**
- *
- * @author  adrianromero
+ * @author adrianromero
  */
 public class JParamsText extends javax.swing.JPanel implements ReportEditorCreator {
-    
+
     private Datas datasvalue;
     private Formats formatsvalue;
     private QBFCompareEnum comparevalue;
-    
-    /** Creates new form JParamsText */
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel lblField;
+    private javax.swing.JTextField txtField;
+
+    /**
+     * Creates new form JParamsText
+     */
     public JParamsText() {
         initComponents();
-        
+
         setLabel(AppLocal.getIntString("label.value"));
         setType(Formats.STRING);
     }
-    
+
     public JParamsText(String label) {
-        
+
         initComponents();
-        
-        setLabel(label);    
+
+        setLabel(label);
         setType(Formats.STRING);
     }
-    
+
     public JParamsText(String label, Formats format) {
-        
+
         initComponents();
-        
-        setLabel(label);    
+
+        setLabel(label);
         setType(format);
     }
-    
+
     public JParamsText(String label, Formats format, Datas data) {
-        
+
         initComponents();
-        
-        setLabel(label);    
+
+        setLabel(label);
         setType(format, data);
     }
-    
+
     public void setLabel(String label) {
         lblField.setText(label);
     }
-    
+
     public void setType(Formats format, Datas data) {
         formatsvalue = format;
         datasvalue = data;
         setDefaultCompare();
     }
-    
+
     public void setType(Formats format) {
-        
+
         if (Formats.INT == format) {
-             setType(format, Datas.INT);
+            setType(format, Datas.INT);
         } else if (Formats.DOUBLE == format || Formats.CURRENCY == format || Formats.PERCENT == format) {
-             setType(format, Datas.DOUBLE);
+            setType(format, Datas.DOUBLE);
         } else if (Formats.DATE == format || Formats.TIME == format || Formats.TIMESTAMP == format) {
-             setType(format, Datas.TIMESTAMP);
+            setType(format, Datas.TIMESTAMP);
         } else if (Formats.BOOLEAN == format) {
-             setType(format, Datas.BOOLEAN);
+            setType(format, Datas.BOOLEAN);
         } else { // if (Formats.STRING == format) {
             setType(format, Datas.STRING);
         }
     }
-    
+
     public void setCompare(QBFCompareEnum compare) {
         comparevalue = compare;
     }
-    
+
     private void setDefaultCompare() {
         if (Formats.INT == formatsvalue) {
-             comparevalue = QBFCompareEnum.COMP_LESSOREQUALS;
+            comparevalue = QBFCompareEnum.COMP_LESSOREQUALS;
         } else if (Formats.DOUBLE == formatsvalue || Formats.CURRENCY == formatsvalue || Formats.PERCENT == formatsvalue) {
-             comparevalue = QBFCompareEnum.COMP_LESSOREQUALS;
+            comparevalue = QBFCompareEnum.COMP_LESSOREQUALS;
         } else if (Formats.DATE == formatsvalue || Formats.TIME == formatsvalue || Formats.TIMESTAMP == formatsvalue) {
-             comparevalue = QBFCompareEnum.COMP_GREATEROREQUALS;
+            comparevalue = QBFCompareEnum.COMP_GREATEROREQUALS;
         } else if (Formats.BOOLEAN == formatsvalue) {
-             comparevalue = QBFCompareEnum.COMP_EQUALS;
+            comparevalue = QBFCompareEnum.COMP_EQUALS;
         } else { // if (Formats.STRING == formatsvalue) {
-             comparevalue = QBFCompareEnum.COMP_RE;
+            comparevalue = QBFCompareEnum.COMP_RE;
         }
     }
-    
+
     public void init(AppView app) {
     }
 
     public void activate() throws BasicException {
         txtField.setText(null);
     }
-    
+
     public SerializerWrite getSerializerWrite() {
-        return new SerializerWriteBasic(new Datas[] {Datas.OBJECT, datasvalue});
+        return new SerializerWriteBasic(new Datas[]{Datas.OBJECT, datasvalue});
     }
 
     public Component getComponent() {
         return this;
     }
-    
+
     public Object createValue() throws BasicException {
-        
+
         Object value = formatsvalue.parseValue(txtField.getText());
         txtField.setText(formatsvalue.formatValue(value));
-        
-        if (value == null) {        
-            return new Object[] {QBFCompareEnum.COMP_NONE, null};
+
+        if (value == null) {
+            return new Object[]{QBFCompareEnum.COMP_NONE, null};
         } else {
-            return new Object[] {comparevalue, value};
+            return new Object[]{comparevalue, value};
         }
-    }      
-    
-    /** This method is called from within the constructor to
+    }
+
+    /**
+     * This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
      * always regenerated by the Form Editor.
@@ -161,11 +167,6 @@ public class JParamsText extends javax.swing.JPanel implements ReportEditorCreat
         add(txtField);
         txtField.setBounds(140, 10, 200, 18);
     }// </editor-fold>//GEN-END:initComponents
-    
-    
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel lblField;
-    private javax.swing.JTextField txtField;
     // End of variables declaration//GEN-END:variables
-    
+
 }

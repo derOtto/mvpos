@@ -40,7 +40,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *Class DevicePrinterPrinter is responsible for printing tickets using system <br>
+ * Class DevicePrinterPrinter is responsible for printing tickets using system <br>
  * printers. It takes into consideration if a user set a printer as a receipt <br>
  * printer or not.
  * <p>For receipt printers lenght of a receipt must be calculated in this class.</p>
@@ -51,15 +51,96 @@ import java.util.logging.Logger;
  */
 public class DevicePrinterPrinter implements DevicePrinter {
 
+    private static final HashMap<String, MediaSizeName> mediasizenamemap = new HashMap<String, MediaSizeName>();
     private static Logger logger = Logger.getLogger("com.openbravo.pos.printer.printer.DevicePrinterPrinter");
+
+    static {
+        mediasizenamemap.put("Postcard", MediaSizeName.JAPANESE_POSTCARD);
+        mediasizenamemap.put("Statement", MediaSizeName.INVOICE);
+
+        mediasizenamemap.put("Letter", MediaSizeName.NA_LETTER);
+        mediasizenamemap.put("Executive", MediaSizeName.EXECUTIVE);
+        mediasizenamemap.put("Legal", MediaSizeName.NA_LEGAL);
+
+        mediasizenamemap.put("A0", MediaSizeName.ISO_A0);
+        mediasizenamemap.put("A1", MediaSizeName.ISO_A1);
+        mediasizenamemap.put("A2", MediaSizeName.ISO_A2);
+        mediasizenamemap.put("A3", MediaSizeName.ISO_A3);
+        mediasizenamemap.put("A4", MediaSizeName.ISO_A4);
+        mediasizenamemap.put("A5", MediaSizeName.ISO_A5);
+        mediasizenamemap.put("A6", MediaSizeName.ISO_A6);
+        mediasizenamemap.put("A7", MediaSizeName.ISO_A7);
+        mediasizenamemap.put("A8", MediaSizeName.ISO_A8);
+        mediasizenamemap.put("A9", MediaSizeName.ISO_A9);
+        mediasizenamemap.put("A10", MediaSizeName.ISO_A10);
+
+        mediasizenamemap.put("B0", MediaSizeName.JIS_B0);
+        mediasizenamemap.put("B1", MediaSizeName.JIS_B1);
+        mediasizenamemap.put("B2", MediaSizeName.JIS_B2);
+        mediasizenamemap.put("B3", MediaSizeName.JIS_B3);
+        mediasizenamemap.put("B4", MediaSizeName.JIS_B4);
+        mediasizenamemap.put("B5", MediaSizeName.JIS_B5);
+        mediasizenamemap.put("B6", MediaSizeName.JIS_B6);
+        mediasizenamemap.put("B7", MediaSizeName.JIS_B7);
+        mediasizenamemap.put("B8", MediaSizeName.JIS_B8);
+        mediasizenamemap.put("B9", MediaSizeName.JIS_B9);
+        mediasizenamemap.put("B10", MediaSizeName.JIS_B10);
+
+        mediasizenamemap.put("ISOB0", MediaSizeName.ISO_B0);
+        mediasizenamemap.put("ISOB1", MediaSizeName.ISO_B1);
+        mediasizenamemap.put("ISOB2", MediaSizeName.ISO_B2);
+        mediasizenamemap.put("ISOB3", MediaSizeName.ISO_B3);
+        mediasizenamemap.put("ISOB4", MediaSizeName.ISO_B4);
+        mediasizenamemap.put("ISOB5", MediaSizeName.ISO_B5);
+        mediasizenamemap.put("ISOB6", MediaSizeName.ISO_B6);
+        mediasizenamemap.put("ISOB7", MediaSizeName.ISO_B7);
+        mediasizenamemap.put("ISOB8", MediaSizeName.ISO_B8);
+        mediasizenamemap.put("ISOB9", MediaSizeName.ISO_B9);
+        mediasizenamemap.put("ISOB10", MediaSizeName.ISO_B10);
+        mediasizenamemap.put("EnvISOB0", MediaSizeName.ISO_B0);
+        mediasizenamemap.put("EnvISOB1", MediaSizeName.ISO_B1);
+        mediasizenamemap.put("EnvISOB2", MediaSizeName.ISO_B2);
+        mediasizenamemap.put("EnvISOB3", MediaSizeName.ISO_B3);
+        mediasizenamemap.put("EnvISOB4", MediaSizeName.ISO_B4);
+        mediasizenamemap.put("EnvISOB5", MediaSizeName.ISO_B5);
+        mediasizenamemap.put("EnvISOB6", MediaSizeName.ISO_B6);
+        mediasizenamemap.put("EnvISOB7", MediaSizeName.ISO_B7);
+        mediasizenamemap.put("EnvISOB8", MediaSizeName.ISO_B8);
+        mediasizenamemap.put("EnvISOB9", MediaSizeName.ISO_B9);
+        mediasizenamemap.put("EnvISOB10", MediaSizeName.ISO_B10);
+
+        mediasizenamemap.put("C0", MediaSizeName.ISO_C0);
+        mediasizenamemap.put("C1", MediaSizeName.ISO_C1);
+        mediasizenamemap.put("C2", MediaSizeName.ISO_C2);
+        mediasizenamemap.put("C3", MediaSizeName.ISO_C3);
+        mediasizenamemap.put("C4", MediaSizeName.ISO_C4);
+        mediasizenamemap.put("C5", MediaSizeName.ISO_C5);
+        mediasizenamemap.put("C6", MediaSizeName.ISO_C6);
+
+        mediasizenamemap.put("EnvPersonal", MediaSizeName.PERSONAL_ENVELOPE);
+        mediasizenamemap.put("EnvMonarch", MediaSizeName.MONARCH_ENVELOPE);
+        mediasizenamemap.put("Monarch", MediaSizeName.MONARCH_ENVELOPE);
+        mediasizenamemap.put("Env9", MediaSizeName.NA_NUMBER_9_ENVELOPE);
+        mediasizenamemap.put("Env10", MediaSizeName.NA_NUMBER_10_ENVELOPE);
+        mediasizenamemap.put("Env11", MediaSizeName.NA_NUMBER_11_ENVELOPE);
+        mediasizenamemap.put("Env12", MediaSizeName.NA_NUMBER_12_ENVELOPE);
+        mediasizenamemap.put("Env14", MediaSizeName.NA_NUMBER_14_ENVELOPE);
+        mediasizenamemap.put("c8x10", MediaSizeName.NA_8X10);
+
+        mediasizenamemap.put("EnvDL", MediaSizeName.ISO_DESIGNATED_LONG);
+        mediasizenamemap.put("DL", MediaSizeName.ISO_DESIGNATED_LONG);
+        mediasizenamemap.put("EnvC0", MediaSizeName.ISO_C0);
+        mediasizenamemap.put("EnvC1", MediaSizeName.ISO_C1);
+        mediasizenamemap.put("EnvC2", MediaSizeName.ISO_C2);
+        mediasizenamemap.put("EnvC3", MediaSizeName.ISO_C3);
+        mediasizenamemap.put("EnvC4", MediaSizeName.ISO_C4);
+        mediasizenamemap.put("EnvC5", MediaSizeName.ISO_C5);
+        mediasizenamemap.put("EnvC6", MediaSizeName.ISO_C6);
+    }
 
     private Component parent;
     /*name of a printer*/
     private String m_sName;
-    /*a ticket to print*/
-    private BasicTicket m_ticketcurrent;
-    /*system printer*/
-    private PrintService printservice;
 
 //    // For Page Size 72mm x 200mm && MediaSizeName A4.
 //    private static final int imageable_width = 190;
@@ -74,19 +155,20 @@ public class DevicePrinterPrinter implements DevicePrinter {
 //    private static final int imageable_x = 72;
 //    private static final int imageable_y = 72;
 //    private static final Media media = MediaSizeName.ISO_A4;
-
+    /*a ticket to print*/
+    private BasicTicket m_ticketcurrent;
+    /*system printer*/
+    private PrintService printservice;
     private int imageable_width;
     private int imageable_height;
     private int imageable_x;
     private int imageable_y;
     private Media media;
 
-    private static final HashMap<String, MediaSizeName> mediasizenamemap = new HashMap<String, MediaSizeName>();
-
     /**
      * Creates a new instance of DevicePrinterPrinter
      *
-     * @param printername - name of printer that will be called in the system
+     * @param printername      - name of printer that will be called in the system
      * @param isReceiptPrinter - string with boolean values if the printer is a receipt
      */
     public DevicePrinterPrinter(Component parent, String printername, int imageable_x, int imageable_y, int imageable_width, int imageable_height, String mediasizename) {
@@ -101,6 +183,10 @@ public class DevicePrinterPrinter implements DevicePrinter {
         this.imageable_width = imageable_width;
         this.imageable_height = imageable_height;
         this.media = getMedia(mediasizename);
+    }
+
+    private static MediaSizeName getMedia(String mediasizename) {
+        return mediasizenamemap.get(mediasizename);
     }
 
     /**
@@ -162,9 +248,9 @@ public class DevicePrinterPrinter implements DevicePrinter {
     /**
      * Method that is responsible for printing a barcode
      *
-     * @param type a type of a barcode
+     * @param type     a type of a barcode
      * @param position coordinates of a barcode on a receipt
-     * @param code the code of a productmiale
+     * @param code     the code of a productmiale
      */
     @Override
     public void printBarCode(String type, String position, String code) {
@@ -185,7 +271,7 @@ public class DevicePrinterPrinter implements DevicePrinter {
      * Method that is responsible for printing text
      *
      * @param iCharacterSize size character of text
-     * @param sText text to print
+     * @param sText          text to print
      */
     @Override
     public void printText(Integer iCharacterSize, String sUnderlineType, Boolean bBold, String sText) {
@@ -230,7 +316,7 @@ public class DevicePrinterPrinter implements DevicePrinter {
                 ps = printservice;
             }
 
-            if (ps != null)  {
+            if (ps != null) {
 
                 PrintRequestAttributeSet aset = new HashPrintRequestAttributeSet();
                 aset.add(OrientationRequested.PORTRAIT);
@@ -263,93 +349,5 @@ public class DevicePrinterPrinter implements DevicePrinter {
 
     @Override
     public void cutPaper(boolean complete) {
-    }
-
-    private static MediaSizeName getMedia(String mediasizename) {
-        return mediasizenamemap.get(mediasizename);
-    }
-
-    static {
-      mediasizenamemap.put("Postcard", MediaSizeName.JAPANESE_POSTCARD);
-      mediasizenamemap.put("Statement", MediaSizeName.INVOICE);
-
-      mediasizenamemap.put("Letter", MediaSizeName.NA_LETTER);
-      mediasizenamemap.put("Executive", MediaSizeName.EXECUTIVE);
-      mediasizenamemap.put("Legal", MediaSizeName.NA_LEGAL);
-
-      mediasizenamemap.put("A0", MediaSizeName.ISO_A0);
-      mediasizenamemap.put("A1", MediaSizeName.ISO_A1);
-      mediasizenamemap.put("A2", MediaSizeName.ISO_A2);
-      mediasizenamemap.put("A3", MediaSizeName.ISO_A3);
-      mediasizenamemap.put("A4", MediaSizeName.ISO_A4);
-      mediasizenamemap.put("A5", MediaSizeName.ISO_A5);
-      mediasizenamemap.put("A6", MediaSizeName.ISO_A6);
-      mediasizenamemap.put("A7", MediaSizeName.ISO_A7);
-      mediasizenamemap.put("A8", MediaSizeName.ISO_A8);
-      mediasizenamemap.put("A9", MediaSizeName.ISO_A9);
-      mediasizenamemap.put("A10", MediaSizeName.ISO_A10);
-
-      mediasizenamemap.put("B0", MediaSizeName.JIS_B0);
-      mediasizenamemap.put("B1", MediaSizeName.JIS_B1);
-      mediasizenamemap.put("B2", MediaSizeName.JIS_B2);
-      mediasizenamemap.put("B3", MediaSizeName.JIS_B3);
-      mediasizenamemap.put("B4", MediaSizeName.JIS_B4);
-      mediasizenamemap.put("B5", MediaSizeName.JIS_B5);
-      mediasizenamemap.put("B6", MediaSizeName.JIS_B6);
-      mediasizenamemap.put("B7", MediaSizeName.JIS_B7);
-      mediasizenamemap.put("B8", MediaSizeName.JIS_B8);
-      mediasizenamemap.put("B9", MediaSizeName.JIS_B9);
-      mediasizenamemap.put("B10", MediaSizeName.JIS_B10);
-
-      mediasizenamemap.put("ISOB0", MediaSizeName.ISO_B0);
-      mediasizenamemap.put("ISOB1", MediaSizeName.ISO_B1);
-      mediasizenamemap.put("ISOB2", MediaSizeName.ISO_B2);
-      mediasizenamemap.put("ISOB3", MediaSizeName.ISO_B3);
-      mediasizenamemap.put("ISOB4", MediaSizeName.ISO_B4);
-      mediasizenamemap.put("ISOB5", MediaSizeName.ISO_B5);
-      mediasizenamemap.put("ISOB6", MediaSizeName.ISO_B6);
-      mediasizenamemap.put("ISOB7", MediaSizeName.ISO_B7);
-      mediasizenamemap.put("ISOB8", MediaSizeName.ISO_B8);
-      mediasizenamemap.put("ISOB9", MediaSizeName.ISO_B9);
-      mediasizenamemap.put("ISOB10", MediaSizeName.ISO_B10);
-      mediasizenamemap.put("EnvISOB0", MediaSizeName.ISO_B0);
-      mediasizenamemap.put("EnvISOB1", MediaSizeName.ISO_B1);
-      mediasizenamemap.put("EnvISOB2", MediaSizeName.ISO_B2);
-      mediasizenamemap.put("EnvISOB3", MediaSizeName.ISO_B3);
-      mediasizenamemap.put("EnvISOB4", MediaSizeName.ISO_B4);
-      mediasizenamemap.put("EnvISOB5", MediaSizeName.ISO_B5);
-      mediasizenamemap.put("EnvISOB6", MediaSizeName.ISO_B6);
-      mediasizenamemap.put("EnvISOB7", MediaSizeName.ISO_B7);
-      mediasizenamemap.put("EnvISOB8", MediaSizeName.ISO_B8);
-      mediasizenamemap.put("EnvISOB9", MediaSizeName.ISO_B9);
-      mediasizenamemap.put("EnvISOB10", MediaSizeName.ISO_B10);
-
-      mediasizenamemap.put("C0", MediaSizeName.ISO_C0);
-      mediasizenamemap.put("C1", MediaSizeName.ISO_C1);
-      mediasizenamemap.put("C2", MediaSizeName.ISO_C2);
-      mediasizenamemap.put("C3", MediaSizeName.ISO_C3);
-      mediasizenamemap.put("C4", MediaSizeName.ISO_C4);
-      mediasizenamemap.put("C5", MediaSizeName.ISO_C5);
-      mediasizenamemap.put("C6", MediaSizeName.ISO_C6);
-
-      mediasizenamemap.put("EnvPersonal", MediaSizeName.PERSONAL_ENVELOPE);
-      mediasizenamemap.put("EnvMonarch", MediaSizeName.MONARCH_ENVELOPE);
-      mediasizenamemap.put("Monarch", MediaSizeName.MONARCH_ENVELOPE);
-      mediasizenamemap.put("Env9", MediaSizeName.NA_NUMBER_9_ENVELOPE);
-      mediasizenamemap.put("Env10", MediaSizeName.NA_NUMBER_10_ENVELOPE);
-      mediasizenamemap.put("Env11", MediaSizeName.NA_NUMBER_11_ENVELOPE);
-      mediasizenamemap.put("Env12", MediaSizeName.NA_NUMBER_12_ENVELOPE);
-      mediasizenamemap.put("Env14", MediaSizeName.NA_NUMBER_14_ENVELOPE);
-      mediasizenamemap.put("c8x10", MediaSizeName.NA_8X10);
-
-      mediasizenamemap.put("EnvDL", MediaSizeName.ISO_DESIGNATED_LONG);
-      mediasizenamemap.put("DL", MediaSizeName.ISO_DESIGNATED_LONG);
-      mediasizenamemap.put("EnvC0", MediaSizeName.ISO_C0);
-      mediasizenamemap.put("EnvC1", MediaSizeName.ISO_C1);
-      mediasizenamemap.put("EnvC2", MediaSizeName.ISO_C2);
-      mediasizenamemap.put("EnvC3", MediaSizeName.ISO_C3);
-      mediasizenamemap.put("EnvC4", MediaSizeName.ISO_C4);
-      mediasizenamemap.put("EnvC5", MediaSizeName.ISO_C5);
-      mediasizenamemap.put("EnvC6", MediaSizeName.ISO_C6);
     }
 }

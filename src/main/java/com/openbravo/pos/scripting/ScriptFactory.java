@@ -20,21 +20,21 @@
 package com.openbravo.pos.scripting;
 
 /**
- *
  * @author adrianromero
  * Created on 5 de marzo de 2007, 19:56
- *
  */
 public class ScriptFactory {
-    
+
     public static final String VELOCITY = "velocity";
     public static final String BEANSHELL = "beanshell";
     public static final String RHINO = "rhino";
-    
-    /** Creates a new instance of ScriptFactory */
+
+    /**
+     * Creates a new instance of ScriptFactory
+     */
     private ScriptFactory() {
     }
-    
+
     public static ScriptEngine getScriptEngine(String name) throws ScriptException {
         if (VELOCITY.equals(name)) {
             return new ScriptEngineVelocity();
@@ -47,5 +47,5 @@ public class ScriptFactory {
         } else {
             throw new ScriptException("Script engine not found: " + name);
         }
-    }    
+    }
 }

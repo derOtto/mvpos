@@ -20,6 +20,6 @@
 package com.nordpos.device.scale;
 
 public interface DeviceScale {
-    
+
     public Double readWeight() throws ScaleException;
 }

@@ -36,6 +36,7 @@ import com.nordpos.device.util.StringParser;
 import com.openbravo.pos.scripting.ScriptEngine;
 import com.openbravo.pos.scripting.ScriptException;
 import com.openbravo.pos.scripting.ScriptFactory;
+
 import java.awt.CardLayout;
 import java.awt.ComponentOrientation;
 import java.awt.Cursor;
@@ -51,7 +52,6 @@ import java.util.regex.Matcher;
 import javax.swing.*;
 
 /**
- *
  * @author adrianromero
  * @author Andrey Svininykh <svininykh@gmail.com>
  * @version NORD POS 3
@@ -60,44 +60,55 @@ public class JRootApp extends JPanel implements AppView {
 
     private static final String PRINTER_SHEMA = "/com/nordpos/templates/Schema.Printer.xsd";
     private static final String PRINT_START = "/com/nordpos/templates/Printer.Start.xml";
-
+    private final Map<String, BeanFactory> m_aBeanFactories;
     private AppProperties m_props;
     private Session session;
     private DataLogicSystem m_dlSystem;
-
     private Properties m_propsdb = null;
     private String m_sActiveCashIndex;
     private int m_iActiveCashSequence;
     private Date m_dActiveCashDateStart;
     private Date m_dActiveCashDateEnd;
-
     private String m_sInventoryLocation;
-
     private String m_sGenerateProductReference;
     private String m_sGenerateProductBarcode;
-
     private String m_sCustomerCard;
     private String m_sUserCard;
-
     private String m_sUserBarcode;
     private String m_sPriceBarcode;
     private String m_sUnitBarcode;
     private String m_sProductPriceBarcode;
-
     private String m_sDefaultInventoryLocation;
     private String m_sDefaultTaxCategory;
     private String m_sDefaultProductCategory;
-
     private StringBuffer inputtext;
-
     private DeviceScaleFactory m_Scale;
     private DeviceInputOutput m_DevicePLUs;
     private DeviceTicketFactory m_TP;
     private TicketParser m_TTP;
-
-    private final Map<String, BeanFactory> m_aBeanFactories;
-
     private JPrincipalApp m_principalapp = null;
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private JPanel jPanel1;
+    private JPanel jPanel2;
+    private JPanel jPanel3;
+    private JPanel jPanel4;
+    private JPanel jPanel5;
+    private JPanel jPanel8;
+    private JScrollPane jScrollPane1;
+    private JButton m_jClose;
+    private JLabel m_jHost;
+    private JLabel m_jLblDescriptionFirst;
+    private JLabel m_jLblDescriptionSecond;
+    private JLabel m_jLblPoweredBy;
+    private JLabel m_jLblSupportBy;
+    private JLabel m_jLblTitle;
+    private JPanel m_jLogonName;
+    private JPanel m_jPanelContainer;
+    private JPanel m_jPanelDown;
+    private JPanel m_jPanelLogin;
+    private JPanel m_jPanelTitle;
+    private JTextField m_txtKeys;
+    private JPanel panelTask;
 
     public JRootApp() {
 
@@ -289,7 +300,7 @@ public class JRootApp extends JPanel implements AppView {
         } else {
             m_DevicePLUs = DeviceInputOutputFactory.createInstance(m_props);
         }
-        
+
         // Leemos los recursos basicos
         BufferedImage imgicon = DataLogicSystem.getResourceAsImage("Window.Logo");
         m_jLblTitle.setIcon(imgicon == null ? null : new ImageIcon(imgicon));
@@ -587,45 +598,6 @@ public class JRootApp extends JPanel implements AppView {
         }
     }
 
-    // La accion del selector
-    private class AppUserAction extends AbstractAction {
-
-        private final AppUser m_actionuser;
-
-        public AppUserAction(AppUser user) {
-            m_actionuser = user;
-            putValue(Action.SMALL_ICON, m_actionuser.getIcon());
-            putValue(Action.NAME, m_actionuser.getName());
-        }
-
-        public AppUser getUser() {
-            return m_actionuser;
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent evt) {
-            // String sPassword = m_actionuser.getPassword();
-            if (m_actionuser.authenticate()) {
-                // p'adentro directo, no tiene password
-                openAppView(m_actionuser);
-            } else {
-                // comprobemos la clave antes de entrar...
-                String sPassword = JPasswordDialog.showEditPassword(JRootApp.this,
-                        AppLocal.getIntString("Label.Password"),
-                        m_actionuser.getName(),
-                        m_actionuser.getIcon());
-                if (sPassword != null) {
-                    if (m_actionuser.authenticate(sPassword)) {
-                        openAppView(m_actionuser);
-                    } else {
-                        MessageInf msg = new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.BadPassword"));
-                        msg.show(JRootApp.this);
-                    }
-                }
-            }
-        }
-    }
-
     private void showView(String view) {
         CardLayout cl = (CardLayout) (m_jPanelContainer.getLayout());
         cl.show(m_jPanelContainer, view);
@@ -864,7 +836,6 @@ public class JRootApp extends JPanel implements AppView {
         add(m_jPanelDown, java.awt.BorderLayout.SOUTH);
     }// </editor-fold>//GEN-END:initComponents
 
-
     private void m_jCloseActionPerformed(ActionEvent evt) {//GEN-FIRST:event_m_jCloseActionPerformed
 
         tryToClose();
@@ -879,28 +850,43 @@ public class JRootApp extends JPanel implements AppView {
 
     }//GEN-LAST:event_m_txtKeysKeyTyped
 
+    // La accion del selector
+    private class AppUserAction extends AbstractAction {
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private JPanel jPanel1;
-    private JPanel jPanel2;
-    private JPanel jPanel3;
-    private JPanel jPanel4;
-    private JPanel jPanel5;
-    private JPanel jPanel8;
-    private JScrollPane jScrollPane1;
-    private JButton m_jClose;
-    private JLabel m_jHost;
-    private JLabel m_jLblDescriptionFirst;
-    private JLabel m_jLblDescriptionSecond;
-    private JLabel m_jLblPoweredBy;
-    private JLabel m_jLblSupportBy;
-    private JLabel m_jLblTitle;
-    private JPanel m_jLogonName;
-    private JPanel m_jPanelContainer;
-    private JPanel m_jPanelDown;
-    private JPanel m_jPanelLogin;
-    private JPanel m_jPanelTitle;
-    private JTextField m_txtKeys;
-    private JPanel panelTask;
+        private final AppUser m_actionuser;
+
+        public AppUserAction(AppUser user) {
+            m_actionuser = user;
+            putValue(Action.SMALL_ICON, m_actionuser.getIcon());
+            putValue(Action.NAME, m_actionuser.getName());
+        }
+
+        public AppUser getUser() {
+            return m_actionuser;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent evt) {
+            // String sPassword = m_actionuser.getPassword();
+            if (m_actionuser.authenticate()) {
+                // p'adentro directo, no tiene password
+                openAppView(m_actionuser);
+            } else {
+                // comprobemos la clave antes de entrar...
+                String sPassword = JPasswordDialog.showEditPassword(JRootApp.this,
+                        AppLocal.getIntString("Label.Password"),
+                        m_actionuser.getName(),
+                        m_actionuser.getIcon());
+                if (sPassword != null) {
+                    if (m_actionuser.authenticate(sPassword)) {
+                        openAppView(m_actionuser);
+                    } else {
+                        MessageInf msg = new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.BadPassword"));
+                        msg.show(JRootApp.this);
+                    }
+                }
+            }
+        }
+    }
     // End of variables declaration//GEN-END:variables
 }

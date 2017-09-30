@@ -33,19 +33,27 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 /**
- *
  * @author adrianromero
  * @author Andrey Svininykh <svininykh@gmail.com>
  * @version NORD POS 3
  */
 public class JImageEditor extends javax.swing.JPanel {
 
-    private Dimension m_maxsize;
-    private final ZoomIcon m_icon;
-    private BufferedImage m_Img = null;
-
-    private static File m_fCurrentDirectory = null;
     private static final NumberFormat m_percentformat = new DecimalFormat("#,##0.##%");
+    private static File m_fCurrentDirectory = null;
+    private final ZoomIcon m_icon;
+    private Dimension m_maxsize;
+    private BufferedImage m_Img = null;
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JLabel m_jImage;
+    private javax.swing.JLabel m_jPercent;
+    private javax.swing.JScrollPane m_jScr;
+    private javax.swing.JButton m_jbtnclose;
+    private javax.swing.JButton m_jbtnopen;
+    private javax.swing.JButton m_jbtnzoomin;
+    private javax.swing.JButton m_jbtnzoomout;
 
     public JImageEditor() {
         initComponents();
@@ -58,12 +66,12 @@ public class JImageEditor extends javax.swing.JPanel {
         privateSetEnabled(isEnabled());
     }
 
-    public void setMaxDimensions(Dimension size) {
-        m_maxsize = size;
-    }
-
     public Dimension getMaxDimensions() {
         return m_maxsize;
+    }
+
+    public void setMaxDimensions(Dimension size) {
+        m_maxsize = size;
     }
 
     @Override
@@ -82,6 +90,10 @@ public class JImageEditor extends javax.swing.JPanel {
         m_jScr.setEnabled(value && (m_Img != null));
     }
 
+    public BufferedImage getImage() {
+        return m_Img;
+    }
+
     public void setImage(BufferedImage img) {
         BufferedImage oldimg = m_Img;
         m_Img = img;
@@ -96,10 +108,6 @@ public class JImageEditor extends javax.swing.JPanel {
         privateSetEnabled(isEnabled());
 
         firePropertyChange("image", oldimg, m_Img);
-    }
-
-    public BufferedImage getImage() {
-        return m_Img;
     }
 
     public double getZoom() {
@@ -167,87 +175,6 @@ public class JImageEditor extends javax.swing.JPanel {
         }
 
         return img;
-    }
-
-    public static class ZoomIcon implements Icon {
-
-        private Icon ico;
-        private double zoom;
-
-        public ZoomIcon() {
-            this.ico = null;
-            this.zoom = 1.0;
-        }
-
-        @Override
-        public int getIconHeight() {
-            return ico == null ? 0 : (int) (zoom * ico.getIconHeight());
-        }
-
-        @Override
-        public int getIconWidth() {
-            return ico == null ? 0 : (int) (zoom * ico.getIconWidth());
-        }
-
-        @Override
-        public void paintIcon(Component c, Graphics g, int x, int y) {
-            if (ico != null) {
-                Graphics2D g2d = (Graphics2D) g;
-                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-                AffineTransform oldt = g2d.getTransform();
-                g2d.transform(AffineTransform.getScaleInstance(zoom, zoom));
-                ico.paintIcon(c, g2d, (int) (x / zoom), (int) (y / zoom));
-                g2d.setTransform(oldt);
-            }
-        }
-
-        public void setIcon(Icon ico) {
-            this.ico = ico;
-        }
-
-        public void setZoom(double zoom) {
-            this.zoom = zoom;
-        }
-
-        public double getZoom() {
-            return zoom;
-        }
-    }
-
-    private static class ExtensionsFilter extends FileFilter {
-
-        private final String message;
-        private final String[] extensions;
-
-        public ExtensionsFilter(String message, String... extensions) {
-            this.message = message;
-            this.extensions = extensions;
-        }
-
-        @Override
-        public boolean accept(File f) {
-            if (f.isDirectory()) {
-                return true;
-            } else {
-                String sFileName = f.getName();
-                int ipos = sFileName.lastIndexOf('.');
-                if (ipos >= 0) {
-                    String sExt = sFileName.substring(ipos + 1);
-                    for (String s : extensions) {
-                        if (s.equalsIgnoreCase(sExt)) {
-                            return true;
-                        }
-                    }
-                }
-                return false;
-            }
-        }
-
-        @Override
-        public String getDescription() {
-            return message;
-        }
     }
 
     /**
@@ -348,17 +275,86 @@ public class JImageEditor extends javax.swing.JPanel {
 
     }//GEN-LAST:event_m_jbtnopenActionPerformed
 
+    public static class ZoomIcon implements Icon {
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JLabel m_jImage;
-    private javax.swing.JLabel m_jPercent;
-    private javax.swing.JScrollPane m_jScr;
-    private javax.swing.JButton m_jbtnclose;
-    private javax.swing.JButton m_jbtnopen;
-    private javax.swing.JButton m_jbtnzoomin;
-    private javax.swing.JButton m_jbtnzoomout;
+        private Icon ico;
+        private double zoom;
+
+        public ZoomIcon() {
+            this.ico = null;
+            this.zoom = 1.0;
+        }
+
+        @Override
+        public int getIconHeight() {
+            return ico == null ? 0 : (int) (zoom * ico.getIconHeight());
+        }
+
+        @Override
+        public int getIconWidth() {
+            return ico == null ? 0 : (int) (zoom * ico.getIconWidth());
+        }
+
+        @Override
+        public void paintIcon(Component c, Graphics g, int x, int y) {
+            if (ico != null) {
+                Graphics2D g2d = (Graphics2D) g;
+                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+                AffineTransform oldt = g2d.getTransform();
+                g2d.transform(AffineTransform.getScaleInstance(zoom, zoom));
+                ico.paintIcon(c, g2d, (int) (x / zoom), (int) (y / zoom));
+                g2d.setTransform(oldt);
+            }
+        }
+
+        public void setIcon(Icon ico) {
+            this.ico = ico;
+        }
+
+        public double getZoom() {
+            return zoom;
+        }
+
+        public void setZoom(double zoom) {
+            this.zoom = zoom;
+        }
+    }
+
+    private static class ExtensionsFilter extends FileFilter {
+
+        private final String message;
+        private final String[] extensions;
+
+        public ExtensionsFilter(String message, String... extensions) {
+            this.message = message;
+            this.extensions = extensions;
+        }
+
+        @Override
+        public boolean accept(File f) {
+            if (f.isDirectory()) {
+                return true;
+            } else {
+                String sFileName = f.getName();
+                int ipos = sFileName.lastIndexOf('.');
+                if (ipos >= 0) {
+                    String sExt = sFileName.substring(ipos + 1);
+                    for (String s : extensions) {
+                        if (s.equalsIgnoreCase(sExt)) {
+                            return true;
+                        }
+                    }
+                }
+                return false;
+            }
+        }
+
+        @Override
+        public String getDescription() {
+            return message;
+        }
+    }
     // End of variables declaration//GEN-END:variables
 
 }

@@ -26,43 +26,45 @@ import java.util.Date;
 import java.util.List;
 
 public class SerializerWriteComposed implements SerializerWrite {
-    
-    private List<SerializerWrite> serwrites = new ArrayList<SerializerWrite>();    
-    
-    /** Creates a new instance of SerializerWriteComposed */
+
+    private List<SerializerWrite> serwrites = new ArrayList<SerializerWrite>();
+
+    /**
+     * Creates a new instance of SerializerWriteComposed
+     */
     public SerializerWriteComposed() {
     }
-    
+
     public void add(SerializerWrite sw) {
         serwrites.add(sw);
     }
-    
+
     public void writeValues(DataWrite dp, Object obj) throws BasicException {
-        
+
         Object[] a = (Object[]) obj;
         DataWriteComposed dpc = new DataWriteComposed(dp);
-        
+
         int i = 0;
         for (SerializerWrite sw : serwrites) {
             dpc.next();
             sw.writeValues(dpc, a[i++]);
         }
-    }  
-    
+    }
+
     private static class DataWriteComposed implements DataWrite {
-        
+
         private DataWrite dp;
         private int offset = 0;
-        private int max = 0;       
-        
+        private int max = 0;
+
         public DataWriteComposed(DataWrite dp) {
             this.dp = dp;
         }
-        
+
         public void next() {
             offset = max;
         }
-        
+
         public void setInt(int paramIndex, Integer iValue) throws BasicException {
             dp.setInt(offset + paramIndex, iValue);
             max = Math.max(max, offset + paramIndex);
@@ -98,5 +100,5 @@ public class SerializerWriteComposed implements SerializerWrite {
             max = Math.max(max, offset + paramIndex);
         }
     }
-    
+
 }

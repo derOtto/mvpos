@@ -22,7 +22,6 @@ package com.nordpos.device.display;
 import com.nordpos.device.util.StringUtils;
 
 /**
- *
  * @author adrianromero
  */
 

@@ -22,14 +22,15 @@ package com.openbravo.pos.sales;
 import java.awt.Component;
 
 /**
- *
  * @author adrianromero
  */
 public interface JProductAttEditI {
 
     public String getAttribute();
+
     public String getValue();
 
     public Component getComponent();
+
     public void assignSelection();
 }

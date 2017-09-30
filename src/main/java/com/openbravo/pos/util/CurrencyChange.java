@@ -27,11 +27,12 @@ public final class CurrencyChange {
 
     private CurrencyChange() {
     }
-  
-    public static double changeEurosToPts(double dEuros) {        
+
+    public static double changeEurosToPts(double dEuros) {
         return Math.rint(dEuros * EUROS_CHANGE);
     }
-    public static double changePtsToEuros(double dPts) {        
+
+    public static double changePtsToEuros(double dPts) {
         return Math.rint(100.0 * dPts / EUROS_CHANGE) / 100.0;
-    }   
+    }
 }

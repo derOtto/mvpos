@@ -24,13 +24,12 @@ import com.openbravo.basic.BasicException;
 import java.util.Date;
 
 /**
- *
  * @author adrianromero
  */
 public abstract class DataParams implements DataWrite {
-    
+
     protected DataWrite dw;
-    
+
     public abstract void writeValues() throws BasicException;
 
     public void setInt(int paramIndex, Integer iValue) throws BasicException {

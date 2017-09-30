@@ -20,7 +20,9 @@
 package com.openbravo.pos.inventory;
 
 import com.openbravo.pos.panels.*;
+
 import javax.swing.ListCellRenderer;
+
 import com.openbravo.data.gui.ListCellRendererBasic;
 import com.openbravo.data.loader.ComparatorCreator;
 import com.openbravo.pos.forms.AppLocal;
@@ -33,52 +35,53 @@ import com.openbravo.data.user.ListProviderCreator;
 import com.openbravo.pos.forms.DataLogicSales;
 
 /**
- *
  * @author adrianromero
  */
 public class TaxCustCategoriesPanel extends JPanelTable {
 
     private TableDefinition ttaxcategories;
     private TaxCustCategoriesEditor jeditor;
-    
-    /** Creates a new instance of JPanelDuty */
+
+    /**
+     * Creates a new instance of JPanelDuty
+     */
     public TaxCustCategoriesPanel() {
     }
-    
+
     protected void init() {
-        DataLogicSales dlSales = (DataLogicSales) app.getBean("com.openbravo.pos.forms.DataLogicSales");        
+        DataLogicSales dlSales = (DataLogicSales) app.getBean("com.openbravo.pos.forms.DataLogicSales");
         ttaxcategories = dlSales.getTableTaxCustCategories();
         jeditor = new TaxCustCategoriesEditor(dirty);
     }
-    
+
     public ListProvider getListProvider() {
         return new ListProviderCreator(ttaxcategories);
     }
-    
+
     public SaveProvider getSaveProvider() {
-        return new SaveProvider(ttaxcategories);      
+        return new SaveProvider(ttaxcategories);
     }
-    
+
     @Override
     public Vectorer getVectorer() {
         return ttaxcategories.getVectorerBasic(new int[]{1});
     }
-    
+
     @Override
     public ComparatorCreator getComparatorCreator() {
-        return ttaxcategories.getComparatorCreator(new int[] {1});
+        return ttaxcategories.getComparatorCreator(new int[]{1});
     }
-    
+
     @Override
     public ListCellRenderer getListCellRenderer() {
         return new ListCellRendererBasic(ttaxcategories.getRenderStringBasic(new int[]{1}));
     }
-    
+
     public EditorRecord getEditor() {
         return jeditor;
     }
-        
+
     public String getTitle() {
         return AppLocal.getIntString("Menu.TaxCustCategories");
-    }     
+    }
 }

@@ -28,34 +28,36 @@ import java.net.URLConnection;
 import java.util.Properties;
 
 public class ImageUtils {
-    
+
     private static char[] HEXCHARS = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
-    
-    /** Creates a new instance of ImageUtils */
+
+    /**
+     * Creates a new instance of ImageUtils
+     */
     private ImageUtils() {
     }
-    
+
     private static byte[] readStream(InputStream in) throws IOException {
         byte[] buffer = new byte[1024];
-        byte[] resource = new byte[0];             
+        byte[] resource = new byte[0];
         int n;
-        
+
         while ((n = in.read(buffer)) != -1) {
             byte[] b = new byte[resource.length + n];
             System.arraycopy(resource, 0, b, 0, resource.length);
             System.arraycopy(buffer, 0, b, resource.length, n);
             resource = b;
         }
-        return resource;       
+        return resource;
     }
-    
+
     public static byte[] getBytesFromResource(String file) {
-        
+
         InputStream in = ImageUtils.class.getResourceAsStream(file);
-        
+
         if (in == null) {
             return null;
-        } else {        
+        } else {
             try {
                 return ImageUtils.readStream(in);
             } catch (IOException e) {
@@ -68,11 +70,11 @@ public class ImageUtils {
             }
         }
     }
-    
+
     public static BufferedImage readImageFromResource(String file) {
         return readImage(getBytesFromResource(file));
     }
-    
+
     public static BufferedImage readImage(String url) {
         try {
             return readImage(new URL(url));
@@ -80,11 +82,11 @@ public class ImageUtils {
             return null;
         }
     }
-    
+
     public static BufferedImage readImage(URL url) {
-        
+
         InputStream in = null;
-        
+
         try {
             URLConnection urlConnection = url.openConnection();
             in = urlConnection.getInputStream();
@@ -100,39 +102,39 @@ public class ImageUtils {
             }
         }
     }
-    
+
     public static BufferedImage readImage(byte[] b) {
         if (b == null) {
             return null;
         } else {
             try {
                 return ImageIO.read(new ByteArrayInputStream(b));
-            } catch(IOException e) {
+            } catch (IOException e) {
                 return null;
             }
         }
     }
-    
+
     public static byte[] writeImage(BufferedImage img) {
         if (img == null) {
             return null;
-        } else {        
+        } else {
             try {
                 ByteArrayOutputStream b = new ByteArrayOutputStream();
                 ImageIO.write(img, "png", b);
                 b.flush();
                 b.close();
                 return b.toByteArray();
-            } catch(IOException e) {
+            } catch (IOException e) {
                 return null;
             }
         }
     }
-    
+
     public static Object readSerializable(byte[] b) {
         if (b == null) {
             return null;
-        } else {        
+        } else {
             try {
                 ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(b));
                 Object obj = in.readObject();
@@ -147,12 +149,12 @@ public class ImageUtils {
             }
         }
     }
-    
+
     public static byte[] writeSerializable(Object o) {
-        
+
         if (o == null) {
             return null;
-        } else {            
+        } else {
             try {
                 ByteArrayOutputStream b = new ByteArrayOutputStream();
                 ObjectOutputStream out = new ObjectOutputStream(b);
@@ -177,15 +179,15 @@ public class ImageUtils {
         }
         return prop;
     }
-       
+
     public static String bytes2hex(byte[] binput) {
-        
-        StringBuffer s = new StringBuffer(binput.length *2);
+
+        StringBuffer s = new StringBuffer(binput.length * 2);
         for (int i = 0; i < binput.length; i++) {
             byte b = binput[i];
             s.append(HEXCHARS[(b & 0xF0) >> 4]);
-            s.append(HEXCHARS[b & 0x0F]);            
+            s.append(HEXCHARS[b & 0x0F]);
         }
         return s.toString();
-    }    
+    }
 }

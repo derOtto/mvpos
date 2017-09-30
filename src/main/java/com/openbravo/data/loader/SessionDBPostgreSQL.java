@@ -20,7 +20,6 @@
 package com.openbravo.data.loader;
 
 /**
- *
  * @author adrianromero
  */
 public class SessionDBPostgreSQL implements SessionDB {
@@ -28,12 +27,15 @@ public class SessionDBPostgreSQL implements SessionDB {
     public String TRUE() {
         return "True";
     }
+
     public String FALSE() {
         return "False";
     }
+
     public String INTEGER_NULL() {
         return "CAST(NULL AS INTEGER)";
     }
+
     public String CHAR_NULL() {
         return "CAST(NULL AS CHAR)";
     }

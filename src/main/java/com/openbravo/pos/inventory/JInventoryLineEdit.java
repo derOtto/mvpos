@@ -19,6 +19,7 @@
 package com.openbravo.pos.inventory;
 
 import com.openbravo.basic.BasicException;
+
 import java.awt.Component;
 import java.awt.Dialog;
 import java.awt.Frame;
@@ -26,11 +27,11 @@ import java.awt.Window;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import javax.swing.JFrame;
+
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.forms.AppView;
 
 /**
- *
  * @author adrianromero
  * @author Andrey Svininykh <svininykh@gmail.com>
  * @version NORD POS 3
@@ -41,13 +42,51 @@ public class JInventoryLineEdit extends javax.swing.JDialog {
     private InventoryLine m_oLine;
     private boolean m_bunitsok;
     private boolean m_bpriceok;
-
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JButton m_jButtonCancel;
+    private javax.swing.JButton m_jButtonOK;
+    private com.openbravo.editor.JEditorKeys m_jKeys;
+    private javax.swing.JLabel m_jName;
+    private com.openbravo.editor.JEditorCurrency m_jPrice;
+    private javax.swing.JLabel m_jTotal;
+    private com.openbravo.editor.JEditorDouble m_jUnits;
     private JInventoryLineEdit(Frame parent, boolean modal) {
         super(parent, modal);
     }
-
     private JInventoryLineEdit(Dialog parent, boolean modal) {
         super(parent, modal);
+    }
+
+    private static Window getWindow(Component parent) {
+        if (parent == null) {
+            return new JFrame();
+        } else if (parent instanceof Frame || parent instanceof Dialog) {
+            return (Window) parent;
+        } else {
+            return getWindow(parent.getParent());
+        }
+    }
+
+    public static InventoryLine showMessage(Component parent, AppView app, InventoryLine oLine) throws BasicException {
+
+        Window window = getWindow(parent);
+
+        JInventoryLineEdit myMsg;
+        if (window instanceof Frame) {
+            myMsg = new JInventoryLineEdit((Frame) window, true);
+        } else {
+            myMsg = new JInventoryLineEdit((Dialog) window, true);
+        }
+        return myMsg.init(app, oLine);
     }
 
     private InventoryLine init(AppView app, InventoryLine oLine) throws BasicException {
@@ -92,70 +131,6 @@ public class JInventoryLineEdit extends javax.swing.JDialog {
             m_jTotal.setText(null);
             m_jButtonOK.setEnabled(false);
         }
-    }
-
-    private class RecalculateUnits implements PropertyChangeListener {
-
-        @Override
-        public void propertyChange(PropertyChangeEvent evt) {
-            Double value = m_jUnits.getDoubleValue();
-            if (value == null || value == 0.0) {
-                m_bunitsok = false;
-            } else {
-                m_oLine.setMultiply(value);
-                m_bunitsok = true;
-            }
-
-            printTotals();
-        }
-    }
-
-    private class RecalculatePrice implements PropertyChangeListener {
-
-        @Override
-        public void propertyChange(PropertyChangeEvent evt) {
-
-            Double value = m_jPrice.getDoubleValue();
-            if (value == null || value == 0.0) {
-                m_bpriceok = false;
-            } else {
-                m_oLine.setPriceBuy(value);
-                m_bpriceok = true;
-            }
-
-            printTotals();
-        }
-    }
-
-    private class RecalculateName implements PropertyChangeListener {
-
-        @Override
-        public void propertyChange(PropertyChangeEvent evt) {
-            m_oLine.setProductName(m_jName.getText());
-        }
-    }
-
-    private static Window getWindow(Component parent) {
-        if (parent == null) {
-            return new JFrame();
-        } else if (parent instanceof Frame || parent instanceof Dialog) {
-            return (Window) parent;
-        } else {
-            return getWindow(parent.getParent());
-        }
-    }
-
-    public static InventoryLine showMessage(Component parent, AppView app, InventoryLine oLine) throws BasicException {
-
-        Window window = getWindow(parent);
-
-        JInventoryLineEdit myMsg;
-        if (window instanceof Frame) {
-            myMsg = new JInventoryLineEdit((Frame) window, true);
-        } else {
-            myMsg = new JInventoryLineEdit((Dialog) window, true);
-        }
-        return myMsg.init(app, oLine);
     }
 
     /**
@@ -212,44 +187,44 @@ public class JInventoryLineEdit extends javax.swing.JDialog {
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jLabel6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(m_jPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(m_jName, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
-                        .addComponent(m_jUnits, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(m_jTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(42, Short.MAX_VALUE))
+                jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                             .addGroup(jPanel2Layout.createSequentialGroup()
+                                                    .addContainerGap()
+                                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                           .addComponent(jLabel4)
+                                                                           .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                                                                                  .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                                                                  .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                                                           .addComponent(jLabel6))
+                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                           .addComponent(m_jPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                           .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                                                                                  .addComponent(m_jName, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
+                                                                                                  .addComponent(m_jUnits, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                                                           .addComponent(m_jTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                    .addContainerGap(42, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jLabel4)
-                    .addComponent(m_jName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jLabel2)
-                    .addComponent(m_jUnits, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jLabel1)
-                    .addComponent(m_jPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jLabel6)
-                    .addComponent(m_jTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                             .addGroup(jPanel2Layout.createSequentialGroup()
+                                                    .addContainerGap()
+                                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                                                                           .addComponent(jLabel4)
+                                                                           .addComponent(m_jName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                                                                           .addComponent(jLabel2)
+                                                                           .addComponent(m_jUnits, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                                                                           .addComponent(jLabel1)
+                                                                           .addComponent(m_jPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                                                                           .addComponent(jLabel6)
+                                                                           .addComponent(m_jTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel5.add(jPanel2, java.awt.BorderLayout.CENTER);
@@ -313,23 +288,46 @@ public class JInventoryLineEdit extends javax.swing.JDialog {
 
     }//GEN-LAST:event_m_jButtonOKActionPerformed
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JButton m_jButtonCancel;
-    private javax.swing.JButton m_jButtonOK;
-    private com.openbravo.editor.JEditorKeys m_jKeys;
-    private javax.swing.JLabel m_jName;
-    private com.openbravo.editor.JEditorCurrency m_jPrice;
-    private javax.swing.JLabel m_jTotal;
-    private com.openbravo.editor.JEditorDouble m_jUnits;
+    private class RecalculateUnits implements PropertyChangeListener {
+
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+            Double value = m_jUnits.getDoubleValue();
+            if (value == null || value == 0.0) {
+                m_bunitsok = false;
+            } else {
+                m_oLine.setMultiply(value);
+                m_bunitsok = true;
+            }
+
+            printTotals();
+        }
+    }
+
+    private class RecalculatePrice implements PropertyChangeListener {
+
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+
+            Double value = m_jPrice.getDoubleValue();
+            if (value == null || value == 0.0) {
+                m_bpriceok = false;
+            } else {
+                m_oLine.setPriceBuy(value);
+                m_bpriceok = true;
+            }
+
+            printTotals();
+        }
+    }
+
+    private class RecalculateName implements PropertyChangeListener {
+
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+            m_oLine.setProductName(m_jName.getText());
+        }
+    }
     // End of variables declaration//GEN-END:variables
 
 }

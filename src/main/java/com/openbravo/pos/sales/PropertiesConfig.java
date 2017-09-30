@@ -19,6 +19,7 @@
 package com.openbravo.pos.sales;
 
 import com.openbravo.data.loader.LocalRes;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
@@ -31,6 +32,7 @@ import javax.xml.parsers.SAXParserFactory;
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.SchemaFactory;
+
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -38,32 +40,31 @@ import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 
 /**
- *
  * @author adrian
  */
 public class PropertiesConfig {
 
     private static final Logger logger = Logger.getLogger(PropertiesConfig.class.getName());
     private static SAXParser m_sp = null;
-    private static XMLReader m_sr = null;    
+    private static XMLReader m_sr = null;
     private Properties props = new Properties();
-    
-    private InputStream InputStream;    
+
+    private InputStream InputStream;
 
     public PropertiesConfig(String configXML) {
 
         if (configXML != null) {
             try {
                 if (m_sp == null) {
-                SAXParserFactory spf = SAXParserFactory.newInstance();
-                spf.setValidating(false);
-                spf.setNamespaceAware(true);
-                SchemaFactory schemaFactory = SchemaFactory.newInstance("http://www.w3.org/2001/XMLSchema");
-                InputStream = getClass().getResourceAsStream("/com/openbravo/pos/templates/Schema.Ticket.xsd");
-                spf.setSchema(schemaFactory.newSchema(new Source[]{new StreamSource(InputStream)}));
-                m_sp = spf.newSAXParser();
-                m_sr = m_sp.getXMLReader();
-                m_sr.setContentHandler(new ConfigurationHandler());
+                    SAXParserFactory spf = SAXParserFactory.newInstance();
+                    spf.setValidating(false);
+                    spf.setNamespaceAware(true);
+                    SchemaFactory schemaFactory = SchemaFactory.newInstance("http://www.w3.org/2001/XMLSchema");
+                    InputStream = getClass().getResourceAsStream("/com/openbravo/pos/templates/Schema.Ticket.xsd");
+                    spf.setSchema(schemaFactory.newSchema(new Source[]{new StreamSource(InputStream)}));
+                    m_sp = spf.newSAXParser();
+                    m_sr = m_sp.getXMLReader();
+                    m_sr.setContentHandler(new ConfigurationHandler());
                 }
                 m_sp.parse(new InputSource(new StringReader(configXML)), new ConfigurationHandler());
                 m_sr.parse(new InputSource(new StringReader(configXML)));

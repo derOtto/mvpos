@@ -31,13 +31,15 @@ public class ThumbNailBuilder {
     private int m_height;
     private int m_font_size;
 
-    /** Creates a new instance of ThumbNailBuilder */
-    public ThumbNailBuilder(int width, int height,  int font_size) {
+    /**
+     * Creates a new instance of ThumbNailBuilder
+     */
+    public ThumbNailBuilder(int width, int height, int font_size) {
         init(width, height, 12, null);
     }
 
     public ThumbNailBuilder(int width, int height, int font_size, Image imgdef) {
-        init(width, height, 12,  imgdef);
+        init(width, height, 12, imgdef);
 
     }
 
@@ -75,13 +77,13 @@ public class ThumbNailBuilder {
 
         img = getThumbNail(img);
 
-        BufferedImage imgtext = new BufferedImage(img.getWidth(null), img.getHeight(null),  BufferedImage.TYPE_INT_ARGB);
+        BufferedImage imgtext = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2d = imgtext.createGraphics();
 
         // The text
         JLabel label = new JLabel();
         label.setOpaque(false);
-        label.setFont(label.getFont().deriveFont((float)m_font_size));
+        label.setFont(label.getFont().deriveFont((float) m_font_size));
         //label.setText(text);
         label.setText("<html>" + text + "</html>");
         label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -99,12 +101,12 @@ public class ThumbNailBuilder {
 //        float[] dist = {0.1f, 1.0f};
 //        Color[] colors = {c2, c1};
 //        Paint gpaint = new RadialGradientPaint(center, radius, dist, colors);
-        Paint gpaint = new GradientPaint(new Point(0,0), c1, new Point(label.getWidth() / 2, 0), c2, true);
+        Paint gpaint = new GradientPaint(new Point(0, 0), c1, new Point(label.getWidth() / 2, 0), c2, true);
 
         g2d.drawImage(img, 0, 0, null);
         g2d.translate(0, imgtext.getHeight() - label.getHeight());
         g2d.setPaint(gpaint);
-        g2d.fillRect(0 , 0, imgtext.getWidth(), label.getHeight());
+        g2d.fillRect(0, 0, imgtext.getWidth(), label.getHeight());
         label.paint(g2d);
 
         g2d.dispose();
@@ -175,7 +177,7 @@ public class ThumbNailBuilder {
             int y = (m_height > targeth) ? (m_height - targeth) / 2 : 0;
             g2d = midimg.createGraphics();
             g2d.drawImage(previmg, x, y, x + targetw, y + targeth,
-                                   0, 0, targetw, targeth, null);
+                    0, 0, targetw, targeth, null);
             g2d.dispose();
             previmg = midimg;
         }

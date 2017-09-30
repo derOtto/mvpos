@@ -19,33 +19,23 @@
 
 package com.openbravo.editor;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.Timer;
 import com.openbravo.basic.BasicException;
 
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 /**
- *
  * @author adrianromero
  * @author Andrey Svininykh <svininykh@gmail.com>
  */
 
 public abstract class JKeyboardText extends JEditorAbstract {
-    
-    protected String m_svalue;
-    
+
     public static final int MODE_Abc1 = 0;
     public static final int MODE_abc1 = 1;
     public static final int MODE_ABC1 = 2;
-    public static final int MODE_123 = 3;    
-    public int m_iMode;
-    
-//    protected int m_iTicks;
-    protected char m_cLastChar;
-    protected long m_lcount;
-    
-    private Timer m_jtimer;
-    
+    public static final int MODE_123 = 3;
     private static final char CHAR_abc1_1 = '1';
     private static final char CHAR_abc1_2 = '2';
     private static final char CHAR_abc1_3 = '3';
@@ -85,17 +75,15 @@ public abstract class JKeyboardText extends JEditorAbstract {
     private static final char CHAR_abc1_Comma = ',';
     private static final char CHAR_abc1_Space = ' ';
     private static final char CHAR_abc1_Dot = '.';
-    private static final char CHAR_abc1_LSquareBrack= '[';
+    private static final char CHAR_abc1_LSquareBrack = '[';
     private static final char CHAR_abc1_RSquareBrack = ']';
     private static final char CHAR_abc1_Colon = ':';
     private static final char CHAR_abc1_Quotation = '"';
     private static final char CHAR_abc1_Slash = '/';
     private static final char CHAR_abc1_Ampersand = '&';
     private static final char CHAR_abc1_At = '@';
-    
     //private static final char CHAR_abc1_Backspace = '\u0008';
     private static final char CHAR_abc1_Minus = '-';
-    
     private static final char CHAR_ABC1_1 = '1';
     private static final char CHAR_ABC1_2 = '2';
     private static final char CHAR_ABC1_3 = '3';
@@ -135,22 +123,28 @@ public abstract class JKeyboardText extends JEditorAbstract {
     private static final char CHAR_ABC1_Comma = ',';
     private static final char CHAR_ABC1_Space = ' ';
     private static final char CHAR_ABC1_Dot = '.';
-    private static final char CHAR_ABC1_LSquareBrack= '[';
+    private static final char CHAR_ABC1_LSquareBrack = '[';
     private static final char CHAR_ABC1_RSquareBrack = ']';
     private static final char CHAR_ABC1_Colon = ':';
     private static final char CHAR_ABC1_Quotation = '"';
     private static final char CHAR_ABC1_Slash = '/';
     private static final char CHAR_ABC1_Ampersand = '&';
     private static final char CHAR_ABC1_At = '@';
-    
-        
-//    private static final char CHAR_ABC1_Backspace = '\u0008';
+    //    private static final char CHAR_ABC1_Backspace = '\u0008';
     private static final char CHAR_ABC1_Minus = '-';
-    
-    /** Creates a new instance of JEditorString */
+    public int m_iMode;
+    protected String m_svalue;
+    //    protected int m_iTicks;
+    protected char m_cLastChar;
+    protected long m_lcount;
+    private Timer m_jtimer;
+
+    /**
+     * Creates a new instance of JEditorString
+     */
     public JKeyboardText() {
         m_svalue = null;
-        
+
 //        m_iTicks = 0;
         m_cLastChar = '\u0000';
         m_jtimer = new Timer(100, new TimerAction());
@@ -158,96 +152,101 @@ public abstract class JKeyboardText extends JEditorAbstract {
         m_iMode = getStartMode(); //MODE_Abc1;
         m_jtimer.start();
     }
-    
+
     protected abstract int getStartMode();
 
-    
+
     public final void reset() {
-        
+
         String sOldText = getText();
-        
+
         // Los hemos borrado todos.
         m_iMode = getStartMode(); //MODE_Abc1;
         m_svalue = null;
 //        m_iTicks = 0;
-        m_cLastChar = '\u0000';  
-        
-        reprintText();
-        
-        firePropertyChange("Text", sOldText, getText());
-    } 
-    
-    public final void setText(String sText) {
-        
-        String sOldText = getText();
+        m_cLastChar = '\u0000';
 
-        m_svalue = sText;
- //       m_iTicks = 0;
-        m_cLastChar = '\u0000';  
-        
         reprintText();
-        
+
         firePropertyChange("Text", sOldText, getText());
     }
-    
+
     public final void setEditModeEnum(int iMode) {
-        
+
         m_iMode = iMode;
 //        m_iTicks = 0;
-        m_cLastChar = '\u0000';  
-        
+        m_cLastChar = '\u0000';
+
         reprintText();
-    }    
-    
+    }
+
     public final String getText() {
         if (m_cLastChar == '\u0000') {
             return m_svalue;
         } else {
             return appendChar2Value(getKeyChar());
-        }        
+        }
     }
-      
+
+    public final void setText(String sText) {
+
+        String sOldText = getText();
+
+        m_svalue = sText;
+        //       m_iTicks = 0;
+        m_cLastChar = '\u0000';
+
+        reprintText();
+
+        firePropertyChange("Text", sOldText, getText());
+    }
+
     protected final int getAlignment() {
         return javax.swing.SwingConstants.LEFT;
     }
-       
+
     protected final String getEditMode() {
         switch (m_iMode) {
-        case MODE_Abc1: return "Abc1";
-        case MODE_abc1: return "abc1";
-        case MODE_ABC1: return "ABC1";
-        case MODE_123:  return "123";
-        default: return null;
+            case MODE_Abc1:
+                return "Abc1";
+            case MODE_abc1:
+                return "abc1";
+            case MODE_ABC1:
+                return "ABC1";
+            case MODE_123:
+                return "123";
+            default:
+                return null;
         }
     }
-    
+
     protected String getTextEdit() {
-        
+
         StringBuffer s = new StringBuffer();
         s.append("<html>");
         if (m_svalue != null) {
             s.append(m_svalue);
         }
         if (m_cLastChar != '\u0000') {
-                s.append("<font color=\"#a0a0a0\">");
-                s.append(getKeyChar());
-                s.append("</font>");
+            s.append("<font color=\"#a0a0a0\">");
+            s.append(getKeyChar());
+            s.append("</font>");
         }
         s.append("<font color=\"#a0a0a0\">_</font>");
 
-        return s.toString(); 
+        return s.toString();
     }
-    
+
     protected String getTextFormat() throws BasicException {
         return (m_svalue == null)
                 ? "<html>"
                 : "<html>" + m_svalue;
     }
-    
+
     protected void typeCharInternal(char c) {
-        
+
         String sOldText = getText();
-        
+
         if (c == '\u0008') {
             if (m_cLastChar == '\u0000') {
                 // borramos el \u00c3\u00baltimo caracter el si existe
@@ -264,7 +263,7 @@ public abstract class JKeyboardText extends JEditorAbstract {
             m_iMode = getStartMode(); //MODE_Abc1;
             m_svalue = null;
 //            m_iTicks = 0;
-            m_cLastChar = '\u0000';    
+            m_cLastChar = '\u0000';
         } else if (c >= ' ') { // es un caracter en condiciones
             if (m_cLastChar != '\u0000') {
                 char ckey = getKeyChar();
@@ -275,16 +274,16 @@ public abstract class JKeyboardText extends JEditorAbstract {
             m_cLastChar = '\u0000';
             m_svalue = appendChar2Value(c);
         }
-        
-        m_jtimer.restart();      
-        
+
+        m_jtimer.restart();
+
         firePropertyChange("Text", sOldText, getText());
     }
-    
+
     protected void transCharInternal(char c) {
-        
+
         String sOldText = getText();
-        
+
         if (c == '\u0008') {
             if (m_cLastChar == '\u0000') {
                 // borramos el \u00c3\u00baltimo caracter el si existe
@@ -301,18 +300,18 @@ public abstract class JKeyboardText extends JEditorAbstract {
             m_iMode = getStartMode(); //MODE_Abc1;
             m_svalue = null;
 //            m_iTicks = 0;
-            m_cLastChar = '\u0000';           
+            m_cLastChar = '\u0000';
         } else if (c == '\u0010') {
             if (m_cLastChar != '\u0000') {
                 m_svalue = appendChar2Value(getKeyChar());
             }
 //            m_iTicks = 0;
-            m_cLastChar = '\u0000';           
+            m_cLastChar = '\u0000';
             m_iMode = (m_iMode + 1) % 4;
-        } else if (c == '1' || c == '2' || c == '3' || c == '4' || c == '5' || c == '6' || c == '7' || c == '8' || c == '9' || c == '0' 
-                || c == 'Q' || c == 'W' || c == 'E' || c == 'R' || c == 'T' || c == 'Y' || c == 'U' || c == 'I' || c == 'O' || c == 'P' 
+        } else if (c == '1' || c == '2' || c == '3' || c == '4' || c == '5' || c == '6' || c == '7' || c == '8' || c == '9' || c == '0'
+                || c == 'Q' || c == 'W' || c == 'E' || c == 'R' || c == 'T' || c == 'Y' || c == 'U' || c == 'I' || c == 'O' || c == 'P'
                 || c == 'A' || c == 'S' || c == 'D' || c == 'F' || c == 'G' || c == 'H' || c == 'J' || c == 'K' || c == 'L'
-                || c == 'Z' || c == 'X' || c == 'C' || c == 'V' || c == 'B' || c == 'N' || c == 'M' 
+                || c == 'Z' || c == 'X' || c == 'C' || c == 'V' || c == 'B' || c == 'N' || c == 'M'
                 || c == ',' || c == ' ' || c == '.' || c == '-' || c == '@' || c == '&' || c == '[' || c == ']' || c == ':' || c == '"' || c == '/') {
             if (m_iMode == MODE_123) {
                 m_svalue = appendChar2Value(c);
@@ -328,9 +327,9 @@ public abstract class JKeyboardText extends JEditorAbstract {
                 m_cLastChar = c;
             }
         }
-        
-        m_jtimer.restart();  
-        
+
+        m_jtimer.restart();
+
         firePropertyChange("Text", sOldText, getText());
     }
 
@@ -341,109 +340,278 @@ public abstract class JKeyboardText extends JEditorAbstract {
             m_iMode = MODE_Abc1;
         }
     }
-    
+
     protected char getKeyChar() {
-        
+
         char c = 0;
         switch (m_iMode) {
-        case MODE_abc1:
-             switch (m_cLastChar) {
-                case '1': c = CHAR_abc1_1; break; 
-                case '2': c = CHAR_abc1_2; break; 
-                case '3': c = CHAR_abc1_3; break; 
-                case '4': c = CHAR_abc1_4; break; 
-                case '5': c = CHAR_abc1_5; break; 
-                case '6': c = CHAR_abc1_6; break; 
-                case '7': c = CHAR_abc1_7; break; 
-                case '8': c = CHAR_abc1_8; break; 
-                case '9': c = CHAR_abc1_9; break; 
-                case '0': c = CHAR_abc1_0; break;
-                case 'Q': c = CHAR_abc1_Q; break;
-                case 'W': c = CHAR_abc1_W; break;
-                case 'E': c = CHAR_abc1_E; break;
-                case 'R': c = CHAR_abc1_R; break;
-                case 'T': c = CHAR_abc1_T; break;
-                case 'Y': c = CHAR_abc1_Y; break;
-                case 'U': c = CHAR_abc1_U; break;
-                case 'I': c = CHAR_abc1_I; break;
-                case 'O': c = CHAR_abc1_O; break;
-                case 'P': c = CHAR_abc1_P; break;    
-                case 'A': c = CHAR_abc1_A; break;
-                case 'S': c = CHAR_abc1_S; break;
-                case 'D': c = CHAR_abc1_D; break;
-                case 'F': c = CHAR_abc1_F; break;
-                case 'G': c = CHAR_abc1_G; break;
-                case 'H': c = CHAR_abc1_H; break;
-                case 'J': c = CHAR_abc1_J; break;
-                case 'K': c = CHAR_abc1_K; break;
-                case 'L': c = CHAR_abc1_L; break;
-                case 'Z': c = CHAR_abc1_Z; break;
-                case 'X': c = CHAR_abc1_X; break;
-                case 'C': c = CHAR_abc1_C; break;
-                case 'V': c = CHAR_abc1_V; break;
-                case 'B': c = CHAR_abc1_B; break;
-                case 'N': c = CHAR_abc1_N; break;
-                case 'M': c = CHAR_abc1_M; break;
-                case ',': c = CHAR_abc1_Comma; break;
-                case ' ': c = CHAR_abc1_Space; break;
-                case '.': c = CHAR_abc1_Dot; break;
-                case '-': c = CHAR_abc1_Minus; break;
-              }
-            break;
-        case MODE_Abc1:
-        case MODE_ABC1:                
-            switch (m_cLastChar) {
-                case '1': c = CHAR_ABC1_1; break; 
-                case '2': c = CHAR_ABC1_2; break; 
-                case '3': c = CHAR_ABC1_3; break; 
-                case '4': c = CHAR_ABC1_4; break; 
-                case '5': c = CHAR_ABC1_5; break; 
-                case '6': c = CHAR_ABC1_6; break; 
-                case '7': c = CHAR_ABC1_7; break; 
-                case '8': c = CHAR_ABC1_8; break; 
-                case '9': c = CHAR_ABC1_9; break; 
-                case '0': c = CHAR_ABC1_0; break;
-                case 'Q': c = CHAR_ABC1_Q; break;
-                case 'W': c = CHAR_ABC1_W; break;
-                case 'E': c = CHAR_ABC1_E; break;
-                case 'R': c = CHAR_ABC1_R; break;
-                case 'T': c = CHAR_ABC1_T; break;
-                case 'Y': c = CHAR_ABC1_Y; break;
-                case 'U': c = CHAR_ABC1_U; break;
-                case 'I': c = CHAR_ABC1_I; break;
-                case 'O': c = CHAR_ABC1_O; break;
-                case 'P': c = CHAR_ABC1_P; break;    
-                case 'A': c = CHAR_ABC1_A; break;
-                case 'S': c = CHAR_ABC1_S; break;
-                case 'D': c = CHAR_ABC1_D; break;
-                case 'F': c = CHAR_ABC1_F; break;
-                case 'G': c = CHAR_ABC1_G; break;
-                case 'H': c = CHAR_ABC1_H; break;
-                case 'J': c = CHAR_ABC1_J; break;
-                case 'K': c = CHAR_ABC1_K; break;
-                case 'L': c = CHAR_ABC1_L; break;
-                case 'Z': c = CHAR_ABC1_Z; break;
-                case 'X': c = CHAR_ABC1_X; break;
-                case 'C': c = CHAR_ABC1_C; break;
-                case 'V': c = CHAR_ABC1_V; break;
-                case 'B': c = CHAR_ABC1_B; break;
-                case 'N': c = CHAR_ABC1_N; break;
-                case 'M': c = CHAR_ABC1_M; break;
-                case ',': c = CHAR_ABC1_Comma; break;
-                case ' ': c = CHAR_ABC1_Space; break;
-                case '.': c = CHAR_ABC1_Dot; break;
-                case '-': c = CHAR_ABC1_Minus; break;
-            }
-            break;
+            case MODE_abc1:
+                switch (m_cLastChar) {
+                    case '1':
+                        c = CHAR_abc1_1;
+                        break;
+                    case '2':
+                        c = CHAR_abc1_2;
+                        break;
+                    case '3':
+                        c = CHAR_abc1_3;
+                        break;
+                    case '4':
+                        c = CHAR_abc1_4;
+                        break;
+                    case '5':
+                        c = CHAR_abc1_5;
+                        break;
+                    case '6':
+                        c = CHAR_abc1_6;
+                        break;
+                    case '7':
+                        c = CHAR_abc1_7;
+                        break;
+                    case '8':
+                        c = CHAR_abc1_8;
+                        break;
+                    case '9':
+                        c = CHAR_abc1_9;
+                        break;
+                    case '0':
+                        c = CHAR_abc1_0;
+                        break;
+                    case 'Q':
+                        c = CHAR_abc1_Q;
+                        break;
+                    case 'W':
+                        c = CHAR_abc1_W;
+                        break;
+                    case 'E':
+                        c = CHAR_abc1_E;
+                        break;
+                    case 'R':
+                        c = CHAR_abc1_R;
+                        break;
+                    case 'T':
+                        c = CHAR_abc1_T;
+                        break;
+                    case 'Y':
+                        c = CHAR_abc1_Y;
+                        break;
+                    case 'U':
+                        c = CHAR_abc1_U;
+                        break;
+                    case 'I':
+                        c = CHAR_abc1_I;
+                        break;
+                    case 'O':
+                        c = CHAR_abc1_O;
+                        break;
+                    case 'P':
+                        c = CHAR_abc1_P;
+                        break;
+                    case 'A':
+                        c = CHAR_abc1_A;
+                        break;
+                    case 'S':
+                        c = CHAR_abc1_S;
+                        break;
+                    case 'D':
+                        c = CHAR_abc1_D;
+                        break;
+                    case 'F':
+                        c = CHAR_abc1_F;
+                        break;
+                    case 'G':
+                        c = CHAR_abc1_G;
+                        break;
+                    case 'H':
+                        c = CHAR_abc1_H;
+                        break;
+                    case 'J':
+                        c = CHAR_abc1_J;
+                        break;
+                    case 'K':
+                        c = CHAR_abc1_K;
+                        break;
+                    case 'L':
+                        c = CHAR_abc1_L;
+                        break;
+                    case 'Z':
+                        c = CHAR_abc1_Z;
+                        break;
+                    case 'X':
+                        c = CHAR_abc1_X;
+                        break;
+                    case 'C':
+                        c = CHAR_abc1_C;
+                        break;
+                    case 'V':
+                        c = CHAR_abc1_V;
+                        break;
+                    case 'B':
+                        c = CHAR_abc1_B;
+                        break;
+                    case 'N':
+                        c = CHAR_abc1_N;
+                        break;
+                    case 'M':
+                        c = CHAR_abc1_M;
+                        break;
+                    case ',':
+                        c = CHAR_abc1_Comma;
+                        break;
+                    case ' ':
+                        c = CHAR_abc1_Space;
+                        break;
+                    case '.':
+                        c = CHAR_abc1_Dot;
+                        break;
+                    case '-':
+                        c = CHAR_abc1_Minus;
+                        break;
+                }
+                break;
+            case MODE_Abc1:
+            case MODE_ABC1:
+                switch (m_cLastChar) {
+                    case '1':
+                        c = CHAR_ABC1_1;
+                        break;
+                    case '2':
+                        c = CHAR_ABC1_2;
+                        break;
+                    case '3':
+                        c = CHAR_ABC1_3;
+                        break;
+                    case '4':
+                        c = CHAR_ABC1_4;
+                        break;
+                    case '5':
+                        c = CHAR_ABC1_5;
+                        break;
+                    case '6':
+                        c = CHAR_ABC1_6;
+                        break;
+                    case '7':
+                        c = CHAR_ABC1_7;
+                        break;
+                    case '8':
+                        c = CHAR_ABC1_8;
+                        break;
+                    case '9':
+                        c = CHAR_ABC1_9;
+                        break;
+                    case '0':
+                        c = CHAR_ABC1_0;
+                        break;
+                    case 'Q':
+                        c = CHAR_ABC1_Q;
+                        break;
+                    case 'W':
+                        c = CHAR_ABC1_W;
+                        break;
+                    case 'E':
+                        c = CHAR_ABC1_E;
+                        break;
+                    case 'R':
+                        c = CHAR_ABC1_R;
+                        break;
+                    case 'T':
+                        c = CHAR_ABC1_T;
+                        break;
+                    case 'Y':
+                        c = CHAR_ABC1_Y;
+                        break;
+                    case 'U':
+                        c = CHAR_ABC1_U;
+                        break;
+                    case 'I':
+                        c = CHAR_ABC1_I;
+                        break;
+                    case 'O':
+                        c = CHAR_ABC1_O;
+                        break;
+                    case 'P':
+                        c = CHAR_ABC1_P;
+                        break;
+                    case 'A':
+                        c = CHAR_ABC1_A;
+                        break;
+                    case 'S':
+                        c = CHAR_ABC1_S;
+                        break;
+                    case 'D':
+                        c = CHAR_ABC1_D;
+                        break;
+                    case 'F':
+                        c = CHAR_ABC1_F;
+                        break;
+                    case 'G':
+                        c = CHAR_ABC1_G;
+                        break;
+                    case 'H':
+                        c = CHAR_ABC1_H;
+                        break;
+                    case 'J':
+                        c = CHAR_ABC1_J;
+                        break;
+                    case 'K':
+                        c = CHAR_ABC1_K;
+                        break;
+                    case 'L':
+                        c = CHAR_ABC1_L;
+                        break;
+                    case 'Z':
+                        c = CHAR_ABC1_Z;
+                        break;
+                    case 'X':
+                        c = CHAR_ABC1_X;
+                        break;
+                    case 'C':
+                        c = CHAR_ABC1_C;
+                        break;
+                    case 'V':
+                        c = CHAR_ABC1_V;
+                        break;
+                    case 'B':
+                        c = CHAR_ABC1_B;
+                        break;
+                    case 'N':
+                        c = CHAR_ABC1_N;
+                        break;
+                    case 'M':
+                        c = CHAR_ABC1_M;
+                        break;
+                    case ',':
+                        c = CHAR_ABC1_Comma;
+                        break;
+                    case ' ':
+                        c = CHAR_ABC1_Space;
+                        break;
+                    case '.':
+                        c = CHAR_ABC1_Dot;
+                        break;
+                    case '-':
+                        c = CHAR_ABC1_Minus;
+                        break;
+                }
+                break;
         }
-        
+
         if (c == 0) {
             return m_cLastChar;
         } else {
             return c;
-        }        
+        }
     }
-     
+
+    private String appendChar2Value(char c) {
+        StringBuffer s = new StringBuffer();
+        if (m_svalue != null) {
+            s.append(m_svalue);
+        }
+        s.append(c);
+        return s.toString();
+    }
+
     private class TimerAction implements ActionListener {
         public void actionPerformed(ActionEvent evt) {
             if (m_cLastChar != '\u0000') {
@@ -457,14 +625,5 @@ public abstract class JKeyboardText extends JEditorAbstract {
                 reprintText();
             }
         }
-    }    
-    
-    private String appendChar2Value(char c) {
-        StringBuffer s = new StringBuffer();
-        if (m_svalue != null) {
-            s.append(m_svalue);
-        }
-        s.append(c);
-        return s.toString();
     }
 }

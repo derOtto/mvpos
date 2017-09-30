@@ -20,13 +20,15 @@
 package com.nordpos.device.scale;
 
 public class ScaleFake implements DeviceScale {
-    
-    /** Creates a new instance of ScaleFake */
+
+    /**
+     * Creates a new instance of ScaleFake
+     */
     public ScaleFake() {
     }
-    
+
     public Double readWeight() throws ScaleException {
         return new Double(Math.random() * 2.0);
     }
-    
+
 }

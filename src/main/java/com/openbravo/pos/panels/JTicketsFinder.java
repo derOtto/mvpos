@@ -36,6 +36,7 @@ import com.openbravo.pos.forms.DataLogicSales;
 import com.openbravo.pos.inventory.TaxCategoryInfo;
 import com.openbravo.pos.ticket.FindTicketsInfo;
 import com.openbravo.pos.ticket.FindTicketsRenderer;
+
 import java.awt.Component;
 import java.awt.Dialog;
 import java.awt.Dimension;
@@ -48,8 +49,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
 
 /**
- *
- * @author  Mikel irurita
+ * @author Mikel irurita
  */
 public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator {
 
@@ -59,22 +59,57 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
     private DataLogicSales dlSales;
     private DataLogicCustomers dlCustomers;
     private FindTicketsInfo selectedTicket;
-   
-    /** Creates new form JCustomerFinder */
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCustomer;
+    private javax.swing.JButton btnDateEnd;
+    private javax.swing.JButton btnDateStart;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JComboBox jComboBoxTicket;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JList jListTickets;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField jTxtEndDate;
+    private javax.swing.JTextField jTxtStartDate;
+    private javax.swing.JComboBox jcboMoney;
+    private javax.swing.JComboBox jcboUser;
+    private javax.swing.JButton jcmdCancel;
+    private javax.swing.JButton jcmdOK;
+    private javax.swing.JTextField jtxtCustomer;
+    private com.openbravo.editor.JEditorCurrency jtxtMoney;
+    private com.openbravo.editor.JEditorIntegerPositive jtxtTicketID;
+    private javax.swing.JLabel labelCustomer;
+    private com.openbravo.editor.JEditorKeys m_jKeys;
+    /**
+     * Creates new form JCustomerFinder
+     */
     private JTicketsFinder(Frame parent, boolean modal) {
         super(parent, modal);
     }
-
-    /** Creates new form JCustomerFinder */
+    /**
+     * Creates new form JCustomerFinder
+     */
     private JTicketsFinder(Dialog parent, boolean modal) {
         super(parent, modal);
     }
-    
+
     public static JTicketsFinder getReceiptFinder(Component parent, DataLogicSales dlSales, DataLogicCustomers dlCustomers) {
         Window window = getWindow(parent);
-        
+
         JTicketsFinder myMsg;
-        if (window instanceof Frame) { 
+        if (window instanceof Frame) {
             myMsg = new JTicketsFinder((Frame) window, true);
         } else {
             myMsg = new JTicketsFinder((Dialog) window, true);
@@ -83,157 +118,6 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
         myMsg.applyComponentOrientation(parent.getComponentOrientation());
         return myMsg;
     }
-    
-    public FindTicketsInfo getSelectedCustomer() {
-        return selectedTicket;
-    }
-
-    private void init(DataLogicSales dlSales, DataLogicCustomers dlCustomers) {
-        
-        this.dlSales = dlSales;
-        this.dlCustomers = dlCustomers;
-        
-        initComponents();
-
-        jScrollPane1.getVerticalScrollBar().setPreferredSize(new Dimension(35, 35));
-
-        jtxtTicketID.addEditorKeys(m_jKeys);
-        jtxtMoney.addEditorKeys(m_jKeys);
-        
-        //jtxtTicketID.activate();
-        lpr = new ListProviderCreator(dlSales.getTicketsList(), this);
-
-        jListTickets.setCellRenderer(new FindTicketsRenderer());
-
-        getRootPane().setDefaultButton(jcmdOK);
-        
-        initCombos();
-        
-        defaultValues();
-
-        selectedTicket = null;
-    }
-    
-    public void executeSearch() {
-        try {
-            jListTickets.setModel(new MyListData(lpr.loadData()));
-            if (jListTickets.getModel().getSize() > 0) {
-                jListTickets.setSelectedIndex(0);
-            }
-        } catch (BasicException e) {
-            e.printStackTrace();
-        }        
-    }
-    
-    private void initCombos() {
-        String[] values = new String[] {AppLocal.getIntString("label.sales"),
-                    AppLocal.getIntString("label.refunds"), AppLocal.getIntString("label.all")};
-        jComboBoxTicket.setModel(new DefaultComboBoxModel(values));
-        
-        jcboMoney.setModel(ListQBFModelNumber.getMandatoryNumber());
-        
-        m_sentcat = dlSales.getUserList();
-        m_CategoryModel = new ComboBoxValModel(); 
-        
-        List catlist = null;
-        try {
-            catlist = m_sentcat.list();
-            catlist.add(0, null);
-        } catch (BasicException ex) {
-            ex.getMessage();
-        }
-        m_CategoryModel = new ComboBoxValModel(catlist);
-        jcboUser.setModel(m_CategoryModel);      
-    }
-    
-    private void defaultValues() {
-        
-        jListTickets.setModel(new MyListData(new ArrayList()));
-        
-        jcboUser.setSelectedItem(null);
-        
-        jtxtTicketID.reset();
-        jtxtTicketID.activate();
-        
-        jComboBoxTicket.setSelectedIndex(0);
-        
-        jcboUser.setSelectedItem(null);
-        
-        jcboMoney.setSelectedItem( ((ListQBFModelNumber)jcboMoney.getModel()).getElementAt(0) );
-        jcboMoney.revalidate();
-        jcboMoney.repaint();
-                
-        jtxtMoney.reset();
-        
-        jTxtStartDate.setText(null);
-        jTxtEndDate.setText(null);
-        
-        jtxtCustomer.setText(null);
-        
-    }
-    
-    @Override
-    public Object createValue() throws BasicException {
-        
-        Object[] afilter = new Object[14];
-        
-        // Ticket ID
-        if (jtxtTicketID.getText() == null || jtxtTicketID.getText().equals("")) {
-            afilter[0] = QBFCompareEnum.COMP_NONE;
-            afilter[1] = null;
-        } else {
-            afilter[0] = QBFCompareEnum.COMP_EQUALS;
-            afilter[1] = jtxtTicketID.getValueInteger();
-        }
-        
-        // Sale and refund checkbox        
-        if (jComboBoxTicket.getSelectedIndex() == 2) {
-            afilter[2] = QBFCompareEnum.COMP_DISTINCT;
-            afilter[3] = 2;
-        } else if (jComboBoxTicket.getSelectedIndex() == 0) {
-            afilter[2] = QBFCompareEnum.COMP_EQUALS;
-            afilter[3] = 0;
-        } else if (jComboBoxTicket.getSelectedIndex() == 1) {
-            afilter[2] = QBFCompareEnum.COMP_EQUALS;
-            afilter[3] = 1;
-        }
-        
-        // Receipt money
-        afilter[5] = jtxtMoney.getDoubleValue();
-        afilter[4] = afilter[5] == null ? QBFCompareEnum.COMP_NONE : jcboMoney.getSelectedItem();
-        
-        // Date range
-        Object startdate = Formats.TIMESTAMP.parseValue(jTxtStartDate.getText());
-        Object enddate = Formats.TIMESTAMP.parseValue(jTxtEndDate.getText());
-        
-        afilter[6] = (startdate == null) ? QBFCompareEnum.COMP_NONE : QBFCompareEnum.COMP_GREATEROREQUALS;
-        afilter[7] = startdate;
-        afilter[8] = (enddate == null) ? QBFCompareEnum.COMP_NONE : QBFCompareEnum.COMP_LESS;
-        afilter[9] = enddate;
-
-        
-        
-        //User
-        if (jcboUser.getSelectedItem() == null) {
-            afilter[10] = QBFCompareEnum.COMP_NONE;
-            afilter[11] = null; 
-        } else {
-            afilter[10] = QBFCompareEnum.COMP_EQUALS;
-            afilter[11] = ((TaxCategoryInfo)jcboUser.getSelectedItem()).getName(); 
-        }
-        
-        //Customer
-        if (jtxtCustomer.getText() == null || jtxtCustomer.getText().equals("")) {
-            afilter[12] = QBFCompareEnum.COMP_NONE;
-            afilter[13] = null;
-        } else {
-            afilter[12] = QBFCompareEnum.COMP_RE;
-            afilter[13] = "%" + jtxtCustomer.getText() + "%";
-        }
-        
-        return afilter;
-
-    } 
 
     private static Window getWindow(Component parent) {
         if (parent == null) {
@@ -244,27 +128,159 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
             return getWindow(parent.getParent());
         }
     }
-    
-    private static class MyListData extends javax.swing.AbstractListModel {
-        
-        private List m_data;
-        
-        public MyListData(List data) {
-            m_data = data;
-        }
-        
-        @Override
-        public Object getElementAt(int index) {
-            return m_data.get(index);
-        }
-        
-        @Override
-        public int getSize() {
-            return m_data.size();
-        } 
+
+    public FindTicketsInfo getSelectedCustomer() {
+        return selectedTicket;
     }
-    
-    /** This method is called from within the constructor to
+
+    private void init(DataLogicSales dlSales, DataLogicCustomers dlCustomers) {
+
+        this.dlSales = dlSales;
+        this.dlCustomers = dlCustomers;
+
+        initComponents();
+
+        jScrollPane1.getVerticalScrollBar().setPreferredSize(new Dimension(35, 35));
+
+        jtxtTicketID.addEditorKeys(m_jKeys);
+        jtxtMoney.addEditorKeys(m_jKeys);
+
+        //jtxtTicketID.activate();
+        lpr = new ListProviderCreator(dlSales.getTicketsList(), this);
+
+        jListTickets.setCellRenderer(new FindTicketsRenderer());
+
+        getRootPane().setDefaultButton(jcmdOK);
+
+        initCombos();
+
+        defaultValues();
+
+        selectedTicket = null;
+    }
+
+    public void executeSearch() {
+        try {
+            jListTickets.setModel(new MyListData(lpr.loadData()));
+            if (jListTickets.getModel().getSize() > 0) {
+                jListTickets.setSelectedIndex(0);
+            }
+        } catch (BasicException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void initCombos() {
+        String[] values = new String[]{AppLocal.getIntString("label.sales"),
+                AppLocal.getIntString("label.refunds"), AppLocal.getIntString("label.all")};
+        jComboBoxTicket.setModel(new DefaultComboBoxModel(values));
+
+        jcboMoney.setModel(ListQBFModelNumber.getMandatoryNumber());
+
+        m_sentcat = dlSales.getUserList();
+        m_CategoryModel = new ComboBoxValModel();
+
+        List catlist = null;
+        try {
+            catlist = m_sentcat.list();
+            catlist.add(0, null);
+        } catch (BasicException ex) {
+            ex.getMessage();
+        }
+        m_CategoryModel = new ComboBoxValModel(catlist);
+        jcboUser.setModel(m_CategoryModel);
+    }
+
+    private void defaultValues() {
+
+        jListTickets.setModel(new MyListData(new ArrayList()));
+
+        jcboUser.setSelectedItem(null);
+
+        jtxtTicketID.reset();
+        jtxtTicketID.activate();
+
+        jComboBoxTicket.setSelectedIndex(0);
+
+        jcboUser.setSelectedItem(null);
+
+        jcboMoney.setSelectedItem(((ListQBFModelNumber) jcboMoney.getModel()).getElementAt(0));
+        jcboMoney.revalidate();
+        jcboMoney.repaint();
+
+        jtxtMoney.reset();
+
+        jTxtStartDate.setText(null);
+        jTxtEndDate.setText(null);
+
+        jtxtCustomer.setText(null);
+
+    }
+
+    @Override
+    public Object createValue() throws BasicException {
+
+        Object[] afilter = new Object[14];
+
+        // Ticket ID
+        if (jtxtTicketID.getText() == null || jtxtTicketID.getText().equals("")) {
+            afilter[0] = QBFCompareEnum.COMP_NONE;
+            afilter[1] = null;
+        } else {
+            afilter[0] = QBFCompareEnum.COMP_EQUALS;
+            afilter[1] = jtxtTicketID.getValueInteger();
+        }
+
+        // Sale and refund checkbox
+        if (jComboBoxTicket.getSelectedIndex() == 2) {
+            afilter[2] = QBFCompareEnum.COMP_DISTINCT;
+            afilter[3] = 2;
+        } else if (jComboBoxTicket.getSelectedIndex() == 0) {
+            afilter[2] = QBFCompareEnum.COMP_EQUALS;
+            afilter[3] = 0;
+        } else if (jComboBoxTicket.getSelectedIndex() == 1) {
+            afilter[2] = QBFCompareEnum.COMP_EQUALS;
+            afilter[3] = 1;
+        }
+
+        // Receipt money
+        afilter[5] = jtxtMoney.getDoubleValue();
+        afilter[4] = afilter[5] == null ? QBFCompareEnum.COMP_NONE : jcboMoney.getSelectedItem();
+
+        // Date range
+        Object startdate = Formats.TIMESTAMP.parseValue(jTxtStartDate.getText());
+        Object enddate = Formats.TIMESTAMP.parseValue(jTxtEndDate.getText());
+
+        afilter[6] = (startdate == null) ? QBFCompareEnum.COMP_NONE : QBFCompareEnum.COMP_GREATEROREQUALS;
+        afilter[7] = startdate;
+        afilter[8] = (enddate == null) ? QBFCompareEnum.COMP_NONE : QBFCompareEnum.COMP_LESS;
+        afilter[9] = enddate;
+
+
+        //User
+        if (jcboUser.getSelectedItem() == null) {
+            afilter[10] = QBFCompareEnum.COMP_NONE;
+            afilter[11] = null;
+        } else {
+            afilter[10] = QBFCompareEnum.COMP_EQUALS;
+            afilter[11] = ((TaxCategoryInfo) jcboUser.getSelectedItem()).getName();
+        }
+
+        //Customer
+        if (jtxtCustomer.getText() == null || jtxtCustomer.getText().equals("")) {
+            afilter[12] = QBFCompareEnum.COMP_NONE;
+            afilter[13] = null;
+        } else {
+            afilter[12] = QBFCompareEnum.COMP_RE;
+            afilter[13] = "%" + jtxtCustomer.getText() + "%";
+        }
+
+        return afilter;
+
+    }
+
+    /**
+     * This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
      * always regenerated by the Form Editor.
@@ -363,84 +379,84 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createSequentialGroup()
-                .addGap(33, 33, 33)
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                            .addComponent(jLabel3)
-                            .addGap(62, 62, 62))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                            .addComponent(jLabel1)
-                            .addGap(83, 83, 83))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                            .addComponent(jLabel4)
-                            .addGap(68, 68, 68))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                            .addComponent(labelCustomer)
-                            .addGap(61, 61, 61)))
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jcboUser, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addComponent(jcboMoney, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jtxtMoney, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addComponent(jtxtCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addComponent(jTxtEndDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnDateEnd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel7Layout.createSequentialGroup()
-                            .addComponent(jtxtTicketID, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jComboBoxTicket, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel7Layout.createSequentialGroup()
-                            .addComponent(jTxtStartDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(btnDateStart, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(59, 59, 59))
+                jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                             .addGroup(jPanel7Layout.createSequentialGroup()
+                                                    .addGap(33, 33, 33)
+                                                    .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                           .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                                                  .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                                                                                                                                                                     .addComponent(jLabel3)
+                                                                                                                                                                     .addGap(62, 62, 62))
+                                                                                                  .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                                                                                                                                                                     .addComponent(jLabel1)
+                                                                                                                                                                     .addGap(83, 83, 83))
+                                                                                                  .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                                                                                                                                                                     .addComponent(jLabel4)
+                                                                                                                                                                     .addGap(68, 68, 68))
+                                                                                                  .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                                                                                                                                                                     .addComponent(labelCustomer)
+                                                                                                                                                                     .addGap(61, 61, 61)))
+                                                                           .addComponent(jLabel7)
+                                                                           .addComponent(jLabel6))
+                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                    .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                           .addComponent(jcboUser, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                           .addGroup(jPanel7Layout.createSequentialGroup()
+                                                                                                  .addComponent(jcboMoney, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                                  .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                                                  .addComponent(jtxtMoney, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                           .addGroup(jPanel7Layout.createSequentialGroup()
+                                                                                                  .addComponent(jtxtCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                                  .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                                                  .addComponent(btnCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                           .addGroup(jPanel7Layout.createSequentialGroup()
+                                                                                                  .addComponent(jTxtEndDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                                  .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                                                  .addComponent(btnDateEnd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                           .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                                                                                  .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel7Layout.createSequentialGroup()
+                                                                                                                                                                    .addComponent(jtxtTicketID, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                                                                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                                                                                                                                    .addComponent(jComboBoxTicket, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                                                  .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel7Layout.createSequentialGroup()
+                                                                                                                                                                    .addComponent(jTxtStartDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                                                                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                                                                                                                    .addComponent(btnDateStart, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                                    .addGap(59, 59, 59))
         );
         jPanel7Layout.setVerticalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jLabel1)
-                    .addComponent(jtxtTicketID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBoxTicket, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jLabel3)
-                    .addComponent(jTxtStartDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnDateStart, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jLabel4)
-                    .addComponent(jTxtEndDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnDateEnd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(labelCustomer)
-                    .addComponent(jtxtCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jLabel6)
-                    .addComponent(jcboUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jLabel7)
-                    .addComponent(jcboMoney, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jtxtMoney, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(19, 19, 19))
+                jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                                                                                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                                                                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                                                                                                                       .addComponent(jLabel1)
+                                                                                                                       .addComponent(jtxtTicketID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                                                       .addComponent(jComboBoxTicket, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                                                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                                                                                                                       .addComponent(jLabel3)
+                                                                                                                       .addComponent(jTxtStartDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                                                       .addComponent(btnDateStart, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                                                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                                                                                                                       .addComponent(jLabel4)
+                                                                                                                       .addComponent(jTxtEndDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                                                       .addComponent(btnDateEnd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                                                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                                                                                                                       .addComponent(labelCustomer)
+                                                                                                                       .addComponent(jtxtCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                                                       .addComponent(btnCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                                                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                                                                                                                       .addComponent(jLabel6)
+                                                                                                                       .addComponent(jcboUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                                                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                                                                                                                       .addComponent(jLabel7)
+                                                                                                                       .addComponent(jcboMoney, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                                                       .addComponent(jtxtMoney, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                                                .addGap(19, 19, 19))
         );
 
         jPanel5.add(jPanel7, java.awt.BorderLayout.CENTER);
@@ -534,6 +550,7 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
         setSize(new Dimension(695, 684));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
     private void jcmdOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcmdOKActionPerformed
         selectedTicket = (FindTicketsInfo) jListTickets.getSelectedValue();
         dispose();
@@ -550,95 +567,80 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
     private void jListTicketsValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jListTicketsValueChanged
         jcmdOK.setEnabled(jListTickets.getSelectedValue() != null);
 
-}//GEN-LAST:event_jListTicketsValueChanged
+    }//GEN-LAST:event_jListTicketsValueChanged
 
     private void jListTicketsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jListTicketsMouseClicked
-        
+
         if (evt.getClickCount() == 2) {
             selectedTicket = (FindTicketsInfo) jListTickets.getSelectedValue();
             dispose();
         }
-        
-}//GEN-LAST:event_jListTicketsMouseClicked
 
-private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jListTicketsMouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         defaultValues();
-}//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jButton1ActionPerformed
 
-private void btnDateStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDateStartActionPerformed
-    Date date;
+    private void btnDateStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDateStartActionPerformed
+        Date date;
         try {
             date = (Date) Formats.TIMESTAMP.parseValue(jTxtStartDate.getText());
         } catch (BasicException e) {
             date = null;
-        }        
+        }
         date = JCalendarDialog.showCalendarTimeHours(this, date);
         if (date != null) {
             jTxtStartDate.setText(Formats.TIMESTAMP.formatValue(date));
         }
-}//GEN-LAST:event_btnDateStartActionPerformed
+    }//GEN-LAST:event_btnDateStartActionPerformed
 
-private void btnDateEndActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDateEndActionPerformed
-Date date;
+    private void btnDateEndActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDateEndActionPerformed
+        Date date;
         try {
             date = (Date) Formats.TIMESTAMP.parseValue(jTxtEndDate.getText());
         } catch (BasicException e) {
             date = null;
-        }        
+        }
         date = JCalendarDialog.showCalendarTimeHours(this, date);
         if (date != null) {
             jTxtEndDate.setText(Formats.TIMESTAMP.formatValue(date));
         }
-}//GEN-LAST:event_btnDateEndActionPerformed
+    }//GEN-LAST:event_btnDateEndActionPerformed
 
-private void btnCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCustomerActionPerformed
+    private void btnCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCustomerActionPerformed
         JCustomerFinder finder = JCustomerFinder.getCustomerFinder(this, dlCustomers);
         finder.search(null);
         finder.setVisible(true);
-        
+
         try {
             jtxtCustomer.setText(finder.getSelectedCustomer() == null
                     ? null
                     : dlSales.loadCustomerExt(finder.getSelectedCustomer().getId()).toString());
         } catch (BasicException e) {
             MessageInf msg = new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.cannotfindcustomer"), e);
-            msg.show(this);            
+            msg.show(this);
         }
 
-}//GEN-LAST:event_btnCustomerActionPerformed
+    }//GEN-LAST:event_btnCustomerActionPerformed
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCustomer;
-    private javax.swing.JButton btnDateEnd;
-    private javax.swing.JButton btnDateStart;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JComboBox jComboBoxTicket;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JList jListTickets;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel7;
-    private javax.swing.JPanel jPanel8;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTxtEndDate;
-    private javax.swing.JTextField jTxtStartDate;
-    private javax.swing.JComboBox jcboMoney;
-    private javax.swing.JComboBox jcboUser;
-    private javax.swing.JButton jcmdCancel;
-    private javax.swing.JButton jcmdOK;
-    private javax.swing.JTextField jtxtCustomer;
-    private com.openbravo.editor.JEditorCurrency jtxtMoney;
-    private com.openbravo.editor.JEditorIntegerPositive jtxtTicketID;
-    private javax.swing.JLabel labelCustomer;
-    private com.openbravo.editor.JEditorKeys m_jKeys;
+    private static class MyListData extends javax.swing.AbstractListModel {
+
+        private List m_data;
+
+        public MyListData(List data) {
+            m_data = data;
+        }
+
+        @Override
+        public Object getElementAt(int index) {
+            return m_data.get(index);
+        }
+
+        @Override
+        public int getSize() {
+            return m_data.size();
+        }
+    }
     // End of variables declaration//GEN-END:variables
 }

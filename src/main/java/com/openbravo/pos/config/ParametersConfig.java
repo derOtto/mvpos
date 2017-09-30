@@ -21,19 +21,20 @@ package com.openbravo.pos.config;
 
 import com.openbravo.data.user.DirtyManager;
 import com.nordpos.device.util.StringParser;
+
 import java.awt.Component;
 
 /**
- *
  * @author adrian
  */
 public interface ParametersConfig {
 
     public Component getComponent();
-    
+
     public void addDirtyManager(DirtyManager dirty);
 
-    public void setParameters(StringParser p);
     public String getParameters();
+
+    public void setParameters(StringParser p);
 
 }

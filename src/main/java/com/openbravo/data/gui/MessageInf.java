@@ -25,7 +25,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class MessageInf {
-        
+
     // SIGNAL_WORD'S
     public final static int SGN_DANGER = 0xFF000000; // Death or serious injury will occur
     public final static int SGN_WARNING = 0xFE000000; // Death or serious injury may occur
@@ -33,22 +33,24 @@ public class MessageInf {
     public final static int SGN_NOTICE = 0xFC000000; // Damage to property may occur
     public final static int SGN_IMPORTANT = 0xFA000000; // Operating or maintenance instructions or additional information
     public final static int SGN_SUCCESS = 0xFB000000;
-    
+
     // ERROR_CLASS'ES
     public final static int CLS_GENERIC = 0x00000000;
-    
+
     // ERROR_CODE'S
-    
+
     // VARIABLES
     private int m_iMsgNumber; // = SIGNAL_WORD (0xFF000000) | ERROR_CLASS (0x00FF0000) | ERROR_CODE (0x0000FFFF)
     private String m_sHazard;
     private String m_sConsequences;
     private String m_sAvoiding;
-    
+
     // CAUSE
     private Object m_eCause;
-    
-    /** Creates a new instance of MessageInf */
+
+    /**
+     * Creates a new instance of MessageInf
+     */
     public MessageInf(int iSignalWord, String sHazard, Object e) {
         m_iMsgNumber = iSignalWord | CLS_GENERIC;
         m_sHazard = sHazard;
@@ -56,35 +58,40 @@ public class MessageInf {
         m_sAvoiding = "";
         m_eCause = e;
     }
-    /** Creates a new instance of MessageInf */
+
+    /**
+     * Creates a new instance of MessageInf
+     */
     public MessageInf(int iSignalWord, String sHazard) {
-        this (iSignalWord, sHazard, null);
+        this(iSignalWord, sHazard, null);
     }
-    
-    /** Creates a new instance of MessageInf */
+
+    /**
+     * Creates a new instance of MessageInf
+     */
     public MessageInf(Throwable e) {
         this(SGN_WARNING, e.getLocalizedMessage(), e);
     }
-    
+
     public void show(Component parent) {
         JMessageDialog.showMessage(parent, this);
     }
-    
+
     public Object getCause() {
         return m_eCause;
     }
-    
+
     public int getSignalWord() {
         return m_iMsgNumber & 0xFF000000;
     }
-    
+
     public Icon getSignalWordIcon() {
         int iSignalWord = getSignalWord();
         if (iSignalWord == SGN_DANGER) {
             return UIManager.getIcon("OptionPane.errorIcon");
         } else if (iSignalWord == SGN_WARNING) {
             return UIManager.getIcon("OptionPane.warningIcon");
-       } else if (iSignalWord == SGN_CAUTION) {
+        } else if (iSignalWord == SGN_CAUTION) {
             return UIManager.getIcon("OptionPane.warningIcon");
         } else if (iSignalWord == SGN_NOTICE) {
             return UIManager.getIcon("OptionPane.informationIcon");
@@ -96,10 +103,10 @@ public class MessageInf {
             return UIManager.getIcon("OptionPane.questionIcon");
         }
     }
-    
+
     public String getErrorCodeMsg() {
-        
-        StringBuffer sb = new StringBuffer();       
+
+        StringBuffer sb = new StringBuffer();
         int iSignalWord = getSignalWord();
         if (iSignalWord == SGN_DANGER) {
             sb.append("DNG_");
@@ -121,12 +128,12 @@ public class MessageInf {
         sb.append(toHex(m_iMsgNumber & 0x0000FFFF, 4));
         return sb.toString();
     }
-    
+
     private String toHex(int i, int iChars) {
         String s = Integer.toHexString(i);
         return s.length() >= iChars ? s : fillString(iChars - s.length()) + s;
     }
-    
+
     private String fillString(int iChars) {
         char[] aStr = new char[iChars];
         for (int i = 0; i < aStr.length; i++) {
@@ -135,10 +142,10 @@ public class MessageInf {
         return new String(aStr);
     }
 
-    
+
     public String getMessageMsg() {
-        
-        StringBuffer sb = new StringBuffer();     
+
+        StringBuffer sb = new StringBuffer();
         int iSignalWord = getSignalWord();
         if (iSignalWord == SGN_DANGER) {
             sb.append(LocalRes.getIntString("sgn.danger"));
@@ -159,5 +166,5 @@ public class MessageInf {
         sb.append(m_sConsequences);
         sb.append(m_sAvoiding);
         return sb.toString();
-    }    
+    }
 }

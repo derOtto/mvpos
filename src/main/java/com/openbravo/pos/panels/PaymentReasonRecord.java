@@ -24,10 +24,10 @@ package com.openbravo.pos.panels;
 
 import com.openbravo.format.Formats;
 import com.openbravo.pos.util.StringUtils;
+
 import java.util.Date;
 
 /**
- *
  * @author Andrey Svininykh <svininykh@gmail.com>
  */
 public class PaymentReasonRecord {

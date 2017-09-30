@@ -25,27 +25,26 @@ import javax.swing.JButton;
 import javax.swing.SwingConstants;
 
 /**
- *
  * @author adrianromero
  */
 public class MenuItemDefinition implements MenuElement {
-    
+
     private Action act;
-    
+
     public MenuItemDefinition(Action act) {
         this.act = act;
     }
-    
+
     public void addComponent(JPanelMenu menu) {
-        
-        JButton btn = new JButton(act); 
-        
+
+        JButton btn = new JButton(act);
+
         btn.setFocusPainted(false);
         btn.setFocusable(false);
         btn.setRequestFocusEnabled(false);
         btn.setHorizontalAlignment(SwingConstants.LEADING);
         btn.setPreferredSize(new Dimension(220, 50));
-        
+
 //        btn.setSize(220, 50);
 //        btn.setLocation(p);
 //        if (p.x >= 470) {
@@ -55,7 +54,7 @@ public class MenuItemDefinition implements MenuElement {
 //            p.x += 225;
 //        }
 //        comp.add(btn);        
-        
+
         menu.addEntry(btn);
     }
 }

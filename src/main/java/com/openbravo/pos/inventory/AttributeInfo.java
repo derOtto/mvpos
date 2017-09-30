@@ -22,15 +22,16 @@ package com.openbravo.pos.inventory;
 import com.openbravo.data.loader.IKeyed;
 
 /**
- *
- * @author  adrianromero
+ * @author adrianromero
  */
 public class AttributeInfo implements IKeyed {
 
     private String id;
     private String name;
 
-    /** Creates new CategoryInfo */
+    /**
+     * Creates new CategoryInfo
+     */
     public AttributeInfo(String id, String name) {
         this.id = id;
         this.name = name;

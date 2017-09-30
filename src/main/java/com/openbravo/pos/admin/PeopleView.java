@@ -20,10 +20,13 @@ package com.openbravo.pos.admin;
 
 import java.awt.Component;
 import javax.swing.*;
+
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.util.Hashcypher;
+
 import java.awt.image.BufferedImage;
 import java.util.UUID;
+
 import com.openbravo.basic.BasicException;
 import com.openbravo.data.gui.ComboBoxValModel;
 import com.openbravo.data.loader.SentenceList;
@@ -32,13 +35,13 @@ import com.openbravo.format.Formats;
 import com.openbravo.pos.forms.AppView;
 import com.openbravo.pos.forms.DataLogicSales;
 import com.openbravo.pos.util.StringUtils;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 
 /**
- *
  * @author adrianromero
  * @author Andrey Svininykh <svininykh@gmail.com>
  * @version NORD POS 3
@@ -46,25 +49,34 @@ import java.util.Properties;
 public final class PeopleView extends JPanel implements EditorRecord {
 
     private static final String LOCATION_ID_KEY = "user.location.id";
-
+    private final DirtyManager m_Dirty;
+    private final SentenceList m_sentrole;
+    private final SentenceList m_warehouses;
+    private final AppView m_App;
     private Object m_oId;
     private String m_sPassword;
-
-    private final DirtyManager m_Dirty;
-
-    private final SentenceList m_sentrole;
     private ComboBoxValModel m_RoleModel;
-
-    private final SentenceList m_warehouses;
     private ComboBoxValModel m_WarehouseModel;
-
-    private final AppView m_App;
-
     private Properties properties;
-
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private JButton jButton1;
+    private JButton jButton2;
+    private JButton jButton3;
+    private JLabel jLabel1;
+    private JLabel jLabel2;
+    private JLabel jLabel3;
+    private JLabel jLabel4;
+    private JLabel jLabel5;
+    private JLabel jLabel6;
+    private JTextField jcard;
+    private JComboBox jcboWarehoseLocation;
+    private com.openbravo.data.gui.JImageEditor m_jImage;
+    private JTextField m_jName;
+    private JComboBox m_jRole;
+    private JCheckBox m_jVisible;
     public PeopleView(AppView app, DataLogicAdmin dlAdmin, DirtyManager dirty) {
         initComponents();
-        
+
         DataLogicSales dlSales = (DataLogicSales) app.getBean(DataLogicSales.class.getName());
 
         m_App = app;
@@ -74,7 +86,7 @@ public final class PeopleView extends JPanel implements EditorRecord {
         m_RoleModel = new ComboBoxValModel();
         m_warehouses = dlSales.getLocationsList();
         m_WarehouseModel = new ComboBoxValModel();
-        
+
         m_Dirty = dirty;
         m_jName.getDocument().addDocumentListener(dirty);
         m_jRole.addActionListener(dirty);
@@ -206,7 +218,7 @@ public final class PeopleView extends JPanel implements EditorRecord {
         people[4] = m_jVisible.isSelected();
         people[5] = Formats.STRING.parseValue(jcard.getText());
         people[6] = m_jImage.getImage();
-        if(m_WarehouseModel.getSelectedKey() != null){
+        if (m_WarehouseModel.getSelectedKey() != null) {
             properties.setProperty(LOCATION_ID_KEY, (String) m_WarehouseModel.getSelectedKey());
         }
 
@@ -229,7 +241,7 @@ public final class PeopleView extends JPanel implements EditorRecord {
 
         m_RoleModel = new ComboBoxValModel(m_sentrole.list());
         m_jRole.setModel(m_RoleModel);
-        
+
         m_WarehouseModel = new ComboBoxValModel(m_warehouses.list());
         jcboWarehoseLocation.setModel(m_WarehouseModel);
     }
@@ -300,66 +312,66 @@ public final class PeopleView extends JPanel implements EditorRecord {
         GroupLayout layout = new GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
-                    .addComponent(m_jVisible)
-                    .addComponent(m_jRole, GroupLayout.PREFERRED_SIZE, 180, GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                            .addComponent(jcard, GroupLayout.PREFERRED_SIZE, 180, GroupLayout.PREFERRED_SIZE)
-                            .addComponent(m_jName, GroupLayout.PREFERRED_SIZE, 180, GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton1)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton2)
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton3))))
-                    .addComponent(jcboWarehoseLocation, GroupLayout.PREFERRED_SIZE, 180, GroupLayout.PREFERRED_SIZE)
-                    .addComponent(m_jImage, GroupLayout.PREFERRED_SIZE, 276, GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(39, Short.MAX_VALUE))
+                layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                      .addGroup(layout.createSequentialGroup()
+                                      .addContainerGap()
+                                      .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                                      .addComponent(jLabel5, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)
+                                                      .addComponent(jLabel3, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)
+                                                      .addComponent(jLabel1, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)
+                                                      .addComponent(jLabel2, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)
+                                                      .addComponent(jLabel4, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)
+                                                      .addComponent(jLabel6, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE))
+                                      .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                      .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+                                                      .addComponent(m_jVisible)
+                                                      .addComponent(m_jRole, GroupLayout.PREFERRED_SIZE, 180, GroupLayout.PREFERRED_SIZE)
+                                                      .addGroup(layout.createSequentialGroup()
+                                                                      .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                                                                      .addComponent(jcard, GroupLayout.PREFERRED_SIZE, 180, GroupLayout.PREFERRED_SIZE)
+                                                                                      .addComponent(m_jName, GroupLayout.PREFERRED_SIZE, 180, GroupLayout.PREFERRED_SIZE))
+                                                                      .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                                      .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                                                                      .addComponent(jButton1)
+                                                                                      .addGroup(layout.createSequentialGroup()
+                                                                                                      .addComponent(jButton2)
+                                                                                                      .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                                                                      .addComponent(jButton3))))
+                                                      .addComponent(jcboWarehoseLocation, GroupLayout.PREFERRED_SIZE, 180, GroupLayout.PREFERRED_SIZE)
+                                                      .addComponent(m_jImage, GroupLayout.PREFERRED_SIZE, 276, GroupLayout.PREFERRED_SIZE))
+                                      .addContainerGap(39, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                                            .addContainerGap()
-                                                            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                    .addComponent(jLabel1)
-                    .addComponent(m_jName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
-                                                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                    .addComponent(jLabel5)
-                    .addComponent(jcard, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
-                                                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                    .addComponent(jLabel2)
-                    .addComponent(m_jRole, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                                                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                    .addComponent(jLabel6)
-                    .addComponent(jcboWarehoseLocation, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                                                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                    .addComponent(jLabel3)
-                    .addComponent(m_jVisible))
-                                                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                    .addComponent(m_jImage, GroupLayout.PREFERRED_SIZE, 239, GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4))
-                                                            .addContainerGap(44, Short.MAX_VALUE))
+                layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                      .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                                      .addContainerGap()
+                                                                      .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+                                                                                      .addComponent(jLabel1)
+                                                                                      .addComponent(m_jName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                                                                      .addComponent(jButton1))
+                                                                      .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                                      .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+                                                                                      .addComponent(jLabel5)
+                                                                                      .addComponent(jcard, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                                                                      .addComponent(jButton2)
+                                                                                      .addComponent(jButton3))
+                                                                      .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                                      .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+                                                                                      .addComponent(jLabel2)
+                                                                                      .addComponent(m_jRole, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                                                      .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                                      .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+                                                                                      .addComponent(jLabel6)
+                                                                                      .addComponent(jcboWarehoseLocation, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                                                      .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                                      .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+                                                                                      .addComponent(jLabel3)
+                                                                                      .addComponent(m_jVisible))
+                                                                      .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                                      .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                                                                      .addComponent(m_jImage, GroupLayout.PREFERRED_SIZE, 239, GroupLayout.PREFERRED_SIZE)
+                                                                                      .addComponent(jLabel4))
+                                                                      .addContainerGap(44, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -390,24 +402,6 @@ public final class PeopleView extends JPanel implements EditorRecord {
         }
 
     }//GEN-LAST:event_jButton3ActionPerformed
-
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private JButton jButton1;
-    private JButton jButton2;
-    private JButton jButton3;
-    private JLabel jLabel1;
-    private JLabel jLabel2;
-    private JLabel jLabel3;
-    private JLabel jLabel4;
-    private JLabel jLabel5;
-    private JLabel jLabel6;
-    private JTextField jcard;
-    private JComboBox jcboWarehoseLocation;
-    private com.openbravo.data.gui.JImageEditor m_jImage;
-    private JTextField m_jName;
-    private JComboBox m_jRole;
-    private JCheckBox m_jVisible;
     // End of variables declaration//GEN-END:variables
 
 }

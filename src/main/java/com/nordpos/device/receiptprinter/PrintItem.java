@@ -22,7 +22,8 @@ package com.nordpos.device.receiptprinter;
 import java.awt.*;
 
 public interface PrintItem {
-    
+
     public int getHeight();
+
     public void draw(Graphics2D g, int x, int y, int width);
 }

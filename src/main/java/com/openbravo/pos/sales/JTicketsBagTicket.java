@@ -23,9 +23,11 @@ import com.nordpos.device.ticket.TicketPrinterException;
 import com.nordpos.device.ticket.DeviceTicketFactory;
 import com.openbravo.pos.ticket.TicketInfo;
 import com.openbravo.pos.ticket.TicketLineInfo;
+
 import java.awt.*;
 import java.util.ArrayList;
 import javax.swing.*;
+
 import com.openbravo.data.gui.MessageInf;
 import com.openbravo.pos.forms.AppView;
 import com.openbravo.pos.forms.AppLocal;
@@ -37,10 +39,10 @@ import com.openbravo.pos.scripting.ScriptException;
 import com.openbravo.pos.scripting.ScriptFactory;
 import com.openbravo.pos.panels.JTicketsFinder;
 import com.openbravo.pos.ticket.FindTicketsInfo;
+
 import java.io.InputStream;
 
 /**
- *
  * @author adrianromero
  * @author Andrey Svininykh <svininykh@gmail.com>
  */
@@ -48,20 +50,34 @@ public class JTicketsBagTicket extends JTicketsBag {
 
     private static final String PRINTER_SHEMA = "/com/nordpos/templates/Schema.Printer.xsd";
     private static final String PRINT_TICKET_PREVIEW = "/com/nordpos/templates/Printer.TicketPreview.xml";
-
-    protected DataLogicCustomers dlCustomers;
-
     private final DeviceTicketFactory m_TP;
+    private final JTicketsBagTicketBag m_TicketsBagTicketBag;
+    private final JPanelTicketEdits m_panelticketedit;
+    protected DataLogicCustomers dlCustomers;
     private TicketParser m_TTP;
     private TicketParser m_TTP2;
-
     private TicketInfo m_ticket;
     private TicketInfo m_ticketCopy;
-
-    private final JTicketsBagTicketBag m_TicketsBagTicketBag;
-
-    private final JPanelTicketEdits m_panelticketedit;
-
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private ButtonGroup buttonGroup1;
+    private JButton jButton1;
+    private JButton jButton2;
+    private JPanel jPanel1;
+    private JPanel jPanel2;
+    private JPanel jPanel3;
+    private JPanel jPanel4;
+    private JPanel jPanel5;
+    private JRadioButton jrbRefunds;
+    private JRadioButton jrbSales;
+    private JPanel m_jButtons;
+    private JButton m_jEdit;
+    private com.openbravo.editor.JEditorKeys m_jKeys;
+    private JPanel m_jOptions;
+    private JPanel m_jPanelTicket;
+    private JButton m_jPrint;
+    private JButton m_jRefund;
+    private com.openbravo.editor.JEditorIntegerPositive m_jTicketEditor;
+    private JLabel m_jTicketId;
     public JTicketsBagTicket(AppView app, JPanelTicketEdits panelticket) {
 
         super(app, panelticket);
@@ -186,8 +202,8 @@ public class JTicketsBagTicket extends JTicketsBag {
         try {
             m_jEdit.setEnabled(
                     m_ticket != null
-                    && (m_ticket.getTicketType() == TicketInfo.RECEIPT_NORMAL || m_ticket.getTicketType() == TicketInfo.RECEIPT_REFUND)
-                    && m_dlSales.isCashActive(m_ticket.getActiveCash()));
+                            && (m_ticket.getTicketType() == TicketInfo.RECEIPT_NORMAL || m_ticket.getTicketType() == TicketInfo.RECEIPT_REFUND)
+                            && m_dlSales.isCashActive(m_ticket.getActiveCash()));
         } catch (BasicException e) {
             m_jEdit.setEnabled(false);
         }
@@ -442,38 +458,17 @@ public class JTicketsBagTicket extends JTicketsBag {
 
     }//GEN-LAST:event_m_jKeysActionPerformed
 
-private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-    JTicketsFinder finder = JTicketsFinder.getReceiptFinder(this, m_dlSales, dlCustomers);
-    finder.setVisible(true);
-    FindTicketsInfo selectedTicket = finder.getSelectedCustomer();
-    if (selectedTicket == null) {
-        m_jTicketEditor.reset();
-        m_jTicketEditor.activate();
-    } else {
-        readTicket(selectedTicket.getTicketId(), selectedTicket.getTicketType());
-    }
-}//GEN-LAST:event_jButton2ActionPerformed
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private ButtonGroup buttonGroup1;
-    private JButton jButton1;
-    private JButton jButton2;
-    private JPanel jPanel1;
-    private JPanel jPanel2;
-    private JPanel jPanel3;
-    private JPanel jPanel4;
-    private JPanel jPanel5;
-    private JRadioButton jrbRefunds;
-    private JRadioButton jrbSales;
-    private JPanel m_jButtons;
-    private JButton m_jEdit;
-    private com.openbravo.editor.JEditorKeys m_jKeys;
-    private JPanel m_jOptions;
-    private JPanel m_jPanelTicket;
-    private JButton m_jPrint;
-    private JButton m_jRefund;
-    private com.openbravo.editor.JEditorIntegerPositive m_jTicketEditor;
-    private JLabel m_jTicketId;
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        JTicketsFinder finder = JTicketsFinder.getReceiptFinder(this, m_dlSales, dlCustomers);
+        finder.setVisible(true);
+        FindTicketsInfo selectedTicket = finder.getSelectedCustomer();
+        if (selectedTicket == null) {
+            m_jTicketEditor.reset();
+            m_jTicketEditor.activate();
+        } else {
+            readTicket(selectedTicket.getTicketId(), selectedTicket.getTicketType());
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
     // End of variables declaration//GEN-END:variables
 
 }

@@ -26,47 +26,51 @@ import java.awt.Frame;
 import java.awt.Window;
 
 /**
- *
  * @author adrianromero
  */
 public class JPaymentSelectRefund extends JPaymentSelect {
-      
-    /** Creates new form JPaymentSelect */
+
+    /**
+     * Creates new form JPaymentSelect
+     */
     protected JPaymentSelectRefund(Frame parent, boolean modal, ComponentOrientation o) {
         super(parent, modal, o);
     }
-    /** Creates new form JPaymentSelect */
+
+    /**
+     * Creates new form JPaymentSelect
+     */
     protected JPaymentSelectRefund(Dialog parent, boolean modal, ComponentOrientation o) {
         super(parent, modal, o);
-    } 
-    
+    }
+
     public static JPaymentSelect getDialog(Component parent) {
-         
+
         Window window = getWindow(parent);
-        
-        if (window instanceof Frame) { 
+
+        if (window instanceof Frame) {
             return new JPaymentSelectRefund((Frame) window, true, parent.getComponentOrientation());
         } else {
             return new JPaymentSelectRefund((Dialog) window, true, parent.getComponentOrientation());
         }
-    } 
-    
+    }
+
     protected void addTabs() {
-        
+
         addTabPayment(new JPaymentCashRefundCreator());
         addTabPayment(new JPaymentChequeRefundCreator());
         addTabPayment(new JPaymentPaperRefundCreator());
         addTabPayment(new JPaymentMagcardRefundCreator());
         setHeaderVisible(false);
     }
-    
+
     protected void setStatusPanel(boolean isPositive, boolean isComplete) {
-        
+
         setAddEnabled(isPositive && !isComplete);
         setOKEnabled(isComplete);
-    }    
-    
+    }
+
     protected PaymentInfo getDefaultPayment(double total) {
         return new PaymentInfoTicket(total, "cashrefund");
-    } 
+    }
 }

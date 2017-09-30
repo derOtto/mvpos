@@ -22,10 +22,10 @@ package com.openbravo.editor;
 import com.openbravo.basic.BasicException;
 import com.openbravo.format.DoubleUtils;
 import com.openbravo.format.Formats;
-import java.awt.Toolkit;
+
+import java.awt.*;
 
 /**
- *
  * @author adrianromero
  */
 
@@ -42,7 +42,9 @@ public abstract class JEditorNumber extends JEditorAbstract {
 
     private Formats m_fmt;
 
-    /** Creates a new instance of JEditorNumber */
+    /**
+     * Creates a new instance of JEditorNumber
+     */
     public JEditorNumber() {
         m_fmt = getFormat();
         reset();
@@ -61,6 +63,24 @@ public abstract class JEditorNumber extends JEditorAbstract {
         reprintText();
 
         firePropertyChange("Text", sOldText, getText());
+    }
+
+    public Double getDoubleValue() {
+
+        String text = getText();
+        if (text == null || text.equals("")) {
+            return null;
+        } else {
+            try {
+                if (getMode() == EditorKeys.MODE_PERCENT) {
+                    return Double.parseDouble(text) / 100;
+                } else {
+                    return Double.parseDouble(text);
+                }
+            } catch (NumberFormatException e) {
+                return null;
+            }
+        }
     }
 
     public void setDoubleValue(Double dvalue) {
@@ -85,21 +105,11 @@ public abstract class JEditorNumber extends JEditorAbstract {
         firePropertyChange("Text", sOldText, getText());
     }
 
-    public Double getDoubleValue() {
-
-        String text = getText();
-        if (text == null || text.equals("")) {
-            return null;
-        } else {
-            try {
-                if (getMode() == EditorKeys.MODE_PERCENT) {
-                    return Double.parseDouble(text) / 100;
-                } else {
-                    return Double.parseDouble(text);
-                }
-            } catch (NumberFormatException e) {
-                return null;
-            }
+    public int getValueInteger() throws BasicException {
+        try {
+            return Integer.parseInt(getText());
+        } catch (NumberFormatException e) {
+            throw new BasicException(e);
         }
     }
 
@@ -121,18 +131,10 @@ public abstract class JEditorNumber extends JEditorAbstract {
         firePropertyChange("Text", sOldText, getText());
     }
 
-    public int getValueInteger() throws BasicException {
-        try {
-            return Integer.parseInt(getText());
-        } catch (NumberFormatException e) {
-            throw new BasicException(e);
-        }
-    }
-
     private String formatDouble(Double value) {
         String sNumber = Double.toString(DoubleUtils.fixDecimals(value));
         if (sNumber.endsWith(".0")) {
-            sNumber = sNumber.substring(0,  sNumber.length() - 2);
+            sNumber = sNumber.substring(0, sNumber.length() - 2);
         }
         return sNumber;
     }
@@ -170,27 +172,27 @@ public abstract class JEditorNumber extends JEditorAbstract {
         } else if (cTrans == '-') {
             m_bNegative = !m_bNegative;
         } else if ((cTrans == '0')
-        && (m_iNumberStatus == NUMBER_ZERONULL)) {
+                && (m_iNumberStatus == NUMBER_ZERONULL)) {
             // m_iNumberStatus = NUMBER_ZERO;
             m_sNumber = "0";
         } else if ((cTrans == '1' || cTrans == '2' || cTrans == '3' || cTrans == '4' || cTrans == '5' || cTrans == '6' || cTrans == '7' || cTrans == '8' || cTrans == '9')
-        && (m_iNumberStatus == NUMBER_ZERONULL)) {
+                && (m_iNumberStatus == NUMBER_ZERONULL)) {
             m_iNumberStatus = NUMBER_INT;
             m_sNumber = Character.toString(cTrans);
-        } else if (cTrans == '.' &&  m_iNumberStatus == NUMBER_ZERONULL) {
+        } else if (cTrans == '.' && m_iNumberStatus == NUMBER_ZERONULL) {
             m_iNumberStatus = NUMBER_DEC;
             m_sNumber = "0.";
 
         } else if ((cTrans == '0' || cTrans == '1' || cTrans == '2' || cTrans == '3' || cTrans == '4' || cTrans == '5' || cTrans == '6' || cTrans == '7' || cTrans == '8' || cTrans == '9')
-        && (m_iNumberStatus == NUMBER_INT)) {
+                && (m_iNumberStatus == NUMBER_INT)) {
             //m_iNumberStatus = NUMBER_INT;
             m_sNumber += cTrans;
-        } else if (cTrans == '.' &&  m_iNumberStatus == NUMBER_INT) {
+        } else if (cTrans == '.' && m_iNumberStatus == NUMBER_INT) {
             m_iNumberStatus = NUMBER_DEC;
             m_sNumber += '.';
 
         } else if ((cTrans == '0' || cTrans == '1' || cTrans == '2' || cTrans == '3' || cTrans == '4' || cTrans == '5' || cTrans == '6' || cTrans == '7' || cTrans == '8' || cTrans == '9')
-        && (m_iNumberStatus == NUMBER_DEC)) {
+                && (m_iNumberStatus == NUMBER_DEC)) {
             m_sNumber += cTrans;
 
         } else {

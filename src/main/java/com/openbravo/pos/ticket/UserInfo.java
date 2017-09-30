@@ -21,7 +21,6 @@ package com.openbravo.pos.ticket;
 import java.io.Serializable;
 
 /**
- *
  * @author adrianromero
  */
 public class UserInfo implements Serializable {
@@ -30,7 +29,9 @@ public class UserInfo implements Serializable {
     private String m_sId;
     private String m_sName;
 
-    /** Creates a new instance of UserInfoBasic */
+    /**
+     * Creates a new instance of UserInfoBasic
+     */
     public UserInfo(String id, String name) {
         m_sId = id;
         m_sName = name;

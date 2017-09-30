@@ -24,24 +24,21 @@ import com.openbravo.pos.ticket.TaxInfo;
 import com.openbravo.pos.util.StringUtils;
 
 /**
- *
  * @author adrianromero
  * @author Andrey Svininykh <svininykh@gmail.com>
  * @version NORD POS 3
  */
 public class InventoryLine {
 
-    private double m_dMultiply;
-    private double m_dPriceBuy;
     private final double m_dPriceSell;
-    private double m_dStockQty;
-
     private final String m_sProdID;
-    private String m_sProdName;
     private final String m_sProdCode;
     private final String m_sProdRef;
-
     private final String attsetid;
+    private double m_dMultiply;
+    private double m_dPriceBuy;
+    private double m_dStockQty;
+    private String m_sProdName;
     private String attsetinstid;
     private String attsetinstdesc;
 
@@ -67,18 +64,18 @@ public class InventoryLine {
         return m_sProdName;
     }
 
+    public void setProductName(String sValue) {
+        if (m_sProdID == null) {
+            m_sProdName = sValue;
+        }
+    }
+
     public String getProductCode() {
         return m_sProdCode;
     }
 
     public String getProductReference() {
         return m_sProdRef;
-    }
-
-    public void setProductName(String sValue) {
-        if (m_sProdID == null) {
-            m_sProdName = sValue;
-        }
     }
 
     public double getMultiply() {
@@ -96,7 +93,7 @@ public class InventoryLine {
     public void setStockQty(double m_dStockQty) {
         this.m_dStockQty = m_dStockQty;
     }
-    
+
     public double getPriceBuy() {
         return m_dPriceBuy;
     }
@@ -160,7 +157,7 @@ public class InventoryLine {
     public String printStockQty() {
         return Formats.DOUBLE.formatValue(getStockQty());
     }
-    
+
     public String printSubValue() {
         return Formats.CURRENCY.formatValue(getSubValue());
     }

@@ -20,17 +20,17 @@
 package com.openbravo.pos.ticket;
 
 import java.awt.image.BufferedImage;
+
 import com.openbravo.data.loader.DataRead;
 import com.openbravo.basic.BasicException;
 import com.openbravo.data.loader.ImageUtils;
 import com.openbravo.data.loader.SerializerRead;
 import com.openbravo.format.Formats;
+
 import java.util.Properties;
 
 /**
- *
  * @author adrianromero
- *
  */
 public class ProductInfoExt {
 
@@ -49,8 +49,10 @@ public class ProductInfoExt {
     protected double m_dPriceSell;
     protected BufferedImage m_Image;
     protected Properties attributes;
-    
-    /** Creates new ProductInfo */
+
+    /**
+     * Creates new ProductInfo
+     */
     public ProductInfoExt() {
         m_ID = null;
         m_sRef = "0000";
@@ -65,6 +67,28 @@ public class ProductInfoExt {
         m_dPriceSell = 0.0;
         m_Image = null;
         attributes = new Properties();
+    }
+
+    public static SerializerRead getSerializerRead() {
+        return new SerializerRead() {
+            public Object readValues(DataRead dr) throws BasicException {
+                ProductInfoExt product = new ProductInfoExt();
+                product.m_ID = dr.getString(1);
+                product.m_sRef = dr.getString(2);
+                product.m_sCode = dr.getString(3);
+                product.m_sName = dr.getString(4);
+                product.m_bCom = dr.getBoolean(5).booleanValue();
+                product.m_bScale = dr.getBoolean(6).booleanValue();
+                product.m_dPriceBuy = dr.getDouble(7).doubleValue();
+                product.m_dPriceSell = dr.getDouble(8).doubleValue();
+                product.taxcategoryid = dr.getString(9);
+                product.categoryid = dr.getString(10);
+                product.attributesetid = dr.getString(11);
+                product.m_Image = ImageUtils.readImage(dr.getBytes(12));
+                product.attributes = ImageUtils.readProperties(dr.getBytes(13));
+                return product;
+            }
+        };
     }
 
     public final String getID() {
@@ -134,6 +158,7 @@ public class ProductInfoExt {
     public final String getAttributeSetID() {
         return attributesetid;
     }
+
     public final void setAttributeSetID(String value) {
         attributesetid = value;
     }
@@ -165,45 +190,29 @@ public class ProductInfoExt {
     public String printPriceSellTax(TaxInfo tax) {
         return Formats.CURRENCY.formatValue(new Double(getPriceSellTax(tax)));
     }
-    
+
     public BufferedImage getImage() {
         return m_Image;
     }
+
     public void setImage(BufferedImage img) {
         m_Image = img;
     }
-    
+
     public String getProperty(String key) {
         return attributes.getProperty(key);
     }
+
     public String getProperty(String key, String defaultvalue) {
         return attributes.getProperty(key, defaultvalue);
     }
+
     public void setProperty(String key, String value) {
         attributes.setProperty(key, value);
     }
+
     public Properties getProperties() {
         return attributes;
-    }
-
-    public static SerializerRead getSerializerRead() {
-        return new SerializerRead() { public Object readValues(DataRead dr) throws BasicException {
-            ProductInfoExt product = new ProductInfoExt();
-            product.m_ID = dr.getString(1);
-            product.m_sRef = dr.getString(2);
-            product.m_sCode = dr.getString(3);
-            product.m_sName = dr.getString(4);
-            product.m_bCom = dr.getBoolean(5).booleanValue();
-            product.m_bScale = dr.getBoolean(6).booleanValue();
-            product.m_dPriceBuy = dr.getDouble(7).doubleValue();
-            product.m_dPriceSell = dr.getDouble(8).doubleValue();
-            product.taxcategoryid = dr.getString(9);
-            product.categoryid = dr.getString(10);
-            product.attributesetid = dr.getString(11);
-            product.m_Image = ImageUtils.readImage(dr.getBytes(12));
-            product.attributes = ImageUtils.readProperties(dr.getBytes(13));
-            return product;
-        }};
     }
 
     @Override

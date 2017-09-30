@@ -25,7 +25,6 @@ import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 
 /**
- *
  * @author adrianromero
  */
 public class PrintableBasicTicket implements Printable {
@@ -71,24 +70,24 @@ public class PrintableBasicTicket implements Printable {
             if (currentpagey + itemheight <= imageable_height) {
                 currentpagey += itemheight;
             } else {
-                currentpage ++;
+                currentpage++;
                 currentpagey = itemheight;
             }
 
             if (currentpage < pageIndex) {
-                line ++;
+                line++;
             } else if (currentpage == pageIndex) {
                 printed = true;
                 commands.get(line).draw(g2d, 0, currentpagey - itemheight, imageable_width);
 
-                line ++;
+                line++;
             } else if (currentpage > pageIndex) {
-                line ++;
+                line++;
             }
         }
 
         return printed
-            ? Printable.PAGE_EXISTS
-            : Printable.NO_SUCH_PAGE;
+                ? Printable.PAGE_EXISTS
+                : Printable.NO_SUCH_PAGE;
     }
 }

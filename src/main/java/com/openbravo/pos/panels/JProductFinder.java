@@ -22,8 +22,10 @@ package com.openbravo.pos.panels;
 import com.openbravo.pos.ticket.ProductFilterSales;
 import com.openbravo.pos.ticket.ProductInfoExt;
 import com.openbravo.pos.ticket.ProductRenderer;
+
 import javax.swing.*;
 import java.awt.*;
+
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.basic.BasicException;
 import com.openbravo.data.user.ListProvider;
@@ -31,73 +33,54 @@ import com.openbravo.data.user.ListProviderCreator;
 import com.openbravo.pos.forms.DataLogicSales;
 
 /**
- *
  * @author adrianromero
  */
 public class JProductFinder extends JDialog {
 
-    private ProductInfoExt m_ReturnProduct;
-    private ListProvider lpr;
-    
     public final static int PRODUCT_ALL = 0;
     public final static int PRODUCT_NORMAL = 1;
     public final static int PRODUCT_AUXILIAR = 2;
-    
-    /** Creates new form JProductFinder */
+    private ProductInfoExt m_ReturnProduct;
+    private ListProvider lpr;
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private JButton jButton3;
+    private JList jListProducts;
+    private JPanel jPanel1;
+    private JPanel jPanel2;
+    private JPanel jPanel3;
+    private JPanel jPanel4;
+    private JPanel jPanel5;
+    private JScrollPane jScrollPane1;
+    private JButton jcmdCancel;
+    private JButton jcmdOK;
+    private com.openbravo.editor.JEditorKeys m_jKeys;
+    private JPanel m_jProductSelect;
+
+    /**
+     * Creates new form JProductFinder
+     */
     private JProductFinder(Frame parent, boolean modal) {
         super(parent, modal);
     }
-    /** Creates new form JProductFinder */
+
+
+    /**
+     * Creates new form JProductFinder
+     */
     private JProductFinder(Dialog parent, boolean modal) {
         super(parent, modal);
-    }    
-    
-    private ProductInfoExt init(DataLogicSales dlSales, int productsType) {
-        
-        initComponents();
-        
-        jScrollPane1.getVerticalScrollBar().setPreferredSize(new Dimension(35, 35));
-
-        //ProductFilter jproductfilter = new ProductFilter(app);
-        ProductFilterSales jproductfilter = new ProductFilterSales(dlSales, m_jKeys);
-        jproductfilter.activate();
-        m_jProductSelect.add(jproductfilter, BorderLayout.CENTER);
-        switch (productsType) {
-            case PRODUCT_NORMAL:
-                lpr = new ListProviderCreator(dlSales.getProductListNormal(), jproductfilter);
-                break;
-            case PRODUCT_AUXILIAR:               
-                lpr = new ListProviderCreator(dlSales.getProductListAuxiliar(), jproductfilter);
-                break;
-            default: // PRODUCT_ALL
-                lpr = new ListProviderCreator(dlSales.getProductList(), jproductfilter);
-                break;
-                
-        }
-       
-        jListProducts.setCellRenderer(new ProductRenderer());
-        
-        getRootPane().setDefaultButton(jcmdOK);   
-   
-        m_ReturnProduct = null;
-        
-        //show();
-        setVisible(true);
-        
-        return m_ReturnProduct;
     }
-    
-    
+
     private static Window getWindow(Component parent) {
         if (parent == null) {
             return new JFrame();
         } else if (parent instanceof Frame || parent instanceof Dialog) {
-            return (Window)parent;
+            return (Window) parent;
         } else {
             return getWindow(parent.getParent());
         }
-    }    
-    
+    }
+
     public static ProductInfoExt showMessage(Component parent, DataLogicSales dlSales) {
         return showMessage(parent, dlSales, PRODUCT_ALL);
     }
@@ -114,24 +97,44 @@ public class JProductFinder extends JDialog {
         }
         return myMsg.init(dlSales, productsType);
     }
-    
-    private static class MyListData extends AbstractListModel {
-        
-        private java.util.List m_data;
-        
-        public MyListData(java.util.List data) {
-            m_data = data;
+
+    private ProductInfoExt init(DataLogicSales dlSales, int productsType) {
+
+        initComponents();
+
+        jScrollPane1.getVerticalScrollBar().setPreferredSize(new Dimension(35, 35));
+
+        //ProductFilter jproductfilter = new ProductFilter(app);
+        ProductFilterSales jproductfilter = new ProductFilterSales(dlSales, m_jKeys);
+        jproductfilter.activate();
+        m_jProductSelect.add(jproductfilter, BorderLayout.CENTER);
+        switch (productsType) {
+            case PRODUCT_NORMAL:
+                lpr = new ListProviderCreator(dlSales.getProductListNormal(), jproductfilter);
+                break;
+            case PRODUCT_AUXILIAR:
+                lpr = new ListProviderCreator(dlSales.getProductListAuxiliar(), jproductfilter);
+                break;
+            default: // PRODUCT_ALL
+                lpr = new ListProviderCreator(dlSales.getProductList(), jproductfilter);
+                break;
+
         }
-        
-        public Object getElementAt(int index) {
-            return m_data.get(index);
-        }
-        
-        public int getSize() {
-            return m_data.size();
-        } 
-    }   
-    /** This method is called from within the constructor to
+
+        jListProducts.setCellRenderer(new ProductRenderer());
+
+        getRootPane().setDefaultButton(jcmdOK);
+
+        m_ReturnProduct = null;
+
+        //show();
+        setVisible(true);
+
+        return m_ReturnProduct;
+    }
+
+    /**
+     * This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
      * always regenerated by the Form Editor.
@@ -236,26 +239,26 @@ public class JProductFinder extends JDialog {
             m_ReturnProduct = (ProductInfoExt) jListProducts.getSelectedValue();
             dispose();
         }
-        
+
     }//GEN-LAST:event_jListProductsMouseClicked
 
     private void jcmdOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcmdOKActionPerformed
-        
+
         m_ReturnProduct = (ProductInfoExt) jListProducts.getSelectedValue();
         dispose();
-        
+
     }//GEN-LAST:event_jcmdOKActionPerformed
 
     private void jcmdCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcmdCancelActionPerformed
-        
+
         dispose();
-        
+
     }//GEN-LAST:event_jcmdCancelActionPerformed
 
     private void jListProductsValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jListProductsValueChanged
 
         jcmdOK.setEnabled(jListProducts.getSelectedValue() != null);
-        
+
     }//GEN-LAST:event_jListProductsValueChanged
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -268,23 +271,25 @@ public class JProductFinder extends JDialog {
         } catch (BasicException e) {
             e.printStackTrace();
         }
-        
+
     }//GEN-LAST:event_jButton3ActionPerformed
-    
-    
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private JButton jButton3;
-    private JList jListProducts;
-    private JPanel jPanel1;
-    private JPanel jPanel2;
-    private JPanel jPanel3;
-    private JPanel jPanel4;
-    private JPanel jPanel5;
-    private JScrollPane jScrollPane1;
-    private JButton jcmdCancel;
-    private JButton jcmdOK;
-    private com.openbravo.editor.JEditorKeys m_jKeys;
-    private JPanel m_jProductSelect;
+
+    private static class MyListData extends AbstractListModel {
+
+        private java.util.List m_data;
+
+        public MyListData(java.util.List data) {
+            m_data = data;
+        }
+
+        public Object getElementAt(int index) {
+            return m_data.get(index);
+        }
+
+        public int getSize() {
+            return m_data.size();
+        }
+    }
     // End of variables declaration//GEN-END:variables
-    
+
 }

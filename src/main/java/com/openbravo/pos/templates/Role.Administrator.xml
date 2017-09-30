@@ -72,12 +72,12 @@
     <class name="/com/openbravo/reports/inventorydiff.bsh"/>
     <class name="/com/openbravo/reports/inventorydiffdetail.bsh"/>
     <class name="com.openbravo.pos.forms.MenuSalesManagement"/>
-<!--    <class name="/com/openbravo/reports/transregister.bsh"/> -->
+    <!--    <class name="/com/openbravo/reports/transregister.bsh"/> -->
     <class name="/com/openbravo/reports/usersales.bsh"/>
     <class name="/com/openbravo/reports/closedproducts.bsh"/>
     <class name="/com/openbravo/reports/taxes.bsh"/>
-<!--    <class name="/com/openbravo/reports/salecatalog.bsh"/> -->
-    <class name="/com/openbravo/reports/productsales.bsh"/> 
+    <!--    <class name="/com/openbravo/reports/salecatalog.bsh"/> -->
+    <class name="/com/openbravo/reports/productsales.bsh"/>
     <class name="/com/nordpos/reports/piesalescat.bsh"/>
     <class name="com.openbravo.pos.forms.MenuMaintenance"/>
     <class name="com.openbravo.pos.admin.PeoplePanel"/>
@@ -92,7 +92,7 @@
     <class name="/com/openbravo/reports/people.bsh"/>
     <class name="/com/openbravo/reports/chartsales.bsh"/>
     <class name="/com/nordpos/transformations/dummy/dummy_random.bsh"/>
-    <class name="/com/nordpos/transformations/csv/import_products.bsh"/>    
+    <class name="/com/nordpos/transformations/csv/import_products.bsh"/>
     <class name="/com/nordpos/transformations/csv/export_products.bsh"/>
     <class name="Menu.ChangePassword"/>
     <class name="com.openbravo.pos.panels.JPanelPrinter"/>

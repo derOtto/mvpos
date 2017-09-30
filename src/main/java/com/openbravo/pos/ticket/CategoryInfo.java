@@ -1,20 +1,19 @@
 /**
- *
  * NORD POS is a fork of Openbravo POS.
- *
+ * <p>
  * Copyright (C) 2009-2013 Nord Trading Ltd. <http://www.nordpos.com>
- *
+ * <p>
  * This file is part of NORD POS.
- *
+ * <p>
  * NORD POS is free software: you can redistribute it and/or modify it under the
  * terms of the GNU General Public License as published by the Free Software
  * Foundation, either version 3 of the License, or (at your option) any later
  * version.
- *
+ * <p>
  * NORD POS is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
  * A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU General Public License along with
  * NORD POS. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -22,7 +21,9 @@ package com.openbravo.pos.ticket;
 
 import com.openbravo.basic.BasicException;
 import com.openbravo.data.loader.DataRead;
+
 import java.awt.image.*;
+
 import com.openbravo.data.loader.IKeyed;
 import com.openbravo.data.loader.ImageUtils;
 import com.openbravo.data.loader.SerializerRead;
@@ -47,16 +48,28 @@ public class CategoryInfo implements IKeyed {
         m_Image = image;
     }
 
+    public static SerializerRead getSerializerRead() {
+        return new SerializerRead() {
+            @Override
+            public Object readValues(DataRead dr) throws BasicException {
+                return new CategoryInfo(dr.getString(1),
+                        dr.getString(2),
+                        dr.getString(3),
+                        ImageUtils.readImage(dr.getBytes(4)));
+            }
+        };
+    }
+
     public Object getKey() {
+        return m_sID;
+    }
+
+    public String getID() {
         return m_sID;
     }
 
     public void setID(String sID) {
         m_sID = sID;
-    }
-
-    public String getID() {
-        return m_sID;
     }
 
     public String getName() {
@@ -86,17 +99,5 @@ public class CategoryInfo implements IKeyed {
     @Override
     public String toString() {
         return m_sName;
-    }
-
-    public static SerializerRead getSerializerRead() {
-        return new SerializerRead() {
-            @Override
-            public Object readValues(DataRead dr) throws BasicException {
-                return new CategoryInfo(dr.getString(1),
-                        dr.getString(2),
-                        dr.getString(3),
-                        ImageUtils.readImage(dr.getBytes(4)));
-            }
-        };
     }
 }

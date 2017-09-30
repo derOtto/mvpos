@@ -40,7 +40,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
  * @author adrianromero
  * @author Andrey Svininykh <svininykh@gmail.com>
  * @version NORD POS 3
@@ -80,110 +79,110 @@ public class StartPOS {
     public static void main(final String args[]) {
 
         java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
+                                            @Override
+                                            public void run() {
 
-                if (!registerApp()) {
-                    System.exit(1);
-                }
+                                                if (!registerApp()) {
+                                                    System.exit(1);
+                                                }
 
-                AppConfig config = new AppConfig(args);
-                config.load();
+                                                AppConfig config = new AppConfig(args);
+                                                config.load();
 
-                // set Locale.
-                String slang = config.getProperty("user.language");
-                String scountry = config.getProperty("user.country");
-                String svariant = config.getProperty("user.variant");
-                if (slang != null && !slang.equals("") && scountry != null && svariant != null) {
-                    Locale.setDefault(new Locale(slang, scountry, svariant));
-                }
+                                                // set Locale.
+                                                String slang = config.getProperty("user.language");
+                                                String scountry = config.getProperty("user.country");
+                                                String svariant = config.getProperty("user.variant");
+                                                if (slang != null && !slang.equals("") && scountry != null && svariant != null) {
+                                                    Locale.setDefault(new Locale(slang, scountry, svariant));
+                                                }
 
-                // Set the format patterns
-                Formats.setIntegerPattern(config.getProperty("format.integer"));
-                Formats.setDoublePattern(config.getProperty("format.double"));
-                Formats.setCurrencyPattern(config.getProperty("format.currency"));
-                Formats.setPercentPattern(config.getProperty("format.percent"));
-                Formats.setDatePattern(config.getProperty("format.date"));
-                Formats.setTimePattern(config.getProperty("format.time"));
-                Formats.setDateTimePattern(config.getProperty("format.datetime"));
+                                                // Set the format patterns
+                                                Formats.setIntegerPattern(config.getProperty("format.integer"));
+                                                Formats.setDoublePattern(config.getProperty("format.double"));
+                                                Formats.setCurrencyPattern(config.getProperty("format.currency"));
+                                                Formats.setPercentPattern(config.getProperty("format.percent"));
+                                                Formats.setDatePattern(config.getProperty("format.date"));
+                                                Formats.setTimePattern(config.getProperty("format.time"));
+                                                Formats.setDateTimePattern(config.getProperty("format.datetime"));
 
-                // Set the look and feel.
-                try {
-                    Object laf = Class.forName(config.getProperty("swing.defaultlaf")).newInstance();
-                    if (laf instanceof LookAndFeel) {
-                        UIManager.setLookAndFeel((LookAndFeel) laf);
-                    } else if (laf instanceof SubstanceSkin) {
-                        SubstanceLookAndFeel.setSkin((SubstanceSkin) laf);
-                    }
-                } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
-                    logger.log(Level.WARNING, "Cannot set look and feel", e);
-                }
+                                                // Set the look and feel.
+                                                try {
+                                                    Object laf = Class.forName(config.getProperty("swing.defaultlaf")).newInstance();
+                                                    if (laf instanceof LookAndFeel) {
+                                                        UIManager.setLookAndFeel((LookAndFeel) laf);
+                                                    } else if (laf instanceof SubstanceSkin) {
+                                                        SubstanceLookAndFeel.setSkin((SubstanceSkin) laf);
+                                                    }
+                                                } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
+                                                    logger.log(Level.WARNING, "Cannot set look and feel", e);
+                                                }
 
-                String font = config.getProperty("swing.font.name");
-                if(font != null && !font.isEmpty()) {
-                    setUIFont(new javax.swing.plaf.FontUIResource(font, Font.PLAIN, Integer.parseInt(config.getProperty("swing.font.size"))));
-                }
-                
-                if (config.getProperty("server.webapp.startup") != null ? config.getProperty("server.webapp.startup").equals("enable") : false) {
-                    StartUpWebAppServer(
-                            config.getProperty("server.webapp.port") != null ? Integer.parseInt(config.getProperty("server.webapp.port")) : DEFAULT_WEBAPPSEVER_PORT,
-                            config.getProperty("server.webapp.context") != null ? config.getProperty("server.webapp.context") : "/"
-                    );
-                }
+                                                String font = config.getProperty("swing.font.name");
+                                                if (font != null && !font.isEmpty()) {
+                                                    setUIFont(new javax.swing.plaf.FontUIResource(font, Font.PLAIN, Integer.parseInt(config.getProperty("swing.font.size"))));
+                                                }
 
-                if (!config.getProperty("server.database.startup").equals("disable")) {
-                    StartUpDatabaseServer();
-                }
+                                                if (config.getProperty("server.webapp.startup") != null ? config.getProperty("server.webapp.startup").equals("enable") : false) {
+                                                    StartUpWebAppServer(
+                                                            config.getProperty("server.webapp.port") != null ? Integer.parseInt(config.getProperty("server.webapp.port")) : DEFAULT_WEBAPPSEVER_PORT,
+                                                            config.getProperty("server.webapp.context") != null ? config.getProperty("server.webapp.context") : "/"
+                                                    );
+                                                }
 
-                String screenmode = config.getProperty("machine.screenmode");
+                                                if (!config.getProperty("server.database.startup").equals("disable")) {
+                                                    StartUpDatabaseServer();
+                                                }
 
-                if ("fullscreen".equals(screenmode)) {
-                    JRootKiosk rootkiosk = new JRootKiosk();
-                    rootkiosk.initFrame(config);
-                } else {
-                    JRootFrame rootframe = new JRootFrame();
-                    rootframe.initFrame(config);
-                }
-            }
+                                                String screenmode = config.getProperty("machine.screenmode");
 
-            private void StartUpWebAppServer(int port, String context) {
-                ContextHandlerCollection contexts = new ContextHandlerCollection();
-                final File folder = new File(DEFAULT_WEBAPPSEVER_FOLDER);
-                if (!folder.exists()) {
-                    folder.mkdirs();
-                }
-                List handlerList = new ArrayList();
-                for (final File fileEntry : folder.listFiles()) {
-                    if (fileEntry.isDirectory()) {
-                        handlerList.add(new AppContextBuilder().buildWebAppContext(context, DEFAULT_WEBAPPSEVER_FOLDER, fileEntry.getName()));
-                    }
-                }
-                Handler[] handlers = new Handler[handlerList.size()];
-                for (int i = 0; i < handlers.length; i++) {
-                    handlers[i] = (Handler) handlerList.get(i);
-                }
+                                                if ("fullscreen".equals(screenmode)) {
+                                                    JRootKiosk rootkiosk = new JRootKiosk();
+                                                    rootkiosk.initFrame(config);
+                                                } else {
+                                                    JRootFrame rootframe = new JRootFrame();
+                                                    rootframe.initFrame(config);
+                                                }
+                                            }
 
-                ServerApp server = new ServerApp(port);
-                contexts.setHandlers(handlers);
-                server.setHandler(contexts);
+                                            private void StartUpWebAppServer(int port, String context) {
+                                                ContextHandlerCollection contexts = new ContextHandlerCollection();
+                                                final File folder = new File(DEFAULT_WEBAPPSEVER_FOLDER);
+                                                if (!folder.exists()) {
+                                                    folder.mkdirs();
+                                                }
+                                                List handlerList = new ArrayList();
+                                                for (final File fileEntry : folder.listFiles()) {
+                                                    if (fileEntry.isDirectory()) {
+                                                        handlerList.add(new AppContextBuilder().buildWebAppContext(context, DEFAULT_WEBAPPSEVER_FOLDER, fileEntry.getName()));
+                                                    }
+                                                }
+                                                Handler[] handlers = new Handler[handlerList.size()];
+                                                for (int i = 0; i < handlers.length; i++) {
+                                                    handlers[i] = (Handler) handlerList.get(i);
+                                                }
 
-                try {
-                    server.start();
-                } catch (Exception ex) {
-                    logger.log(Level.SEVERE, "Cannot run Jetty Server", ex);
-                }
-            }
+                                                ServerApp server = new ServerApp(port);
+                                                contexts.setHandlers(handlers);
+                                                server.setHandler(contexts);
 
-            private void StartUpDatabaseServer() {
-                ServerDatabase server = new ServerDatabase();
+                                                try {
+                                                    server.start();
+                                                } catch (Exception ex) {
+                                                    logger.log(Level.SEVERE, "Cannot run Jetty Server", ex);
+                                                }
+                                            }
 
-                try {
-                    server.start();
-                } catch (Exception ex) {
-                    logger.log(Level.SEVERE, "Cannot run Derby Server", ex);
-                }
-            }
-        }
+                                            private void StartUpDatabaseServer() {
+                                                ServerDatabase server = new ServerDatabase();
+
+                                                try {
+                                                    server.start();
+                                                } catch (Exception ex) {
+                                                    logger.log(Level.SEVERE, "Cannot run Derby Server", ex);
+                                                }
+                                            }
+                                        }
         );
     }
 }

@@ -20,10 +20,9 @@
 package com.openbravo.data.user;
 
 /**
- *
- * @author  adrian
+ * @author adrian
  */
 public interface DirtyListener {
-    
-    public void changedDirty(boolean bDirty);    
+
+    public void changedDirty(boolean bDirty);
 }

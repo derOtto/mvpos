@@ -20,7 +20,7 @@
 -->
 
 <output xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
-   xsi:noNamespaceSchemaLocation="Schema.Printer.xsd">
+        xsi:noNamespaceSchemaLocation="Schema.Printer.xsd">
     <display animation="scroll">
         <line>
             <text>NORD POS</text>

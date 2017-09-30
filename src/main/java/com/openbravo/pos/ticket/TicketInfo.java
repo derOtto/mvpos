@@ -27,24 +27,22 @@ import com.openbravo.pos.customers.CustomerInfoExt;
 import com.openbravo.pos.payment.PaymentInfo;
 import com.openbravo.pos.payment.PaymentInfoMagcard;
 import com.openbravo.pos.util.StringUtils;
+
 import java.io.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
- *
  * @author adrianromero
  * @author Andrey Sininykh <svininykh@gmail.com>
  */
 public class TicketInfo implements SerializableRead, Externalizable {
 
-    private static final long serialVersionUID = 2765650092387265178L;
-
     public static final int RECEIPT_NORMAL = 0;
     public static final int RECEIPT_REFUND = 1;
     public static final int RECEIPT_PAYMENT = 2;
-
+    private static final long serialVersionUID = 2765650092387265178L;
     private static DateFormat m_dateformat = new SimpleDateFormat("hh:mm");
 
     private String m_sId;
@@ -60,7 +58,9 @@ public class TicketInfo implements SerializableRead, Externalizable {
     private List<TicketTaxInfo> taxes;
     private String m_sResponse;
 
-    /** Creates new TicketModel */
+    /**
+     * Creates new TicketModel
+     */
     public TicketInfo() {
         m_sId = UUID.randomUUID().toString();
         tickettype = RECEIPT_NORMAL;
@@ -170,7 +170,7 @@ public class TicketInfo implements SerializableRead, Externalizable {
 
     public void setTicketId(int iTicketId) {
         m_iTicketId = iTicketId;
-    // refreshLines();
+        // refreshLines();
     }
 
     public String getName(Object info) {
@@ -191,7 +191,7 @@ public class TicketInfo implements SerializableRead, Externalizable {
         } else {
             name.append(info.toString());
         }
-        
+
         return name.toString();
     }
 
@@ -230,25 +230,25 @@ public class TicketInfo implements SerializableRead, Externalizable {
             return m_Customer.getId();
         }
     }
-    
-    public String getTransactionID(){
-        return (getPayments().size()>0)
-            ? ( getPayments().get(getPayments().size()-1) ).getTransactionID()
-            : StringUtils.getCardNumber(); //random transaction ID
-    }
-    
-    public String getReturnMessage(){
-        return ( (getPayments().get(getPayments().size()-1)) instanceof PaymentInfoMagcard )
-            ? ((PaymentInfoMagcard)(getPayments().get(getPayments().size()-1))).getReturnMessage()
-            : LocalRes.getIntString("button.ok");
+
+    public String getTransactionID() {
+        return (getPayments().size() > 0)
+                ? (getPayments().get(getPayments().size() - 1)).getTransactionID()
+                : StringUtils.getCardNumber(); //random transaction ID
     }
 
-    public void setActiveCash(String value) {
-        m_sActiveCash = value;
+    public String getReturnMessage() {
+        return ((getPayments().get(getPayments().size() - 1)) instanceof PaymentInfoMagcard)
+                ? ((PaymentInfoMagcard) (getPayments().get(getPayments().size() - 1))).getReturnMessage()
+                : LocalRes.getIntString("button.ok");
     }
 
     public String getActiveCash() {
         return m_sActiveCash;
+    }
+
+    public void setActiveCash(String value) {
+        m_sActiveCash = value;
     }
 
     public String getProperty(String key) {
@@ -301,12 +301,12 @@ public class TicketInfo implements SerializableRead, Externalizable {
     public int getLinesCount() {
         return m_aLines.size();
     }
-    
+
     public double getArticlesCount() {
         double dArticles = 0.0;
         TicketLineInfo oLine;
 
-        for (Iterator<TicketLineInfo> i = m_aLines.iterator(); i.hasNext();) {
+        for (Iterator<TicketLineInfo> i = m_aLines.iterator(); i.hasNext(); ) {
             oLine = i.next();
             dArticles += oLine.getMultiply();
         }
@@ -321,7 +321,7 @@ public class TicketInfo implements SerializableRead, Externalizable {
         }
         return sum;
     }
-    
+
     public double getDiscountTotal() {
         double discountsum = 0.0;
         for (TicketLineInfo line : m_aLines) {
@@ -354,7 +354,7 @@ public class TicketInfo implements SerializableRead, Externalizable {
     }
 
     public double getTotal() {
-        
+
         return getSubTotal() + getTax();
     }
 
@@ -393,12 +393,12 @@ public class TicketInfo implements SerializableRead, Externalizable {
         return taxes;
     }
 
-    public boolean hasTaxesCalculated() {
-        return taxes != null;
-    }
-
     public void setTaxes(List<TicketTaxInfo> l) {
         taxes = l;
+    }
+
+    public boolean hasTaxesCalculated() {
+        return taxes != null;
     }
 
     public void resetTaxes() {
@@ -421,7 +421,7 @@ public class TicketInfo implements SerializableRead, Externalizable {
         Map<String, TicketTaxInfo> m = new HashMap<String, TicketTaxInfo>();
 
         TicketLineInfo oLine;
-        for (Iterator<TicketLineInfo> i = m_aLines.iterator(); i.hasNext();) {
+        for (Iterator<TicketLineInfo> i = m_aLines.iterator(); i.hasNext(); ) {
             oLine = i.next();
 
             TicketTaxInfo t = m.get(oLine.getTaxInfo().getId());
@@ -446,22 +446,22 @@ public class TicketInfo implements SerializableRead, Externalizable {
         }
     }
 
-     public String printTicketName() {
-            return getName();
+    public String printTicketName() {
+        return getName();
     }
 
     public String printDate() {
         return Formats.TIMESTAMP.formatValue(m_dDate);
     }
-    
+
     public String printTime() {
         return Formats.DATE.formatValue(m_dDate);
-    }    
+    }
 
     public String printDay() {
         return Formats.TIME.formatValue(m_dDate);
-    }    
-    
+    }
+
     public String printUser() {
         return m_User == null ? "" : m_User.getName();
     }
@@ -489,15 +489,15 @@ public class TicketInfo implements SerializableRead, Externalizable {
     public String printTotalPaid() {
         return Formats.CURRENCY.formatValue(new Double(getTotalPaid()));
     }
-    
+
     public String printDiscountTotal() {
         return Formats.CURRENCY.formatValue(new Double(getDiscountTotal()));
-    }      
-    
+    }
+
     public String printTotalNoDiscount() {
         return Formats.CURRENCY.formatValue(new Double(getTotalNoDiscount()));
-    }      
-    
+    }
+
     public String printDiscountAvgRate() {
         return Formats.PERCENT.formatValue(new Double(getDiscountAvgRate()));
     }

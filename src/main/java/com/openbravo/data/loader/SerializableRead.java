@@ -23,5 +23,5 @@ import com.openbravo.basic.BasicException;
 
 public interface SerializableRead {
 
-    public void readValues(DataRead dr) throws BasicException; 
+    public void readValues(DataRead dr) throws BasicException;
 }

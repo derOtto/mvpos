@@ -44,44 +44,44 @@
         <line>
             <text align="left" length="15">${local.getScriptString("inventory.location")}</text>
             <text>${inventoryrecord.printLocation()}</text>
-        </line>            
+        </line>
         <line size="1">
             #if ($inventoryrecord.isInput())
-            <text align ="center" length="42">${local.getScriptString("inventory.in")}</text>
+            <text align="center" length="42">${local.getScriptString("inventory.in")}</text>
             #else
-            <text align ="center" length="42">${local.getScriptString("inventory.out")}</text>
+            <text align="center" length="42">${local.getScriptString("inventory.out")}</text>
             #end
         </line>
-        <line></line>    
+        <line></line>
         <line>
-            <text align ="left" length="17">${local.getScriptString("product.name")}</text>
-            <text align ="right" length="10">${local.getScriptString("product.price")}</text>
-            <text align ="right" length="5"></text>
-            <text align ="right" length="10">${local.getScriptString("product.value")}</text>
-        </line>      
+            <text align="left" length="17">${local.getScriptString("product.name")}</text>
+            <text align="right" length="10">${local.getScriptString("product.price")}</text>
+            <text align="right" length="5"></text>
+            <text align="right" length="10">${local.getScriptString("product.value")}</text>
+        </line>
         <line>
             <text>------------------------------------------</text>
-        </line>   
+        </line>
         #foreach ($inventoryline in $inventoryrecord.getLines())
         <line>
-            <text align ="left" length="17">${inventoryline.printName()}</text>
-            <text align ="right" length="10">${inventoryline.printPriceBuy()}</text>
-            <text align ="right" length="5">x${inventoryline.printMultiply()}</text>
-            <text align ="right" length="10">${inventoryline.printSubValue()}</text>
-        </line> 
+            <text align="left" length="17">${inventoryline.printName()}</text>
+            <text align="right" length="10">${inventoryline.printPriceBuy()}</text>
+            <text align="right" length="5">x${inventoryline.printMultiply()}</text>
+            <text align="right" length="10">${inventoryline.printSubValue()}</text>
+        </line>
         #if ($inventoryline.productAttSetInstId)
         <line>
-	        <text align ="left" length="42">    ${inventoryline.productAttSetInstDesc}</text>
+            <text align="left" length="42">${inventoryline.productAttSetInstDesc}</text>
         </line>
         #end
         #end
         <line>
             <text>------------------------------------------</text>
-        </line>   
-        <line></line>            
+        </line>
+        <line></line>
         <line>
             <text align="center" length="42">${local.getScriptString("")}</text>
-        </line>   
+        </line>
     </ticket>
 
     #foreach ($inventoryline in $inventoryrecord.getLines())
@@ -89,14 +89,14 @@
         <line/>
         <line/>
         <line size="1">
-            <text align ="right" length="5">${inventoryline.printReference()}</text>
-            <text align ="center" length="25">${inventoryline.printName()}</text>
-            <text align ="left" length="12">${inventoryline.printPrice()}</text>
+            <text align="right" length="5">${inventoryline.printReference()}</text>
+            <text align="center" length="25">${inventoryline.printName()}</text>
+            <text align="left" length="12">${inventoryline.printPrice()}</text>
         </line>
         <barcode position="bottom" type="EAN13">${inventoryline.printCode()}</barcode>
     </ticket>
     #end
-    
+
     #foreach ($inventoryline in $inventoryrecord.getLines())
     #foreach ($counter in [1..$inventoryline.getMultiply()])
     <label charset="Cp1251"
@@ -114,24 +114,27 @@
               y="4"
               font-height="1"
               font-width="1"
-              font-weight="B">${inventoryline.printName()}</text>
-              
+              font-weight="B">${inventoryline.printName()}
+        </text>
+
         <text font="D"
               orientation="0"
               x="120"
               y="36"
               font-height="1"
               font-width="1"
-              font-weight="B">${inventoryline.printPriceSell()}</text>
-              
+              font-weight="B">${inventoryline.printPriceSell()}
+        </text>
+
         <barcode type="EAN13"
                  x="8"
                  y="80"
                  orientation="0"
                  position="bottom"
                  height="40"
-                 dimension="2">${inventoryline.printCode()}</barcode>
+                 dimension="2">${inventoryline.printCode()}
+        </barcode>
     </label>
     #end
-    #end 
+    #end
 </output>

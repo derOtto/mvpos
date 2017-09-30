@@ -19,8 +19,8 @@
     NORD POS. If not, see <http://www.gnu.org/licenses/>.
 -->
 <output xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
-   xsi:noNamespaceSchemaLocation="Schema.Printer.xsd">   
-    <display>        
+        xsi:noNamespaceSchemaLocation="Schema.Printer.xsd">
+    <display>
         <line>
             <text align="left" length="10">${local.getScriptString("sale.total")}</text>
             <text align="right" length="10">${ticket.printTotal()}</text>

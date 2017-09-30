@@ -25,18 +25,21 @@ import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.text.JTextComponent;
+
 import com.openbravo.pos.forms.AppLocal;
 
 public class DirectoryEvent implements ActionListener {
-    
+
     private JTextComponent m_jTxtField;
     private JFileChooser m_fc;
-    
-    /** Creates a new instance of DirectoryChooser */
+
+    /**
+     * Creates a new instance of DirectoryChooser
+     */
     public DirectoryEvent(JTextComponent TxtField) {
         m_jTxtField = TxtField;
         m_fc = new JFileChooser();
-        
+
         m_fc.resetChoosableFileFilters();
         m_fc.addChoosableFileFilter(new FileFilter() {
             public boolean accept(File f) {
@@ -45,24 +48,25 @@ public class DirectoryEvent implements ActionListener {
                 } else {
                     String filename = f.getName();
                     return filename.endsWith(".jar")
-                        || filename.endsWith(".JAR")
-                        || filename.endsWith(".zip")
-                        || filename.endsWith(".ZIP");
+                            || filename.endsWith(".JAR")
+                            || filename.endsWith(".zip")
+                            || filename.endsWith(".ZIP");
                 }
             }
+
             public String getDescription() {
                 return AppLocal.getIntString("filter.dbdriverlib");
             }
         });
-        m_fc.setFileSelectionMode(JFileChooser.FILES_ONLY );
+        m_fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
     }
-       
+
     public void actionPerformed(ActionEvent actionEvent) {
-        
-        m_fc.setCurrentDirectory(new File(m_jTxtField.getText()));      
+
+        m_fc.setCurrentDirectory(new File(m_jTxtField.getText()));
         if (m_fc.showOpenDialog(m_jTxtField) == JFileChooser.APPROVE_OPTION) {
             m_jTxtField.setText(m_fc.getSelectedFile().getAbsolutePath());
         }
-    }       
-    
+    }
+
 }

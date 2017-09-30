@@ -20,6 +20,7 @@
 package com.openbravo.pos.admin;
 
 import javax.swing.ListCellRenderer;
+
 import com.openbravo.basic.BasicException;
 import com.openbravo.data.gui.ListCellRendererBasic;
 import com.openbravo.data.loader.ComparatorCreator;
@@ -33,7 +34,6 @@ import com.openbravo.data.user.ListProvider;
 import com.openbravo.data.user.ListProviderCreator;
 
 /**
- *
  * @author adrianromero
  */
 public class PeoplePanel extends JPanelTable {
@@ -41,7 +41,9 @@ public class PeoplePanel extends JPanelTable {
     private TableDefinition tpeople;
     private PeopleView jeditor;
 
-    /** Creates a new instance of JPanelPeople */
+    /**
+     * Creates a new instance of JPanelPeople
+     */
     public PeoplePanel() {
     }
 
@@ -64,7 +66,7 @@ public class PeoplePanel extends JPanelTable {
     }
 
     public ComparatorCreator getComparatorCreator() {
-        return tpeople.getComparatorCreator(new int[] {1, 3});
+        return tpeople.getComparatorCreator(new int[]{1, 3});
     }
 
     public ListCellRenderer getListCellRenderer() {
@@ -80,6 +82,7 @@ public class PeoplePanel extends JPanelTable {
         jeditor.activate(); // primero el editor
         super.activate(); // y luego cargamos los datos
     }
+
     public String getTitle() {
         return AppLocal.getIntString("Menu.Users");
     }

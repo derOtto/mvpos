@@ -31,14 +31,15 @@ import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.panels.JPanelTableExt;
 
 /**
- *
  * @author adrianromero
  */
 public class AttributeSetsPanel extends JPanelTableExt {
 
     private EditorRecord editor;
 
-    /** Creates a new instance of JPanelCategories */
+    /**
+     * Creates a new instance of JPanelCategories
+     */
     public AttributeSetsPanel() {
     }
 

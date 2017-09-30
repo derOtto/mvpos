@@ -19,30 +19,30 @@
     NORD POS. If not, see <http://www.gnu.org/licenses/>.
 -->
 <output xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
-   xsi:noNamespaceSchemaLocation="Schema.Printer.xsd">
+        xsi:noNamespaceSchemaLocation="Schema.Printer.xsd">
     #foreach ($paymentline in $ticket.payments)
-     #if ($paymentline.name == "cash")
+    #if ($paymentline.name == "cash")
     <display>
         <line>
             <text align="left" length="10">${local.getScriptString("paid.cash.tendered")}</text>
-            <text align ="right" length="10">${paymentline.printPaid()}</text>
+            <text align="right" length="10">${paymentline.printPaid()}</text>
         </line>
         <line>
             <text align="left" length="10">${local.getScriptString("paid.cash.change")}</text>
-            <text align ="right" length="10">${paymentline.printChange()}</text>
+            <text align="right" length="10">${paymentline.printChange()}</text>
         </line>
     </display>
-     #else
+    #else
     <display>
         <line>
             <text align="left" length="10">${local.getScriptString("sale.total")}</text>
-            <text align ="right" length="10">${paymentline.printTotal()}</text>
+            <text align="right" length="10">${paymentline.printTotal()}</text>
         </line>
         <line>
-            <text align ="center" length="20">${local.getScriptString("sale.thankyou")}</text>
+            <text align="center" length="20">${local.getScriptString("sale.thankyou")}</text>
         </line>
     </display>
-     #end
+    #end
     #end
     <ticket>
         <image>Printer.Ticket.Logo</image>
@@ -75,7 +75,7 @@
             <text align="left" length="15">${local.getScriptString("sale.date")}</text>
             <text>${ticket.printDate()}</text>
         </line>
-         #if ($ticket.getCustomer())
+        #if ($ticket.getCustomer())
         <line>
             <text align="left" length="15">${local.getScriptString("sale.customer")}</text>
             <text>${ticket.getCustomer().printName()}</text>
@@ -93,10 +93,10 @@
         #end
         <line></line>
         <line>
-            <text align ="left" length="17">${local.getScriptString("product.name")}</text>
-            <text align ="right" length="10">${local.getScriptString("product.price")}</text>
-            <text align ="right" length="5"></text>
-            <text align ="right" length="10">${local.getScriptString("product.value")}</text>
+            <text align="left" length="17">${local.getScriptString("product.name")}</text>
+            <text align="right" length="10">${local.getScriptString("product.price")}</text>
+            <text align="right" length="5"></text>
+            <text align="right" length="10">${local.getScriptString("product.value")}</text>
         </line>
         <line>
             <text>------------------------------------------</text>
@@ -104,30 +104,30 @@
         #foreach ($ticketline in $ticket.getLines())
         <line>
             #if ($ticketline.isProductCom())
-            <text align ="left" length="42">*${ticketline.printName()}</text>
+            <text align="left" length="42">*${ticketline.printName()}</text>
             #else
-            <text align ="left" length="42">${ticketline.printName()}</text>
+            <text align="left" length="42">${ticketline.printName()}</text>
             #end
         </line>
         #if ($ticketline.productAttSetInstId)
         <line>
-            <text align ="left" length="42">    ${ticketline.productAttSetInstDesc}</text>
+            <text align="left" length="42">${ticketline.productAttSetInstDesc}</text>
         </line>
         #end
         <line>
             #if ($ticketline.getDiscountRate() != 0.0)
-            <text align ="left" length="12">${local.getScriptString("sale.discount")}</text>
-            <text align ="center" length="5">${ticketline.printDiscountRate()}</text>
+            <text align="left" length="12">${local.getScriptString("sale.discount")}</text>
+            <text align="center" length="5">${ticketline.printDiscountRate()}</text>
             #else
             <text length="17"></text>
             #end
-            <text align ="right" length="10">${ticketline.printPrice()}</text>
-            <text align ="left" length="5">x${ticketline.printMultiply()}</text>
-            <text align ="right" length="10">${ticketline.printSubValue()}</text>
+            <text align="right" length="10">${ticketline.printPrice()}</text>
+            <text align="left" length="5">x${ticketline.printMultiply()}</text>
+            <text align="right" length="10">${ticketline.printSubValue()}</text>
         </line>
         #if ($ticketline.getDiscountMoney() != 0.0 || $ticketline.getDiscountRate() != 0.0)
         <line>
-            <text align ="right" length="42">-${ticketline.printDiscountTotalLine()}</text>
+            <text align="right" length="42">-${ticketline.printDiscountTotalLine()}</text>
         </line>
         #end
         #end
@@ -135,154 +135,154 @@
             <text>------------------------------------------</text>
         </line>
         <line>
-            <text  align ="left" length="22">${local.getScriptString("sale.items")}</text>
-            <text align ="center" length="10">${ticket.printArticlesCount()}</text>
+            <text align="left" length="22">${local.getScriptString("sale.items")}</text>
+            <text align="center" length="10">${ticket.printArticlesCount()}</text>
         </line>
 
         <line></line>
         <line>
-            <text align ="left" length="16">${local.getScriptString("sale.discounts")}</text>
-            <text align ="right" length="10">${ticket.printTotalNoDiscount()}</text>
-            <text align ="center" length="6">${ticket.printDiscountAvgRate()}</text>
-            <text align ="right" length="10">${ticket.printDiscountTotal()}</text>
+            <text align="left" length="16">${local.getScriptString("sale.discounts")}</text>
+            <text align="right" length="10">${ticket.printTotalNoDiscount()}</text>
+            <text align="center" length="6">${ticket.printDiscountAvgRate()}</text>
+            <text align="right" length="10">${ticket.printDiscountTotal()}</text>
         </line>
 
         <line></line>
-	#foreach ($taxinfo in $taxes)
-	#set( $taxline = $ticket.getTaxLine($taxinfo))
+        #foreach ($taxinfo in $taxes)
+        #set( $taxline = $ticket.getTaxLine($taxinfo))
         <line>
-            <text align ="left" length="18">${taxline.getTaxInfo()}</text>
-            <text align ="right" length="12">${taxline.printSubTotal()}</text>
-            <text align ="right" length="12">${taxline.printTax()}</text>
+            <text align="left" length="18">${taxline.getTaxInfo()}</text>
+            <text align="right" length="12">${taxline.printSubTotal()}</text>
+            <text align="right" length="12">${taxline.printTax()}</text>
         </line>
-	#end
-        <line> </line>
+        #end
+        <line></line>
         <line>
-            <text align ="left" length="22">${local.getScriptString("sale.subtotal")}</text>
-            <text align ="right" length="20">${ticket.printSubTotal()}</text>
+            <text align="left" length="22">${local.getScriptString("sale.subtotal")}</text>
+            <text align="right" length="20">${ticket.printSubTotal()}</text>
         </line>
         <line>
-            <text align ="left" length="22">${local.getScriptString("sale.taxes")}</text>
-            <text align ="right" length="20">${ticket.printTax()}</text>
+            <text align="left" length="22">${local.getScriptString("sale.taxes")}</text>
+            <text align="right" length="20">${ticket.printTax()}</text>
         </line>
         <line></line>
         <line size="1">
-            <text align ="left" length="22" bold="true">${local.getScriptString("sale.total")}</text>
-            <text align ="right" length="20" bold="true">${ticket.printTotal()}</text>
+            <text align="left" length="22" bold="true">${local.getScriptString("sale.total")}</text>
+            <text align="right" length="20" bold="true">${ticket.printTotal()}</text>
         </line>
         #foreach ($paymentline in $ticket.payments)
-         #if ($paymentline.name == "cash")
+        #if ($paymentline.name == "cash")
         <line></line>
         <line>
             <text bold="true">${local.getScriptString("paid.cash")}</text>
         </line>
         <line>
             <text align="left" length="22">${local.getScriptString("paid.cash.tendered")}</text>
-            <text align ="right" length="20">${paymentline.printPaid()}</text>
+            <text align="right" length="20">${paymentline.printPaid()}</text>
         </line>
         <line>
             <text align="left" length="22">${local.getScriptString("paid.cash.change")}</text>
-            <text align ="right" length="20">${paymentline.printChange()}</text>
+            <text align="right" length="20">${paymentline.printChange()}</text>
         </line>
-         #end
-         #if ($paymentline.name == "cashrefund")
+        #end
+        #if ($paymentline.name == "cashrefund")
         <line></line>
         <line>
             <text bold="true">${local.getScriptString("paid.cash.refund")}</text>
         </line>
         <line>
-            <text align ="right" length="42">${paymentline.printTotal()}</text>
+            <text align="right" length="42">${paymentline.printTotal()}</text>
         </line>
-         #end
-         #if ($paymentline.name == "magcard")
+        #end
+        #if ($paymentline.name == "magcard")
         <line></line>
         <line>
             <text bold="true">${local.getScriptString("paid.magcard")}</text>
         </line>
         <line>
-            <text align ="right" length="42">${paymentline.printTotal()}</text>
+            <text align="right" length="42">${paymentline.printTotal()}</text>
         </line>
         <line>
-            <text align ="left" length="22">${local.getScriptString("paid.magcard.number")}</text>
+            <text align="left" length="22">${local.getScriptString("paid.magcard.number")}</text>
             <text>${paymentline.printCardNumber()}</text>
         </line>
         <line>
-            <text align ="left" length="22">${local.getScriptString("paid.magcard.expirationdate")}</text>
+            <text align="left" length="22">${local.getScriptString("paid.magcard.expirationdate")}</text>
             <text>${paymentline.printExpirationDate()}</text>
         </line>
         <line>
-            <text align ="left" length="22">${local.getScriptString("paid.magcard.operation")}</text>
+            <text align="left" length="22">${local.getScriptString("paid.magcard.operation")}</text>
             <text>${paymentline.printTransactionID()}</text>
         </line>
         <line>
-            <text align ="left" length="22">${local.getScriptString("paid.magcard.authorization")}</text>
+            <text align="left" length="22">${local.getScriptString("paid.magcard.authorization")}</text>
             <text>${paymentline.printAuthorization()}</text>
         </line>
-         #end
-         #if ($paymentline.name == "magcardrefund")
+        #end
+        #if ($paymentline.name == "magcardrefund")
         <line></line>
         <line>
             <text bold="true">${local.getScriptString("paid.magcard.refund")}</text>
         </line>
         <line>
-            <text align ="right" length="42">${paymentline.printTotal()}</text>
+            <text align="right" length="42">${paymentline.printTotal()}</text>
         </line>
-         #end
-         #if ($paymentline.name == "cheque")
+        #end
+        #if ($paymentline.name == "cheque")
         <line></line>
         <line>
             <text bold="true">${local.getScriptString("paid.cheque")}</text>
         </line>
         <line>
-            <text align ="right" length="42">${paymentline.printTotal()}</text>
+            <text align="right" length="42">${paymentline.printTotal()}</text>
         </line>
-         #end
-         #if ($paymentline.name == "chequerefund")
+        #end
+        #if ($paymentline.name == "chequerefund")
         <line></line>
         <line>
             <text bold="true">${local.getScriptString("paid.cheque.refund")}</text>
         </line>
         <line>
-            <text align ="right" length="42">${paymentline.printTotal()}</text>
+            <text align="right" length="42">${paymentline.printTotal()}</text>
         </line>
-         #end
-         #if ($paymentline.name == "paperin")
+        #end
+        #if ($paymentline.name == "paperin")
         <line></line>
         <line>
             <text bold="true">${local.getScriptString("paid.note")}</text>
         </line>
         <line>
-            <text align ="right" length="42">${paymentline.printTotal()}</text>
+            <text align="right" length="42">${paymentline.printTotal()}</text>
         </line>
-         #end
-         #if ($paymentline.name == "paperout")
+        #end
+        #if ($paymentline.name == "paperout")
         <line></line>
         <line>
             <text bold="true">${local.getScriptString("paid.note.refund")}</text>
         </line>
         <line>
-            <text align ="right" length="42">${paymentline.printTotal()}</text>
+            <text align="right" length="42">${paymentline.printTotal()}</text>
         </line>
-         #end
-         #if ($paymentline.name == "free")
+        #end
+        #if ($paymentline.name == "free")
         <line></line>
         <line>
             <text bold="true">${local.getScriptString("paid.free")}</text>
         </line>
         <line>
-            <text align ="right" length="42">${paymentline.printTotal()}</text>
+            <text align="right" length="42">${paymentline.printTotal()}</text>
         </line>
-         #end
-         #if ($paymentline.name == "debt")
+        #end
+        #if ($paymentline.name == "debt")
         <line></line>
         <line>
             <text bold="true">${local.getScriptString("paid.debt")}</text>
         </line>
         <line>
-            <text align ="right" length="42">${paymentline.printTotal()}</text>
+            <text align="right" length="42">${paymentline.printTotal()}</text>
         </line>
-         #end
-         #end
+        #end
+        #end
         <line></line>
         <line>
             <text align="left" length="15">${local.getScriptString("label.cashier")}</text>
@@ -295,60 +295,68 @@
     </ticket>
 
     #foreach ($paymentline in $ticket.payments)
-     #if ($paymentline.name == "cash")
+    #if ($paymentline.name == "cash")
     <opendrawer/>
-     #end
-     #if ($paymentline.name == "cashrefund")
+    #end
+    #if ($paymentline.name == "cashrefund")
     <opendrawer/>
-     #end
+    #end
     #end
 
     #if (${ticket.ticketType} == 0)﻿
-       #set ($fiscaltickettype = "sale")
+    #set ($fiscaltickettype = "sale")
     #elseif (${ticket.ticketType} == 1)
-       #set ($fiscaltickettype = "refund")
+    #set ($fiscaltickettype = "refund")
     #end
 
     #if ($fiscaltickettype == "sale" || $fiscaltickettype == "refund")
     <fiscalreceipt type="${fiscaltickettype}" cashier="${ticket.printUser()}">
-      #foreach ($ticketline in $ticket.getLines())
-            #if (${ticketline.getTaxInfo().getRate()}==0.1)
-                    #set ($vatinfo ="2")
-            #elseif	(${ticketline.getTaxInfo().getRate()}==0.15)
-                    #set ($vatinfo ="3")
-            #elseif (${ticketline.getTaxInfo().getRate()}==0.2)
-                    #set ($vatinfo ="4")
-            #else
-                    #set ($vatinfo ="1")
-            #end
+        #foreach ($ticketline in $ticket.getLines())
+        #if (${ticketline.getTaxInfo().getRate()}==0.1)
+        #set ($vatinfo ="2")
+        #elseif (${ticketline.getTaxInfo().getRate()}==0.15)
+        #set ($vatinfo ="3")
+        #elseif (${ticketline.getTaxInfo().getRate()}==0.2)
+        #set ($vatinfo ="4")
+        #else
+        #set ($vatinfo ="1")
+        #end
 
-            #set ($newvalue = ${ticketline.getPrice()} * ${ticketline.getMultiply()} + ${ticketline.getTax()})
+        #set ($newvalue = ${ticketline.getPrice()} * ${ticketline.getMultiply()} + ${ticketline.getTax()})
 
-            #if ($ticketline.isProductCom())
+        #if ($ticketline.isProductCom())
         <line price="${newvalue}" units="${ticketline.getMultiply()}" tax="${vatinfo}">*${ticketline.printName()}</line>
-            #else
+        #else
         <line price="${newvalue}" units="${ticketline.getMultiply()}" tax="${vatinfo}">${ticketline.printName()}</line>
-            #end
-      #end
+        #end
+        #end
         <message>========================================</message>
-      #if ($fiscaltickettype == "sale")
+        #if ($fiscaltickettype == "sale")
         <message>${local.getScriptString("units.sale")} ${ticket.printArticlesCount()}</message>
-      #elseif ($fiscaltickettype == "refund")
+        #elseif ($fiscaltickettype == "refund")
         <message>${local.getScriptString("units.refund")} ${ticket.printArticlesCount()}</message>
-      #end
-      #foreach ($paymentline in $ticket.payments)
-            #if ($paymentline.name == "cash")
-        <total type="$paymentline.name" paid="${paymentline.getPaid()}">${local.getScriptString("ticketpayment.cash")} </total>
-            #elseif ($paymentline.name == "cashrefund")
-        <total type="$paymentline.name" paid="${paymentline.getTotal()}">${local.getScriptString("ticketpayment.cash")}</total>
-            #elseif ($paymentline.name == "debt")
-        <total type="$paymentline.name" paid="${paymentline.getPaid()}">${local.getScriptString("ticketpayment.debt")}</total>
-            #elseif ($paymentline.name == "magcard")
-        <total type="$paymentline.name" paid="${paymentline.getPaid()}">${local.getScriptString("ticketpayment.magcard")}</total>
-            #elseif ($paymentline.name == "magcardrefund")
-        <total type="$paymentline.name" paid="${paymentline.getTotal()}">${local.getScriptString("ticketpayment.magcardrefund")}</total>
-            #end
-      #end
+        #end
+        #foreach ($paymentline in $ticket.payments)
+        #if ($paymentline.name == "cash")
+        <total type="$paymentline.name" paid="${paymentline.getPaid()}">${local.getScriptString("ticketpayment.cash")}
+        </total>
+        #elseif ($paymentline.name == "cashrefund")
+        <total type="$paymentline.name" paid="${paymentline.getTotal()}">
+            ${local.getScriptString("ticketpayment.cash")}
+        </total>
+        #elseif ($paymentline.name == "debt")
+        <total type="$paymentline.name" paid="${paymentline.getPaid()}">${local.getScriptString("ticketpayment.debt")}
+        </total>
+        #elseif ($paymentline.name == "magcard")
+        <total type="$paymentline.name" paid="${paymentline.getPaid()}">
+            ${local.getScriptString("ticketpayment.magcard")}
+        </total>
+        #elseif ($paymentline.name == "magcardrefund")
+        <total type="$paymentline.name" paid="${paymentline.getTotal()}">
+            ${local.getScriptString("ticketpayment.magcardrefund")}
+        </total>
+        #end
+        #end
     </fiscalreceipt>
     #end
 

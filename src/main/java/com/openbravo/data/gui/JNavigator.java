@@ -30,14 +30,14 @@ import com.openbravo.data.user.StateListener;
 import java.util.Comparator;
 
 public class JNavigator extends javax.swing.JPanel implements BrowseListener, StateListener {
-    
+
     public final static int BUTTONS_ALL = 0;
     public final static int BUTTONS_NONAVIGATE = 1;
-    
+
     protected BrowsableEditableData m_bd;
     protected ComparatorCreator m_cc;
-    
-    protected FindInfo m_LastFindInfo;  
+
+    protected FindInfo m_LastFindInfo;
 
     private javax.swing.JButton jbtnFind = null;
     private javax.swing.JButton jbtnSort = null;
@@ -46,17 +46,19 @@ public class JNavigator extends javax.swing.JPanel implements BrowseListener, St
     private javax.swing.JButton jbtnNext = null;
     private javax.swing.JButton jbtnPrev = null;
     private javax.swing.JButton jbtnRefresh = null;
-    private javax.swing.JButton jbtnReload = null;    
-    
-    /** Creates new form JNavigator */
+    private javax.swing.JButton jbtnReload = null;
+
+    /**
+     * Creates new form JNavigator
+     */
     public JNavigator(BrowsableEditableData bd, Vectorer vec, ComparatorCreator cc, int iButtons) {
 
         initComponents();
-        
+
         if (iButtons == BUTTONS_ALL) {
             jbtnFirst = new javax.swing.JButton();
             jbtnFirst.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/2leftarrow.png")));
-            jbtnFirst.setMargin(new java.awt.Insets(2, 8, 2, 8));            
+            jbtnFirst.setMargin(new java.awt.Insets(2, 8, 2, 8));
             jbtnFirst.setFocusPainted(false);
             jbtnFirst.setFocusable(false);
             jbtnFirst.setRequestFocusEnabled(false);
@@ -144,7 +146,7 @@ public class JNavigator extends javax.swing.JPanel implements BrowseListener, St
 
             add(new javax.swing.JSeparator());
         }
-        
+
         if (vec == null) {
             m_LastFindInfo = null;
         } else {
@@ -160,9 +162,9 @@ public class JNavigator extends javax.swing.JPanel implements BrowseListener, St
                     jbtnFindActionPerformed(evt);
                 }
             });
-            add(jbtnFind);  
+            add(jbtnFind);
         }
-        
+
         m_cc = cc;
         if (m_cc != null) {
             jbtnSort = new javax.swing.JButton();
@@ -177,51 +179,82 @@ public class JNavigator extends javax.swing.JPanel implements BrowseListener, St
                 }
             });
             add(jbtnSort);
-        }       
-        
+        }
+
         m_bd = bd;
         bd.addBrowseListener(this);
         bd.addStateListener(this);
-    }   
-    
+    }
+
     public JNavigator(BrowsableEditableData bd) {
         this(bd, null, null, BUTTONS_ALL);
     }
+
     public JNavigator(BrowsableEditableData bd, Vectorer vec, ComparatorCreator cc) {
         this(bd, vec, cc, BUTTONS_ALL);
     }
 
     public void updateState(int iState) {
         if (iState == BrowsableEditableData.ST_INSERT || iState == BrowsableEditableData.ST_DELETE) {
-             // Insert o Delete
-            if (jbtnFirst != null) jbtnFirst.setEnabled(false);
-            if (jbtnPrev != null) jbtnPrev.setEnabled(false);
-            if (jbtnNext != null) jbtnNext.setEnabled(false);
-            if (jbtnLast != null) jbtnLast.setEnabled(false);
-            if (jbtnRefresh != null) jbtnRefresh.setEnabled(true);
+            // Insert o Delete
+            if (jbtnFirst != null) {
+                jbtnFirst.setEnabled(false);
+            }
+            if (jbtnPrev != null) {
+                jbtnPrev.setEnabled(false);
+            }
+            if (jbtnNext != null) {
+                jbtnNext.setEnabled(false);
+            }
+            if (jbtnLast != null) {
+                jbtnLast.setEnabled(false);
+            }
+            if (jbtnRefresh != null) {
+                jbtnRefresh.setEnabled(true);
+            }
         }
-    }  
-    
+    }
+
     public void updateIndex(int iIndex, int iCounter) {
-        
+
         if (iIndex >= 0 && iIndex < iCounter) {
             // Reposicionamiento
-            if (jbtnFirst != null) jbtnFirst.setEnabled(iIndex > 0);
-            if (jbtnPrev != null) jbtnPrev.setEnabled(iIndex > 0);
-            if (jbtnNext != null) jbtnNext.setEnabled(iIndex < iCounter - 1);
-            if (jbtnLast != null) jbtnLast.setEnabled(iIndex < iCounter - 1);
-            if (jbtnRefresh != null) jbtnRefresh.setEnabled(true);
+            if (jbtnFirst != null) {
+                jbtnFirst.setEnabled(iIndex > 0);
+            }
+            if (jbtnPrev != null) {
+                jbtnPrev.setEnabled(iIndex > 0);
+            }
+            if (jbtnNext != null) {
+                jbtnNext.setEnabled(iIndex < iCounter - 1);
+            }
+            if (jbtnLast != null) {
+                jbtnLast.setEnabled(iIndex < iCounter - 1);
+            }
+            if (jbtnRefresh != null) {
+                jbtnRefresh.setEnabled(true);
+            }
         } else {
             // EOF
-            if (jbtnFirst != null) jbtnFirst.setEnabled(false);
-            if (jbtnPrev != null) jbtnPrev.setEnabled(false);
-            if (jbtnNext != null) jbtnNext.setEnabled(false);
-            if (jbtnLast != null) jbtnLast.setEnabled(false);
-            if (jbtnRefresh != null) jbtnRefresh.setEnabled(false);
+            if (jbtnFirst != null) {
+                jbtnFirst.setEnabled(false);
+            }
+            if (jbtnPrev != null) {
+                jbtnPrev.setEnabled(false);
+            }
+            if (jbtnNext != null) {
+                jbtnNext.setEnabled(false);
+            }
+            if (jbtnLast != null) {
+                jbtnLast.setEnabled(false);
+            }
+            if (jbtnRefresh != null) {
+                jbtnRefresh.setEnabled(false);
+            }
         }
-    }   
-    
-    private void jbtnSortActionPerformed(java.awt.event.ActionEvent evt) {                                         
+    }
+
+    private void jbtnSortActionPerformed(java.awt.event.ActionEvent evt) {
         try {
             Comparator c = JSort.showMessage(this, m_cc);
             if (c != null) {
@@ -230,16 +263,16 @@ public class JNavigator extends javax.swing.JPanel implements BrowseListener, St
         } catch (BasicException eD) {
             MessageInf msg = new MessageInf(MessageInf.SGN_NOTICE, LocalRes.getIntString("message.nolistdata"), eD);
             msg.show(this);
-        }  
+        }
     }
-    
-    private void jbtnFindActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        
+
+    private void jbtnFindActionPerformed(java.awt.event.ActionEvent evt) {
+
         try {
             FindInfo newFindInfo = JFind.showMessage(this, m_LastFindInfo);
             if (newFindInfo != null) {
                 m_LastFindInfo = newFindInfo;
-                
+
                 int index = m_bd.findNext(newFindInfo);
                 if (index < 0) {
                     MessageInf msg = new MessageInf(MessageInf.SGN_NOTICE, LocalRes.getIntString("message.norecord"));
@@ -251,15 +284,15 @@ public class JNavigator extends javax.swing.JPanel implements BrowseListener, St
         } catch (BasicException eD) {
             MessageInf msg = new MessageInf(MessageInf.SGN_NOTICE, LocalRes.getIntString("message.nolistdata"), eD);
             msg.show(this);
-        }           
-    }                                        
+        }
+    }
 
-    private void jbtnRefreshActionPerformed(java.awt.event.ActionEvent evt) {                                            
-       
-        m_bd.actionReloadCurrent(this);       
-    }                                           
+    private void jbtnRefreshActionPerformed(java.awt.event.ActionEvent evt) {
 
-    private void jbtnReloadActionPerformed(java.awt.event.ActionEvent evt) {                                           
+        m_bd.actionReloadCurrent(this);
+    }
+
+    private void jbtnReloadActionPerformed(java.awt.event.ActionEvent evt) {
 
         try {
             m_bd.actionLoad();
@@ -267,9 +300,9 @@ public class JNavigator extends javax.swing.JPanel implements BrowseListener, St
             MessageInf msg = new MessageInf(MessageInf.SGN_NOTICE, LocalRes.getIntString("message.noreload"), eD);
             msg.show(this);
         }
-    }                                          
+    }
 
-    private void jbtnLastActionPerformed(java.awt.event.ActionEvent evt) {                                         
+    private void jbtnLastActionPerformed(java.awt.event.ActionEvent evt) {
 
         try {
             m_bd.moveLast();
@@ -277,26 +310,26 @@ public class JNavigator extends javax.swing.JPanel implements BrowseListener, St
             MessageInf msg = new MessageInf(MessageInf.SGN_NOTICE, LocalRes.getIntString("message.nomove"), eD);
             msg.show(this);
         }
-    }                                        
+    }
 
-    private void jbtnFirstActionPerformed(java.awt.event.ActionEvent evt) {                                          
+    private void jbtnFirstActionPerformed(java.awt.event.ActionEvent evt) {
 
-        try{
+        try {
             m_bd.moveFirst();
         } catch (BasicException eD) {
             MessageInf msg = new MessageInf(MessageInf.SGN_NOTICE, LocalRes.getIntString("message.nomove"), eD);
             msg.show(this);
         }
-    }                                         
+    }
 
-    private void jbtnPrevActionPerformed(java.awt.event.ActionEvent evt) {                                         
+    private void jbtnPrevActionPerformed(java.awt.event.ActionEvent evt) {
         try {
             m_bd.movePrev();
         } catch (BasicException eD) {
             MessageInf msg = new MessageInf(MessageInf.SGN_NOTICE, LocalRes.getIntString("message.nomove"), eD);
             msg.show(this);
-        }       
-    }                                        
+        }
+    }
 
     private void jbtnNextActionPerformed(java.awt.event.ActionEvent evt) {
         try {
@@ -304,15 +337,15 @@ public class JNavigator extends javax.swing.JPanel implements BrowseListener, St
         } catch (BasicException eD) {
             MessageInf msg = new MessageInf(MessageInf.SGN_NOTICE, LocalRes.getIntString("message.nomove"), eD);
             msg.show(this);
-        }     
-    }                                        
-       
+        }
+    }
+
     // <editor-fold defaultstate="collapsed" desc=" Generated Code ">//GEN-BEGIN:initComponents
     private void initComponents() {
 
     }// </editor-fold>//GEN-END:initComponents
-   
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
-    
+
 }

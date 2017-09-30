@@ -21,10 +21,11 @@ package com.openbravo.pos.payment;
 
 import com.openbravo.pos.payment.magcard.MagCardReader;
 import com.openbravo.pos.forms.AppLocal;
+
 import javax.swing.*;
 
 public class PaymentPanelMagCard extends JPanel implements PaymentPanel {
-    
+
     private JPaymentNotifier m_notifier;
     private MagCardReader m_cardreader;
     private String track1 = null;
@@ -32,67 +33,80 @@ public class PaymentPanelMagCard extends JPanel implements PaymentPanel {
     private String track3 = null;
     private String m_sTransactionID;
     private double m_dTotal;
-    
-    /** Creates new form JMagCardReader */
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private JLabel jLabel1;
+    private JLabel jLabel6;
+    private JLabel jLabel7;
+    private JLabel jLabel8;
+    private JPanel jPanel1;
+    private JPanel jPanel2;
+    private JButton jReset;
+    private JLabel m_jCardNumber;
+    private JLabel m_jExpirationDate;
+    private JLabel m_jHolderName;
+    private JTextArea m_jKeyFactory;
+    /**
+     * Creates new form JMagCardReader
+     */
     // public PaymentPanelMagCard(String sReader, JPaymentNotifier notifier) {
     public PaymentPanelMagCard(MagCardReader cardreader, JPaymentNotifier notifier) {
-        
+
         m_notifier = notifier;
         m_cardreader = cardreader;
 
         initComponents();
-        
+
         if (m_cardreader != null) {
             // Se van a poder efectuar pagos con tarjeta
-            m_jKeyFactory.addKeyListener(new KeyBarsListener());   
+            m_jKeyFactory.addKeyListener(new KeyBarsListener());
             jReset.setEnabled(true);
         } else {
             jReset.setEnabled(false);
         }
     }
-    
-    public JComponent getComponent(){
+
+    public JComponent getComponent() {
         return this;
     }
-    
+
     public void activate(String sTransaction, double dTotal) {
-        
+
         m_sTransactionID = sTransaction;
         m_dTotal = dTotal;
-        
+
         resetState();
-        
-        m_jKeyFactory.setText(null);       
+
+        m_jKeyFactory.setText(null);
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 m_jKeyFactory.requestFocus();
             }
         });
     }
-    
+
     private void resetState() {
-        
-        m_notifier.setStatus(false, false);  
-              
+
+        m_notifier.setStatus(false, false);
+
         m_jHolderName.setText(null);
         m_jCardNumber.setText(null);
         m_jExpirationDate.setText(null);
         track1 = null;
         track2 = null;
         track3 = null;
-        
+
         if (m_cardreader != null) {
             // Se van a poder efectuar pagos con tarjeta
             m_cardreader.getMagCard().reset();
         }
     }
-    
+
     public PaymentInfoMagcard getPaymentInfoMagcard() {
 
         if (m_dTotal > 0.0) {
             return new PaymentInfoMagcard(
                     m_jHolderName.getText(),
-                    m_jCardNumber.getText(), 
+                    m_jCardNumber.getText(),
                     m_jExpirationDate.getText(),
                     track1,
                     track2,
@@ -102,7 +116,7 @@ public class PaymentPanelMagCard extends JPanel implements PaymentPanel {
         } else {
             return new PaymentInfoMagcardRefund(
                     m_jHolderName.getText(),
-                    m_jCardNumber.getText(), 
+                    m_jCardNumber.getText(),
                     m_jExpirationDate.getText(),
                     track1,
                     track2,
@@ -110,10 +124,10 @@ public class PaymentPanelMagCard extends JPanel implements PaymentPanel {
                     m_sTransactionID,
                     m_dTotal);
         }
-    } 
-    
+    }
+
     private void stateTransition() {
-        
+
         if (m_cardreader.getMagCard().isComplete()) {
             m_jHolderName.setText(m_cardreader.getMagCard().getHolderName());
             m_jCardNumber.setText(m_cardreader.getMagCard().getCardNumber());
@@ -121,35 +135,20 @@ public class PaymentPanelMagCard extends JPanel implements PaymentPanel {
             track1 = m_cardreader.getMagCard().getTrack1();
             track2 = m_cardreader.getMagCard().getTrack2();
             track3 = m_cardreader.getMagCard().getTrack3();
-            m_notifier.setStatus(true, true);  
+            m_notifier.setStatus(true, true);
         } else {
             m_jHolderName.setText(null);
             m_jCardNumber.setText(null);
-            m_jExpirationDate.setText(null); 
+            m_jExpirationDate.setText(null);
             track1 = null;
             track3 = null;
             track3 = null;
-            m_notifier.setStatus(false, false);  
-        }      
-    }    
-    
-    private class KeyBarsListener extends java.awt.event.KeyAdapter {
-        public void keyPressed(java.awt.event.KeyEvent evt) {
-            m_cardreader.keyPressed(evt);
-            stateTransition();
+            m_notifier.setStatus(false, false);
         }
-        public void keyReleased(java.awt.event.KeyEvent evt) {
-            m_cardreader.keyReleased(evt);
-            stateTransition();
-        }
-        public void keyTyped(java.awt.event.KeyEvent evt){
-            m_jKeyFactory.setText(null);
-            m_cardreader.keyTyped(evt);
-            stateTransition(); // e.getKeyChar()
-        }
-    }   
-    
-    /** This method is called from within the constructor to
+    }
+
+    /**
+     * This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
      * always regenerated by the Form Editor.
@@ -231,22 +230,26 @@ public class PaymentPanelMagCard extends JPanel implements PaymentPanel {
     private void jResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jResetActionPerformed
 
         resetState();
-        
+
     }//GEN-LAST:event_jResetActionPerformed
-    
-    
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private JLabel jLabel1;
-    private JLabel jLabel6;
-    private JLabel jLabel7;
-    private JLabel jLabel8;
-    private JPanel jPanel1;
-    private JPanel jPanel2;
-    private JButton jReset;
-    private JLabel m_jCardNumber;
-    private JLabel m_jExpirationDate;
-    private JLabel m_jHolderName;
-    private JTextArea m_jKeyFactory;
+
+    private class KeyBarsListener extends java.awt.event.KeyAdapter {
+        public void keyPressed(java.awt.event.KeyEvent evt) {
+            m_cardreader.keyPressed(evt);
+            stateTransition();
+        }
+
+        public void keyReleased(java.awt.event.KeyEvent evt) {
+            m_cardreader.keyReleased(evt);
+            stateTransition();
+        }
+
+        public void keyTyped(java.awt.event.KeyEvent evt) {
+            m_jKeyFactory.setText(null);
+            m_cardreader.keyTyped(evt);
+            stateTransition(); // e.getKeyChar()
+        }
+    }
     // End of variables declaration//GEN-END:variables
-    
+
 }

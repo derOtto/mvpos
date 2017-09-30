@@ -20,15 +20,16 @@
 package com.openbravo.data.loader;
 
 /**
- *
  * @author adrianromero
  */
 public interface SessionDB {
 
     public String TRUE();
+
     public String FALSE();
 
     public String INTEGER_NULL();
+
     public String CHAR_NULL();
 
     public String getName();

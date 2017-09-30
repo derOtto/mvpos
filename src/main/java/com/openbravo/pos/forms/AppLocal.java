@@ -22,7 +22,6 @@ package com.openbravo.pos.forms;
 import com.openbravo.beans.LocaleResources;
 
 /**
- *
  * @author adrianromero
  * @author Andrey Svininykh <svininykh@gmail.com>
  * @version NORD POS 3
@@ -49,7 +48,7 @@ public class AppLocal {
         return m_resources.getString(sKey);
     }
 
-    public static String getIntString(String sKey, Object ... sValues) {
+    public static String getIntString(String sKey, Object... sValues) {
         return m_resources.getString(sKey, sValues);
     }
 

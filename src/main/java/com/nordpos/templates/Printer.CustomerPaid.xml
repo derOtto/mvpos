@@ -18,9 +18,9 @@
     You should have received a copy of the GNU General Public License along with
     NORD POS. If not, see <http://www.gnu.org/licenses/>.
 -->
-<output  xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
-   xsi:noNamespaceSchemaLocation="Schema.Printer.xsd">
-       
+<output xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+        xsi:noNamespaceSchemaLocation="Schema.Printer.xsd">
+
     <display>
         <line>
             <text align="left" length="10">${local.getScriptString("paid.total")}</text>
@@ -36,105 +36,105 @@
         <line>
             <text align="left" length="15">${local.getScriptString("paid.receipt")}</text>
             <text>${ticket.printId()}</text>
-        </line>    
+        </line>
         <line>
             <text align="left" length="15">${local.getScriptString("paid.date")}</text>
             <text>${ticket.printDate()}</text>
-        </line>  
-         #if ($ticket.getCustomer())
+        </line>
+        #if ($ticket.getCustomer())
         <line>
             <text align="left" length="15">${local.getScriptString("paid.customer")}</text>
             <text>${ticket.getCustomer().printName()}</text>
-        </line>      
+        </line>
         <line>
             <text align="left" length="15"></text>
             <text>${ticket.getCustomer().printTaxid()}</text>
-        </line>  
-        #end       
-        <line></line> 
+        </line>
+        #end
+        <line></line>
         <line size="1">
-            <text align ="left" length="16" bold="true">${local.getScriptString("paid.total")}</text>
-            <text align ="right" length="20" bold="true">${ticket.printTotalPaid()}</text>
-        </line>    
+            <text align="left" length="16" bold="true">${local.getScriptString("paid.total")}</text>
+            <text align="right" length="20" bold="true">${ticket.printTotalPaid()}</text>
+        </line>
         <line>
-            <text align ="left" length="16" bold="true">${local.getScriptString("paid.pending")}</text>
-            <text align ="right" length="20" bold="true">${customer.printCurDebt()}</text>
-        </line>          
-        #foreach ($paymentline in $ticket.payments)      
+            <text align="left" length="16" bold="true">${local.getScriptString("paid.pending")}</text>
+            <text align="right" length="20" bold="true">${customer.printCurDebt()}</text>
+        </line>
+        #foreach ($paymentline in $ticket.payments)
         #if ($paymentline.name == "cash")
-        <line></line>     
+        <line></line>
         <line>
             <text bold="true">${local.getScriptString("paid.cash")}</text>
-        </line>  
+        </line>
         <line>
             <text align="left" length="22">${local.getScriptString("paid.cash.tendered")}</text>
-            <text align ="right" length="20">${paymentline.printPaid()}</text>
-        </line>  
+            <text align="right" length="20">${paymentline.printPaid()}</text>
+        </line>
         <line>
             <text align="left" length="22">${local.getScriptString("paid.cash.change")}</text>
-            <text align ="right" length="20">${paymentline.printChange()}</text>
-        </line>   
+            <text align="right" length="20">${paymentline.printChange()}</text>
+        </line>
         #end
         #if ($paymentline.name == "magcard")
-        <line></line>  
+        <line></line>
         <line>
             <text bold="true">${local.getScriptString("paid.magcard")}</text>
-        </line>   
+        </line>
         <line>
-            <text align ="right" length="42">${paymentline.printTotal()}</text>
-        </line>    
+            <text align="right" length="42">${paymentline.printTotal()}</text>
+        </line>
         <line>
-            <text align ="left" length="22">${local.getScriptString("paid.magcard.number")}</text>
+            <text align="left" length="22">${local.getScriptString("paid.magcard.number")}</text>
             <text>${paymentline.printCardNumber()}</text>
         </line>
         <line>
-            <text align ="left" length="22">${local.getScriptString("paid.magcard.expirationdate")}</text>
+            <text align="left" length="22">${local.getScriptString("paid.magcard.expirationdate")}</text>
             <text>${paymentline.printExpirationDate()}</text>
         </line>
         <line>
-            <text align ="left" length="22">${local.getScriptString("paid.magcard.operation")}</text>
+            <text align="left" length="22">${local.getScriptString("paid.magcard.operation")}</text>
             <text>${paymentline.printTransactionID()}</text>
         </line>
         <line>
-            <text align ="left" length="22">${local.getScriptString("paid.magcard.authorization")}</text>
+            <text align="left" length="22">${local.getScriptString("paid.magcard.authorization")}</text>
             <text>${paymentline.printAuthorization()}</text>
         </line>
-        #end  
+        #end
         #if ($paymentline.name == "cheque")
-        <line></line>     
+        <line></line>
         <line>
             <text bold="true">${local.getScriptString("paid.cheque")}</text>
-        </line>    
+        </line>
         <line>
-            <text align ="right" length="42">${paymentline.printTotal()}</text>
-        </line>    
+            <text align="right" length="42">${paymentline.printTotal()}</text>
+        </line>
         #end
-         #if ($paymentline.name == "paperin")
-        <line></line>     
+        #if ($paymentline.name == "paperin")
+        <line></line>
         <line>
             <text bold="true">${local.getScriptString("paid.note")}</text>
-        </line>    
+        </line>
         <line>
-            <text align ="right" length="42">${paymentline.printTotal()}</text>
-        </line>    
-         #end
-        #end 
-        <line></line>            
+            <text align="right" length="42">${paymentline.printTotal()}</text>
+        </line>
+        #end
+        #end
+        <line></line>
         <line>
             <text align="left" length="15">${local.getScriptString("label.cashier")}</text>
             <text>${ticket.printUser()}</text>
         </line>
-        <line></line>            
+        <line></line>
         <line>
             <text align="center" length="42">${local.getScriptString("label.thankyouvisit")}</text>
-        </line>    
+        </line>
     </ticket>
-    #foreach ($paymentline in $ticket.payments)      
+    #foreach ($paymentline in $ticket.payments)
     #if ($paymentline.name == "cash")
     <opendrawer/>
     #end
     #if ($paymentline.name == "cashrefund")
     <opendrawer/>
-    #end  
+    #end
     #end
 </output>

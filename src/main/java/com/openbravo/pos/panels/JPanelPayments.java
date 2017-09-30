@@ -26,38 +26,39 @@ import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.forms.DataLogicSales;
 
 /**
- *
  * @author adrianromero
  */
 public class JPanelPayments extends JPanelTable {
-    
-    private PaymentsEditor jeditor;    
+
+    private PaymentsEditor jeditor;
     private DataLogicSales m_dlSales = null;
-    
-    /** Creates a new instance of JPanelPayments */
+
+    /**
+     * Creates a new instance of JPanelPayments
+     */
     public JPanelPayments() {
     }
-    
+
     protected void init() {
-        m_dlSales = (DataLogicSales) app.getBean("com.openbravo.pos.forms.DataLogicSales");         
-        jeditor = new PaymentsEditor(app, dirty);    
+        m_dlSales = (DataLogicSales) app.getBean("com.openbravo.pos.forms.DataLogicSales");
+        jeditor = new PaymentsEditor(app, dirty);
     }
-    
+
     public ListProvider getListProvider() {
         return null;
     }
-    
+
     public SaveProvider getSaveProvider() {
-        return  new SaveProvider(null
+        return new SaveProvider(null
                 , m_dlSales.getPaymentMovementInsert()
                 , m_dlSales.getPaymentMovementDelete());
     }
-    
+
     public EditorRecord getEditor() {
         return jeditor;
     }
-    
+
     public String getTitle() {
         return AppLocal.getIntString("Menu.Payments");
-    }    
+    }
 }

@@ -51,6 +51,7 @@ import com.openbravo.pos.ticket.TicketInfo;
 import com.openbravo.pos.ticket.TicketLineInfo;
 import com.openbravo.pos.util.JRPrinterAWT;
 import com.openbravo.pos.util.ReportUtils;
+
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Component;
@@ -68,6 +69,7 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -78,7 +80,6 @@ import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
 
 /**
- *
  * @author adrianromero
  * @author Andrey Svininykh <svininykh@gmail.com>
  * @author <dmg244@gmail.com>
@@ -90,7 +91,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
     private static final String PRINT_TICKET = "/com/nordpos/templates/Printer.Ticket.xml";
     private static final String PRINT_TICKET_2 = "/com/nordpos/templates/Printer.Ticket2.xml";
     private static final String PRINT_TICKET_LINE = "/com/nordpos/templates/Printer.TicketLine.xml";
-    
+
     // Variable numerica
     private final static int NUMBERZERO = 0;
     private final static int NUMBERVALID = 1;
@@ -102,11 +103,18 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
     private final static int NUMBER_PORZERODEC = 5;
     private final static int NUMBER_PORINT = 6;
     private final static int NUMBER_PORDEC = 7;
+    private static final Logger logger = Logger.getLogger(JPanelTicket.class.getName());
     protected JTicketLines m_ticketlines;
-
-    private TicketParser m_TTP;
     protected TicketInfo m_oTicket;
     protected Object m_oTicketExt;
+    protected JPanelButtons m_jbtnconfig;
+    protected PropertiesConfig panelconfig;
+    protected AppView m_App;
+    protected DataLogicSystem dlSystem;
+    protected DataLogicSales dlSales;
+    protected DataLogicCustomers dlCustomers;
+    protected JPanel catcontainer;
+    private TicketParser m_TTP;
     // Estas tres variables forman el estado...
     private int m_iNumberStatus;
     private int m_iNumberStatusInput;
@@ -115,36 +123,77 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
     private JTicketsBag m_ticketsbag;
     private SentenceList senttax;
     private ListKeyed taxcollection;
-
     private SentenceList senttaxcategories;
-
     private ComboBoxValModel taxcategoriesmodel;
     private TaxesLogic taxeslogic;
-
-    protected JPanelButtons m_jbtnconfig;
-    protected PropertiesConfig panelconfig;
-    protected AppView m_App;
-    protected DataLogicSystem dlSystem;
-    protected DataLogicSales dlSales;
-    protected DataLogicCustomers dlCustomers;
     private JPaymentSelect paymentdialogreceipt;
     private JPaymentSelect paymentdialogrefund;
-
     private Double m_dDiscountRate1;
     private Double m_dDiscountRate2;
     private Double m_dDiscountRate3;
-
     private Boolean bTypeDiscountRate;
-
     private Double m_dDiscountMoney1;
     private Double m_dDiscountMoney2;
     private Double m_dDiscountMoney3;
-
     private Boolean bTypeDiscountMoney;
-
-    private static final Logger logger = Logger.getLogger(JPanelTicket.class.getName());
-
     private boolean isMultiplyControl;
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCustomer;
+    private javax.swing.JButton btnSplit;
+    private javax.swing.Box.Filler filler2;
+    private javax.swing.JButton jEditAttributes;
+    private JPanel jPanel1;
+    private JPanel jPanel2;
+    private JPanel jPanel4;
+    private JPanel jPanel5;
+    private JPanel jPanel9;
+    private JPanel m_jButtons;
+    private JPanel m_jButtonsExt;
+    private JPanel m_jContEntries;
+    private javax.swing.JButton m_jDelete;
+    private javax.swing.JButton m_jDisableDiscountMoney;
+    private javax.swing.JButton m_jDisableDiscountRate;
+    private javax.swing.JButton m_jDiscount1;
+    private javax.swing.JButton m_jDiscount2;
+    private javax.swing.JButton m_jDiscount3;
+    private javax.swing.JButton m_jDiscount4;
+    private javax.swing.JButton m_jDiscount5;
+    private javax.swing.JButton m_jDiscount6;
+    private JPanel m_jDiscountMoneyPanel;
+    private JPanel m_jDiscountRatePanel;
+    private javax.swing.JButton m_jDown;
+    private javax.swing.JButton m_jEditLine;
+    private javax.swing.JButton m_jEnter;
+    private com.openbravo.data.gui.JImageViewer m_jImage;
+    private javax.swing.JTextField m_jKeyFactory;
+    private javax.swing.JButton m_jKeypadDiscountMoney;
+    private javax.swing.JButton m_jKeypadDiscountRate;
+    private javax.swing.JLabel m_jLblTotalEuros1;
+    private javax.swing.JLabel m_jLblTotalEuros2;
+    private javax.swing.JLabel m_jLblTotalEuros3;
+    private javax.swing.JButton m_jList;
+    private com.openbravo.beans.JNumberKeys m_jNumberKeys;
+    private JPanel m_jOptions;
+    private JPanel m_jPanContainer;
+    private JPanel m_jPanEntries;
+    private JPanel m_jPanTicket;
+    private JPanel m_jPanTotals;
+    private JPanel m_jPanelBag;
+    private JPanel m_jPanelCentral;
+    private JPanel m_jPanelImageViewer;
+    private JPanel m_jPanelScripts;
+    private javax.swing.JLabel m_jPor;
+    private javax.swing.JLabel m_jPrice;
+    private javax.swing.JLabel m_jSubtotalEuros;
+    private javax.swing.JComboBox m_jTax;
+    private javax.swing.JLabel m_jTaxesEuros;
+    private javax.swing.JLabel m_jTicketId;
+    private javax.swing.JLabel m_jTotalEuros;
+    private javax.swing.JButton m_jUp;
+    private javax.swing.JToggleButton m_jaddtax;
+    private javax.swing.JButton m_jbtnDiscountMoney;
+    private javax.swing.JButton m_jbtnDiscountRate;
+    private javax.swing.JButton m_jbtnScale;
 
     public JPanelTicket() {
         initComponents();
@@ -419,9 +468,9 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
     }
 
     private void printPartialTotals() {
-            m_jSubtotalEuros.setText(m_oTicket.printSubTotal());
-            m_jTaxesEuros.setText(m_oTicket.printTax());
-            m_jTotalEuros.setText(m_oTicket.printTotal());
+        m_jSubtotalEuros.setText(m_oTicket.printSubTotal());
+        m_jTaxesEuros.setText(m_oTicket.printTax());
+        m_jTotalEuros.setText(m_oTicket.printTotal());
     }
 
     private void paintTicketLine(int index, TicketLineInfo oLine) {
@@ -1016,7 +1065,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                     if (customer != null) {
                         dlSales.loadCustomerExt(ticket.getCustomer().getId());
                     }
-                    
+
                     if (paymentdialog.showDialog(ticket.getTotal(), customer)) {
 
                         // assign the payments selected and calculate taxes.
@@ -1037,7 +1086,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
                                 // Process close ticket
                                 try {
-                                    // Save the receipt and assign a receipt number                                    
+                                    // Save the receipt and assign a receipt number
                                     dlSales.saveTicket(ticket, m_App.getInventoryLocation());
 
                                     // Execute ticket.close event
@@ -1276,111 +1325,6 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         }
     }
 
-    public static class ScriptArg {
-
-        private final String key;
-        private final Object value;
-
-        public ScriptArg(String key, Object value) {
-            this.key = key;
-            this.value = value;
-        }
-
-        public String getKey() {
-            return key;
-        }
-
-        public Object getValue() {
-            return value;
-        }
-    }
-
-    public class ScriptObject {
-
-        private final TicketInfo ticket;
-        private final Object ticketext;
-        private int selectedindex;
-
-        private ScriptObject(TicketInfo ticket, Object ticketext) {
-            this.ticket = ticket;
-            this.ticketext = ticketext;
-        }
-
-        public double getInputValue() {
-            if (m_iNumberStatusInput == NUMBERVALID && m_iNumberStatusPor == NUMBERZERO) {
-                return JPanelTicket.this.getInputValue();
-            } else {
-                return 0.0;
-            }
-        }
-
-        public int getSelectedIndex() {
-            return selectedindex;
-        }
-
-        public void setSelectedIndex(int i) {
-            selectedindex = i;
-        }
-
-        public void printReport(String resourcefile) {
-            JPanelTicket.this.printReport(resourcefile, ticket, ticketext);
-        }
-
-        public void printTicket(String sresourcename) throws TicketPrinterException {
-            JPanelTicket.this.printTicket(sresourcename, ticket, ticketext);
-        }
-
-        public Object evalScript(String code, ScriptArg... args) throws ScriptException {
-
-            ScriptEngine script = ScriptFactory.getScriptEngine(ScriptFactory.BEANSHELL);
-
-            script.put("hostname", m_App.getProperties().getProperty("machine.hostname"));
-            script.put("ticket", ticket);
-            script.put("place", ticketext);
-            script.put("taxes", taxcollection);
-            script.put("taxeslogic", taxeslogic);
-            script.put("user", m_App.getAppUserView().getUser());
-            script.put("sales", this);
-            script.put("logicsales", dlSales);
-            script.put("logicsystem", dlSystem);
-
-            // more arguments
-            for (ScriptArg arg : args) {
-                script.put(arg.getKey(), arg.getValue());
-            }
-
-            return script.eval(code);
-        }
-    }
-
-    private class CatalogSelectionListener implements ListSelectionListener {
-
-        @Override
-        public void valueChanged(ListSelectionEvent e) {
-            if (!e.getValueIsAdjusting()) {
-                int i = m_ticketlines.getSelectedIndex();
-
-                if (i >= 0) {
-                    try {
-                        String sProduct = m_oTicket.getLine(i).getProductID();
-                        if (sProduct != null) {
-                            ProductInfoExt prod = JPanelTicket.this.dlSales.getProductInfo(sProduct);
-                            if (prod.getImage() != null) {
-                                m_jImage.setImage(prod.getImage());
-                            } else {
-                                m_jImage.setImage(null);
-                            }
-                        }
-                    } catch (BasicException ex) {
-                        Logger.getLogger(JPanelTicket.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                } else {
-                    m_jImage.setImage(null);
-                }
-            }
-        }
-    }
-
     private void performDiscountRate(Double discountrate) {
         int index = m_ticketlines.getSelectedIndex();
         double total = m_oTicket.getTotal();
@@ -1606,40 +1550,40 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         javax.swing.GroupLayout m_jPanTotalsLayout = new javax.swing.GroupLayout(m_jPanTotals);
         m_jPanTotals.setLayout(m_jPanTotalsLayout);
         m_jPanTotalsLayout.setHorizontalGroup(
-            m_jPanTotalsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, m_jPanTotalsLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(m_jLblTotalEuros2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(m_jPanTotalsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(m_jTaxesEuros, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(filler2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(m_jPanTotalsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(m_jLblTotalEuros1, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(m_jLblTotalEuros3, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(m_jPanTotalsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(m_jSubtotalEuros, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(m_jTotalEuros, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, 0))
+                m_jPanTotalsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                  .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, m_jPanTotalsLayout.createSequentialGroup()
+                                                                                                          .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                                                                          .addComponent(m_jLblTotalEuros2)
+                                                                                                          .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                                                                          .addGroup(m_jPanTotalsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                                                                                      .addComponent(m_jTaxesEuros, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                                                                      .addComponent(filler2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                                                                                          .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                                                                          .addGroup(m_jPanTotalsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                                                                                      .addComponent(m_jLblTotalEuros1, javax.swing.GroupLayout.Alignment.TRAILING)
+                                                                                                                                      .addComponent(m_jLblTotalEuros3, javax.swing.GroupLayout.Alignment.TRAILING))
+                                                                                                          .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                                                                          .addGroup(m_jPanTotalsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                                                                                      .addComponent(m_jSubtotalEuros, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                                                                      .addComponent(m_jTotalEuros, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                                                          .addGap(0, 0, 0))
         );
         m_jPanTotalsLayout.setVerticalGroup(
-            m_jPanTotalsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(m_jPanTotalsLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(m_jPanTotalsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(m_jPanTotalsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                        .addComponent(m_jLblTotalEuros3)
-                        .addComponent(m_jSubtotalEuros, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(m_jTaxesEuros, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(m_jLblTotalEuros2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(m_jPanTotalsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(filler2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(m_jLblTotalEuros1)
-                    .addComponent(m_jTotalEuros, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                m_jPanTotalsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                  .addGroup(m_jPanTotalsLayout.createSequentialGroup()
+                                                              .addContainerGap()
+                                                              .addGroup(m_jPanTotalsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                                          .addGroup(m_jPanTotalsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                                                                                                                      .addComponent(m_jLblTotalEuros3)
+                                                                                                                      .addComponent(m_jSubtotalEuros, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                                          .addComponent(m_jTaxesEuros, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                          .addComponent(m_jLblTotalEuros2))
+                                                              .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                              .addGroup(m_jPanTotalsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                                                                                          .addComponent(filler2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                          .addComponent(m_jLblTotalEuros1)
+                                                                                          .addComponent(m_jTotalEuros, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                              .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel4.add(m_jPanTotals, BorderLayout.LINE_END);
@@ -1839,29 +1783,29 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         javax.swing.GroupLayout m_jDiscountRatePanelLayout = new javax.swing.GroupLayout(m_jDiscountRatePanel);
         m_jDiscountRatePanel.setLayout(m_jDiscountRatePanelLayout);
         m_jDiscountRatePanelLayout.setHorizontalGroup(
-            m_jDiscountRatePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(m_jbtnDiscountRate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(m_jDisableDiscountRate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(m_jDiscount1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(m_jDiscount2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(m_jDiscount3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(m_jKeypadDiscountRate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                m_jDiscountRatePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                          .addComponent(m_jbtnDiscountRate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                          .addComponent(m_jDisableDiscountRate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                          .addComponent(m_jDiscount1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                          .addComponent(m_jDiscount2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                          .addComponent(m_jDiscount3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                          .addComponent(m_jKeypadDiscountRate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         m_jDiscountRatePanelLayout.setVerticalGroup(
-            m_jDiscountRatePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(m_jDiscountRatePanelLayout.createSequentialGroup()
-                .addGap(2, 2, 2)
-                .addComponent(m_jbtnDiscountRate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(4, 4, 4)
-                .addComponent(m_jDisableDiscountRate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(4, 4, 4)
-                .addComponent(m_jDiscount1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(4, 4, 4)
-                .addComponent(m_jDiscount2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(4, 4, 4)
-                .addComponent(m_jDiscount3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(4, 4, 4)
-                .addComponent(m_jKeypadDiscountRate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                m_jDiscountRatePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                          .addGroup(m_jDiscountRatePanelLayout.createSequentialGroup()
+                                                                              .addGap(2, 2, 2)
+                                                                              .addComponent(m_jbtnDiscountRate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                              .addGap(4, 4, 4)
+                                                                              .addComponent(m_jDisableDiscountRate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                              .addGap(4, 4, 4)
+                                                                              .addComponent(m_jDiscount1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                              .addGap(4, 4, 4)
+                                                                              .addComponent(m_jDiscount2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                              .addGap(4, 4, 4)
+                                                                              .addComponent(m_jDiscount3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                              .addGap(4, 4, 4)
+                                                                              .addComponent(m_jKeypadDiscountRate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jPanel5.add(m_jDiscountRatePanel);
@@ -1946,33 +1890,33 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         javax.swing.GroupLayout m_jDiscountMoneyPanelLayout = new javax.swing.GroupLayout(m_jDiscountMoneyPanel);
         m_jDiscountMoneyPanel.setLayout(m_jDiscountMoneyPanelLayout);
         m_jDiscountMoneyPanelLayout.setHorizontalGroup(
-            m_jDiscountMoneyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(m_jDiscountMoneyPanelLayout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addGroup(m_jDiscountMoneyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(m_jbtnDiscountMoney, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(m_jDisableDiscountMoney, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(m_jDiscount4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(m_jDiscount5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(m_jDiscount6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(m_jKeypadDiscountMoney, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, Short.MAX_VALUE))
+                m_jDiscountMoneyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                           .addGroup(m_jDiscountMoneyPanelLayout.createSequentialGroup()
+                                                                                .addGap(0, 0, 0)
+                                                                                .addGroup(m_jDiscountMoneyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                                                                     .addComponent(m_jbtnDiscountMoney, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                                                     .addComponent(m_jDisableDiscountMoney, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                                                     .addComponent(m_jDiscount4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                                                     .addComponent(m_jDiscount5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                                                     .addComponent(m_jDiscount6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                                                     .addComponent(m_jKeypadDiscountMoney, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                                .addGap(0, 0, Short.MAX_VALUE))
         );
         m_jDiscountMoneyPanelLayout.setVerticalGroup(
-            m_jDiscountMoneyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(m_jDiscountMoneyPanelLayout.createSequentialGroup()
-                .addGap(2, 2, 2)
-                .addComponent(m_jbtnDiscountMoney, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(4, 4, 4)
-                .addComponent(m_jDisableDiscountMoney, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(4, 4, 4)
-                .addComponent(m_jDiscount4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(4, 4, 4)
-                .addComponent(m_jDiscount5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(4, 4, 4)
-                .addComponent(m_jDiscount6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(4, 4, 4)
-                .addComponent(m_jKeypadDiscountMoney, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                m_jDiscountMoneyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                           .addGroup(m_jDiscountMoneyPanelLayout.createSequentialGroup()
+                                                                                .addGap(2, 2, 2)
+                                                                                .addComponent(m_jbtnDiscountMoney, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                .addGap(4, 4, 4)
+                                                                                .addComponent(m_jDisableDiscountMoney, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                .addGap(4, 4, 4)
+                                                                                .addComponent(m_jDiscount4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                .addGap(4, 4, 4)
+                                                                                .addComponent(m_jDiscount5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                .addGap(4, 4, 4)
+                                                                                .addComponent(m_jDiscount6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                .addGap(4, 4, 4)
+                                                                                .addComponent(m_jKeypadDiscountMoney, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jPanel5.add(m_jDiscountMoneyPanel);
@@ -2193,7 +2137,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
         refreshTicket();
 
-}//GEN-LAST:event_btnCustomerActionPerformed
+    }//GEN-LAST:event_btnCustomerActionPerformed
 
     private void btnSplitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSplitActionPerformed
         try {
@@ -2213,7 +2157,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         } catch (BasicException ex) {
             new MessageInf(ex).show(this);
         }
-}//GEN-LAST:event_btnSplitActionPerformed
+    }//GEN-LAST:event_btnSplitActionPerformed
 
     private void jEditAttributesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jEditAttributesActionPerformed
 
@@ -2238,7 +2182,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
             }
         }
 
-}//GEN-LAST:event_jEditAttributesActionPerformed
+    }//GEN-LAST:event_jEditAttributesActionPerformed
 
     private void m_jbtnDiscountRateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_jbtnDiscountRateActionPerformed
         if (bTypeDiscountRate == true) {
@@ -2248,11 +2192,11 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
             m_jbtnDiscountRate.setText(AppLocal.getIntString("button.rowdiscount"));
             bTypeDiscountRate = true;
         }
-}//GEN-LAST:event_m_jbtnDiscountRateActionPerformed
+    }//GEN-LAST:event_m_jbtnDiscountRateActionPerformed
 
     private void m_jDiscount1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_jDiscount1ActionPerformed
         performDiscountRate(m_dDiscountRate1);
-}//GEN-LAST:event_m_jDiscount1ActionPerformed
+    }//GEN-LAST:event_m_jDiscount1ActionPerformed
 
     private void m_jDiscount2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_jDiscount2ActionPerformed
         performDiscountRate(m_dDiscountRate2);
@@ -2269,7 +2213,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         } else {
             Toolkit.getDefaultToolkit().beep();
         }
-}//GEN-LAST:event_m_jKeypadDiscountRateActionPerformed
+    }//GEN-LAST:event_m_jKeypadDiscountRateActionPerformed
 
     private void m_jDisableDiscountRateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_jDisableDiscountRateActionPerformed
         performDiscountRate(0.0);
@@ -2310,63 +2254,109 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         }
     }//GEN-LAST:event_m_jKeypadDiscountMoneyActionPerformed
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCustomer;
-    private javax.swing.JButton btnSplit;
-    protected JPanel catcontainer;
-    private javax.swing.Box.Filler filler2;
-    private javax.swing.JButton jEditAttributes;
-    private JPanel jPanel1;
-    private JPanel jPanel2;
-    private JPanel jPanel4;
-    private JPanel jPanel5;
-    private JPanel jPanel9;
-    private JPanel m_jButtons;
-    private JPanel m_jButtonsExt;
-    private JPanel m_jContEntries;
-    private javax.swing.JButton m_jDelete;
-    private javax.swing.JButton m_jDisableDiscountMoney;
-    private javax.swing.JButton m_jDisableDiscountRate;
-    private javax.swing.JButton m_jDiscount1;
-    private javax.swing.JButton m_jDiscount2;
-    private javax.swing.JButton m_jDiscount3;
-    private javax.swing.JButton m_jDiscount4;
-    private javax.swing.JButton m_jDiscount5;
-    private javax.swing.JButton m_jDiscount6;
-    private JPanel m_jDiscountMoneyPanel;
-    private JPanel m_jDiscountRatePanel;
-    private javax.swing.JButton m_jDown;
-    private javax.swing.JButton m_jEditLine;
-    private javax.swing.JButton m_jEnter;
-    private com.openbravo.data.gui.JImageViewer m_jImage;
-    private javax.swing.JTextField m_jKeyFactory;
-    private javax.swing.JButton m_jKeypadDiscountMoney;
-    private javax.swing.JButton m_jKeypadDiscountRate;
-    private javax.swing.JLabel m_jLblTotalEuros1;
-    private javax.swing.JLabel m_jLblTotalEuros2;
-    private javax.swing.JLabel m_jLblTotalEuros3;
-    private javax.swing.JButton m_jList;
-    private com.openbravo.beans.JNumberKeys m_jNumberKeys;
-    private JPanel m_jOptions;
-    private JPanel m_jPanContainer;
-    private JPanel m_jPanEntries;
-    private JPanel m_jPanTicket;
-    private JPanel m_jPanTotals;
-    private JPanel m_jPanelBag;
-    private JPanel m_jPanelCentral;
-    private JPanel m_jPanelImageViewer;
-    private JPanel m_jPanelScripts;
-    private javax.swing.JLabel m_jPor;
-    private javax.swing.JLabel m_jPrice;
-    private javax.swing.JLabel m_jSubtotalEuros;
-    private javax.swing.JComboBox m_jTax;
-    private javax.swing.JLabel m_jTaxesEuros;
-    private javax.swing.JLabel m_jTicketId;
-    private javax.swing.JLabel m_jTotalEuros;
-    private javax.swing.JButton m_jUp;
-    private javax.swing.JToggleButton m_jaddtax;
-    private javax.swing.JButton m_jbtnDiscountMoney;
-    private javax.swing.JButton m_jbtnDiscountRate;
-    private javax.swing.JButton m_jbtnScale;
+    public static class ScriptArg {
+
+        private final String key;
+        private final Object value;
+
+        public ScriptArg(String key, Object value) {
+            this.key = key;
+            this.value = value;
+        }
+
+        public String getKey() {
+            return key;
+        }
+
+        public Object getValue() {
+            return value;
+        }
+    }
+
+    public class ScriptObject {
+
+        private final TicketInfo ticket;
+        private final Object ticketext;
+        private int selectedindex;
+
+        private ScriptObject(TicketInfo ticket, Object ticketext) {
+            this.ticket = ticket;
+            this.ticketext = ticketext;
+        }
+
+        public double getInputValue() {
+            if (m_iNumberStatusInput == NUMBERVALID && m_iNumberStatusPor == NUMBERZERO) {
+                return JPanelTicket.this.getInputValue();
+            } else {
+                return 0.0;
+            }
+        }
+
+        public int getSelectedIndex() {
+            return selectedindex;
+        }
+
+        public void setSelectedIndex(int i) {
+            selectedindex = i;
+        }
+
+        public void printReport(String resourcefile) {
+            JPanelTicket.this.printReport(resourcefile, ticket, ticketext);
+        }
+
+        public void printTicket(String sresourcename) throws TicketPrinterException {
+            JPanelTicket.this.printTicket(sresourcename, ticket, ticketext);
+        }
+
+        public Object evalScript(String code, ScriptArg... args) throws ScriptException {
+
+            ScriptEngine script = ScriptFactory.getScriptEngine(ScriptFactory.BEANSHELL);
+
+            script.put("hostname", m_App.getProperties().getProperty("machine.hostname"));
+            script.put("ticket", ticket);
+            script.put("place", ticketext);
+            script.put("taxes", taxcollection);
+            script.put("taxeslogic", taxeslogic);
+            script.put("user", m_App.getAppUserView().getUser());
+            script.put("sales", this);
+            script.put("logicsales", dlSales);
+            script.put("logicsystem", dlSystem);
+
+            // more arguments
+            for (ScriptArg arg : args) {
+                script.put(arg.getKey(), arg.getValue());
+            }
+
+            return script.eval(code);
+        }
+    }
+
+    private class CatalogSelectionListener implements ListSelectionListener {
+
+        @Override
+        public void valueChanged(ListSelectionEvent e) {
+            if (!e.getValueIsAdjusting()) {
+                int i = m_ticketlines.getSelectedIndex();
+
+                if (i >= 0) {
+                    try {
+                        String sProduct = m_oTicket.getLine(i).getProductID();
+                        if (sProduct != null) {
+                            ProductInfoExt prod = JPanelTicket.this.dlSales.getProductInfo(sProduct);
+                            if (prod.getImage() != null) {
+                                m_jImage.setImage(prod.getImage());
+                            } else {
+                                m_jImage.setImage(null);
+                            }
+                        }
+                    } catch (BasicException ex) {
+                        Logger.getLogger(JPanelTicket.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                } else {
+                    m_jImage.setImage(null);
+                }
+            }
+        }
+    }
     // End of variables declaration//GEN-END:variables
 }

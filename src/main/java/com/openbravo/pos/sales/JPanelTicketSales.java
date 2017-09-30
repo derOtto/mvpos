@@ -24,6 +24,7 @@ import com.openbravo.pos.catalog.CatalogSelector;
 import com.openbravo.pos.catalog.JCatalog;
 import com.openbravo.pos.forms.AppView;
 import com.openbravo.pos.ticket.ProductInfoExt;
+
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -32,28 +33,29 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 /**
- *
  * @author adrianromero
  * @author Andrey Svininykh <svininykh@gmail.com>
  */
 public class JPanelTicketSales extends JPanelTicket {
 
     private CatalogSelector m_cat;
-    
-    /** Creates a new instance of JPanelTicketSales */
-    public JPanelTicketSales() {        
+
+    /**
+     * Creates a new instance of JPanelTicketSales
+     */
+    public JPanelTicketSales() {
     }
-    
+
     @Override
     public void init(AppView app) {
         super.init(app);
         m_ticketlines.addListSelectionListener(new CatalogSelectionListener());
     }
-    
+
     public String getTitle() {
         return null;
     }
-    
+
     protected Component getSouthComponent() {
         m_cat = new JCatalog(dlSales, panelconfig);
         m_cat.addActionListener(new CatalogListener());
@@ -65,36 +67,36 @@ public class JPanelTicketSales extends JPanelTicket {
 
     protected void resetSouthComponent() {
         if ("false".equals(panelconfig.getProperty("catvisible")) == false) {
-        m_cat.showCatalogPanel(null);
+            m_cat.showCatalogPanel(null);
+        }
     }
-    }
-    
+
     protected JTicketsBag getJTicketsBag() {
         return JTicketsBag.createTicketsBag(m_App.getProperties().getProperty("machine.ticketsbag"), m_App, this);
     }
-    
+
     @Override
-    public void activate() throws BasicException {      
+    public void activate() throws BasicException {
         super.activate();
         if ("false".equals(panelconfig.getProperty("catvisible")) == false) {
             m_cat.loadCatalog(m_App);
         }
     }
-    
+
     private class CatalogListener implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
             buttonTransition((ProductInfoExt) e.getSource());
-        }  
+        }
     }
-    
+
     private class CatalogSelectionListener implements ListSelectionListener {
 
-        public void valueChanged(ListSelectionEvent e) {      
-            
+        public void valueChanged(ListSelectionEvent e) {
+
             if (!e.getValueIsAdjusting()) {
                 int i = m_ticketlines.getSelectedIndex();
-                
+
                 if (i >= 0) {
                     // Look for the first non auxiliar product.
                     while (i >= 0 && m_oTicket.getLine(i).isProductCom()) {
@@ -104,14 +106,14 @@ public class JPanelTicketSales extends JPanelTicket {
                     // Show the accurate catalog panel...
                     if ("false".equals(panelconfig.getProperty("catvisible")) == false) {
 
-                    if (i >= 0) {
-                        m_cat.showCatalogPanel(m_oTicket.getLine(i).getProductID());
-                    } else {
-                        m_cat.showCatalogPanel(null);
+                        if (i >= 0) {
+                            m_cat.showCatalogPanel(m_oTicket.getLine(i).getProductID());
+                        } else {
+                            m_cat.showCatalogPanel(null);
+                        }
                     }
                 }
             }
-        }  
+        }
     }
-}
 }

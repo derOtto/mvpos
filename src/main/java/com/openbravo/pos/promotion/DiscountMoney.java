@@ -7,11 +7,10 @@ package com.openbravo.pos.promotion;
 import com.openbravo.pos.ticket.TicketLineInfo;
 
 /**
- *
  * @author Andrey Svininykh <svininykh@gmail.com>
  */
 public class DiscountMoney {
-    
+
     public TicketLineInfo LineDiscountMoney(TicketLineInfo TicketLine, Double dMoney) {
 
         double linedicountmoney = TicketLine.getDiscountMoney();
@@ -26,7 +25,7 @@ public class DiscountMoney {
             }
             TicketLine.setProperty("discountmoney", Double.toString(dMoney));
         }
-        
+
         return TicketLine;
-    }    
+    }
 }

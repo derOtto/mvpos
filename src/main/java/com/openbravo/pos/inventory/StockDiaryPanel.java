@@ -28,7 +28,6 @@ import com.openbravo.pos.forms.DataLogicSales;
 import com.openbravo.pos.panels.JPanelTable;
 
 /**
- *
  * @author adrianromero
  */
 public class StockDiaryPanel extends JPanelTable {
@@ -36,7 +35,9 @@ public class StockDiaryPanel extends JPanelTable {
     private StockDiaryEditor jeditor;
     private DataLogicSales m_dlSales;
 
-    /** Creates a new instance of JPanelDiaryEditor */
+    /**
+     * Creates a new instance of JPanelDiaryEditor
+     */
     public StockDiaryPanel() {
     }
 
@@ -50,7 +51,7 @@ public class StockDiaryPanel extends JPanelTable {
     }
 
     public SaveProvider getSaveProvider() {
-        return  new SaveProvider(null
+        return new SaveProvider(null
                 , m_dlSales.getStockDiaryInsert()
                 , m_dlSales.getStockDiaryDelete());
     }

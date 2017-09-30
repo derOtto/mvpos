@@ -23,23 +23,25 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
+
 import com.openbravo.basic.BasicException;
 import com.openbravo.data.loader.DataField;
 import com.openbravo.data.loader.DataRead;
 import com.openbravo.data.loader.Datas;
 
 /**
- *
  * @author adrianromero
  */
 public class SQLTableModel extends AbstractTableModel {
-    
+
     private List m_aRows;
-    
+
     private DataField[] m_df;
     private Datas[] m_classes;
-    
-    /** Creates a new instance of SQLTableModel */
+
+    /**
+     * Creates a new instance of SQLTableModel
+     */
     public SQLTableModel(DataField[] df) {
         m_aRows = new ArrayList();
 
@@ -81,7 +83,7 @@ public class SQLTableModel extends AbstractTableModel {
                 case Types.BLOB:
                     m_classes[i] = Datas.BYTES;
                     break;
-                case Types.ARRAY:                    
+                case Types.ARRAY:
                 case Types.DATALINK:
                 case Types.DISTINCT:
                 case Types.JAVA_OBJECT:
@@ -97,17 +99,18 @@ public class SQLTableModel extends AbstractTableModel {
     }
 
     public void addRow(DataRead dr) throws BasicException {
-        
+
         Object[] m_values = new Object[m_classes.length];
         for (int i = 0; i < m_classes.length; i++) {
             m_values[i] = m_classes[i].getValue(dr, i + 1);
         }
-         m_aRows.add(m_values);
-    }     
+        m_aRows.add(m_values);
+    }
+
     public String getColumnString(int row) {
-        Object [] rowvalues = (Object[]) m_aRows.get(row);
+        Object[] rowvalues = (Object[]) m_aRows.get(row);
         StringBuffer s = new StringBuffer();
-        for(int i = 0; i < rowvalues.length; i++) {
+        for (int i = 0; i < rowvalues.length; i++) {
             if (i > 0) {
                 s.append(", ");
             }
@@ -115,21 +118,25 @@ public class SQLTableModel extends AbstractTableModel {
         }
         return s.toString();
     }
-    
+
     public Class getColumnClass(int columnIndex) {
         return m_classes[columnIndex].getClassValue();
     }
+
     public String getColumnName(int columnIndex) {
         return m_df[columnIndex].Name;
-    }    
+    }
+
     public int getRowCount() {
         return m_aRows.size();
     }
+
     public int getColumnCount() {
         return m_df.length;
     }
+
     public Object getValueAt(int row, int column) {
-        Object [] rowvalues = (Object[]) m_aRows.get(row);
+        Object[] rowvalues = (Object[]) m_aRows.get(row);
         return rowvalues[column];
-    }  
+    }
 }

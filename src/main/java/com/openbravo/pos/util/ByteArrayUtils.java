@@ -40,37 +40,37 @@ public class ByteArrayUtils {
     public static final byte[] convertIntegerToByteArray(int value, int bytes, boolean revers) {
         if (bytes == 1 && !revers) {
             return new byte[]{
-                        (byte) value
-                    };
+                    (byte) value
+            };
         } else if (bytes == 1 && revers) {
             return new byte[]{
-                        (byte) (value >>> 24)
-                    };
+                    (byte) (value >>> 24)
+            };
         } else if (bytes == 2 && !revers) {
             return new byte[]{
-                        (byte) (value >>> 8),
-                        (byte) value};
+                    (byte) (value >>> 8),
+                    (byte) value};
         } else if (bytes == 2 && revers) {
             return new byte[]{
-                        (byte) (value >>> 24),
-                        (byte) (value >>> 16)
-                    };
+                    (byte) (value >>> 24),
+                    (byte) (value >>> 16)
+            };
         } else if (bytes == 3 && !revers) {
             return new byte[]{
-                        (byte) (value >>> 16),
-                        (byte) (value >>> 8),
-                        (byte) value};
+                    (byte) (value >>> 16),
+                    (byte) (value >>> 8),
+                    (byte) value};
         } else if (bytes == 3 && revers) {
             return new byte[]{
-                        (byte) (value >>> 24),
-                        (byte) (value >>> 16),
-                        (byte) (value >>> 8)};
+                    (byte) (value >>> 24),
+                    (byte) (value >>> 16),
+                    (byte) (value >>> 8)};
         } else {
             return new byte[]{
-                        (byte) (value >>> 24),
-                        (byte) (value >>> 16),
-                        (byte) (value >>> 8),
-                        (byte) value};
+                    (byte) (value >>> 24),
+                    (byte) (value >>> 16),
+                    (byte) (value >>> 8),
+                    (byte) value};
         }
     }
 }

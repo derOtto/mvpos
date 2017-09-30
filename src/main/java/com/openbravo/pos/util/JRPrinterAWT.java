@@ -70,265 +70,232 @@ import org.apache.commons.logging.LogFactory;
 /**
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  */
-public class JRPrinterAWT implements Printable
-{
-	private static final Log log = LogFactory.getLog(JRPrinterAWT.class);
-
-	public static final String EXCEPTION_MESSAGE_KEY_INVALID_PAGE_RANGE = "print.invalid.page.range";
-	public static final String EXCEPTION_MESSAGE_KEY_ERROR_PRINTING_REPORT = "print.error.printing.report";
-
-	/**
-	 *
-	 */
-	private JasperReportsContext jasperReportsContext;
-	private JasperPrint jasperPrint;
-	private int pageOffset;
+public class JRPrinterAWT implements Printable {
+    public static final String EXCEPTION_MESSAGE_KEY_INVALID_PAGE_RANGE = "print.invalid.page.range";
+    public static final String EXCEPTION_MESSAGE_KEY_ERROR_PRINTING_REPORT = "print.error.printing.report";
+    private static final Log log = LogFactory.getLog(JRPrinterAWT.class);
+    /**
+     *
+     */
+    private JasperReportsContext jasperReportsContext;
+    private JasperPrint jasperPrint;
+    private int pageOffset;
 
 
-	/**
-	 *
-	 */
-	protected JRPrinterAWT(JasperPrint jrPrint) throws JRException
-	{
-		this(DefaultJasperReportsContext.getInstance(), jrPrint);
-	}
+    /**
+     *
+     */
+    protected JRPrinterAWT(JasperPrint jrPrint) throws JRException {
+        this(DefaultJasperReportsContext.getInstance(), jrPrint);
+    }
 
 
-	/**
-	 *
-	 */
-	public JRPrinterAWT(JasperReportsContext jasperReportsContext, JasperPrint jasperPrint) throws JRException
-	{
-		JRGraphEnvInitializer.initializeGraphEnv();
-		
-		this.jasperReportsContext = jasperReportsContext;
-		this.jasperPrint = jasperPrint;
-	}
+    /**
+     *
+     */
+    public JRPrinterAWT(JasperReportsContext jasperReportsContext, JasperPrint jasperPrint) throws JRException {
+        JRGraphEnvInitializer.initializeGraphEnv();
+
+        this.jasperReportsContext = jasperReportsContext;
+        this.jasperPrint = jasperPrint;
+    }
 
 
-	/**
-	 * @see #printPages(int, int, boolean)
-	 */
-	public static boolean printPages(
-		JasperPrint jrPrint,
-		int firstPageIndex,
-		int lastPageIndex,
-		PrintService service
-		) throws JRException
-	{
-		JRPrinterAWT printer = new JRPrinterAWT(jrPrint);
-		return printer.printPages(
-			firstPageIndex, 
-			lastPageIndex, 
-			service
-			);
-	}
+    /**
+     * @see #printPages(int, int, boolean)
+     */
+    public static boolean printPages(
+            JasperPrint jrPrint,
+            int firstPageIndex,
+            int lastPageIndex,
+            PrintService service
+    ) throws JRException {
+        JRPrinterAWT printer = new JRPrinterAWT(jrPrint);
+        return printer.printPages(
+                firstPageIndex,
+                lastPageIndex,
+                service
+        );
+    }
 
 
-	/**
-	 * @see #printPageToImage(int, float)
-	 */
-	public static Image printPageToImage(
-		JasperPrint jrPrint,
-		int pageIndex,
-		float zoom
-		) throws JRException
-	{
-		JRPrinterAWT printer = new JRPrinterAWT(jrPrint);
-		return printer.printPageToImage(pageIndex, zoom);
-	}
+    /**
+     * @see #printPageToImage(int, float)
+     */
+    public static Image printPageToImage(
+            JasperPrint jrPrint,
+            int pageIndex,
+            float zoom
+    ) throws JRException {
+        JRPrinterAWT printer = new JRPrinterAWT(jrPrint);
+        return printer.printPageToImage(pageIndex, zoom);
+    }
 
+    /**
+     * Fix for bug ID 6255588 from Sun bug database
+     *
+     * @param job print job that the fix applies to
+     */
+    public static void initPrinterJobFields(PrinterJob job) {
+        try {
+            job.setPrintService(job.getPrintService());
+        } catch (PrinterException e) {
+        }
+    }
 
-	/**
-	 *
-	 */
-	public boolean printPages(
-		int firstPageIndex,
-		int lastPageIndex,
-		PrintService service
-		) throws JRException
-	{
-		boolean isOK = true;
+    /**
+     * @deprecated To be removed.
+     */
+    public static long getImageSize(JasperPrint jasperPrint, float zoom) {
+        int width = (int) (jasperPrint.getPageWidth() * zoom) + 1;
+        int height = (int) (jasperPrint.getPageHeight() * zoom) + 1;
+        return width * height;
+    }
 
-		if (
-			firstPageIndex < 0 ||
-			firstPageIndex > lastPageIndex ||
-			lastPageIndex >= jasperPrint.getPages().size()
-			)
-		{
-			throw 
-				new JRException(
-					EXCEPTION_MESSAGE_KEY_INVALID_PAGE_RANGE,  
-					new Object[]{firstPageIndex, lastPageIndex, jasperPrint.getPages().size()}
-					);
-		}
+    /**
+     *
+     */
+    public boolean printPages(
+            int firstPageIndex,
+            int lastPageIndex,
+            PrintService service
+    ) throws JRException {
+        boolean isOK = true;
 
-		pageOffset = firstPageIndex;
+        if (
+                firstPageIndex < 0 ||
+                        firstPageIndex > lastPageIndex ||
+                        lastPageIndex >= jasperPrint.getPages().size()
+                ) {
+            throw
+                    new JRException(
+                            EXCEPTION_MESSAGE_KEY_INVALID_PAGE_RANGE,
+                            new Object[]{firstPageIndex, lastPageIndex, jasperPrint.getPages().size()}
+                    );
+        }
 
-		PrinterJob printJob = PrinterJob.getPrinterJob();
+        pageOffset = firstPageIndex;
 
-		// fix for bug ID 6255588 from Sun bug database
-		initPrinterJobFields(printJob);
-		
-		PageFormat pageFormat = printJob.defaultPage();
-		Paper paper = pageFormat.getPaper();
+        PrinterJob printJob = PrinterJob.getPrinterJob();
 
-		printJob.setJobName("JasperReports - " + jasperPrint.getName());
-		
-		switch (jasperPrint.getOrientationValue())
-		{
-			case LANDSCAPE :
-			{
-				pageFormat.setOrientation(PageFormat.LANDSCAPE);
-				paper.setSize(jasperPrint.getPageHeight(), jasperPrint.getPageWidth());
-				paper.setImageableArea(
-					0,
-					0,
-					jasperPrint.getPageHeight(),
-					jasperPrint.getPageWidth()
-					);
-				break;
-			}
-			case 
-			PORTRAIT :
-			default :
-			{
-				pageFormat.setOrientation(PageFormat.PORTRAIT);
-				paper.setSize(jasperPrint.getPageWidth(), jasperPrint.getPageHeight());
-				paper.setImageableArea(
-					0,
-					0,
-					jasperPrint.getPageWidth(),
-					jasperPrint.getPageHeight()
-					);
-			}
-		}
+        // fix for bug ID 6255588 from Sun bug database
+        initPrinterJobFields(printJob);
 
-		pageFormat.setPaper(paper);
+        PageFormat pageFormat = printJob.defaultPage();
+        Paper paper = pageFormat.getPaper();
 
-		Book book = new Book();
-		book.append(this, pageFormat, lastPageIndex - firstPageIndex + 1);
-		printJob.setPageable(book);
-		try
-		{
-                    if (service == null) {
-                    if (printJob.printDialog()) {
-					printJob.print();
-                    } else {
-					isOK = false;
-				}
+        printJob.setJobName("JasperReports - " + jasperPrint.getName());
+
+        switch (jasperPrint.getOrientationValue()) {
+            case LANDSCAPE: {
+                pageFormat.setOrientation(PageFormat.LANDSCAPE);
+                paper.setSize(jasperPrint.getPageHeight(), jasperPrint.getPageWidth());
+                paper.setImageableArea(
+                        0,
+                        0,
+                        jasperPrint.getPageHeight(),
+                        jasperPrint.getPageWidth()
+                );
+                break;
+            }
+            case PORTRAIT:
+            default: {
+                pageFormat.setOrientation(PageFormat.PORTRAIT);
+                paper.setSize(jasperPrint.getPageWidth(), jasperPrint.getPageHeight());
+                paper.setImageableArea(
+                        0,
+                        0,
+                        jasperPrint.getPageWidth(),
+                        jasperPrint.getPageHeight()
+                );
+            }
+        }
+
+        pageFormat.setPaper(paper);
+
+        Book book = new Book();
+        book.append(this, pageFormat, lastPageIndex - firstPageIndex + 1);
+        printJob.setPageable(book);
+        try {
+            if (service == null) {
+                if (printJob.printDialog()) {
+                    printJob.print();
                 } else {
-                    printJob.setPrintService(service);
-				printJob.print();
-			}
-		}
-		catch (Exception ex)
-		{
-			throw 
-				new JRException(
-					EXCEPTION_MESSAGE_KEY_ERROR_PRINTING_REPORT,
-					null, 
-					ex);
-		}
+                    isOK = false;
+                }
+            } else {
+                printJob.setPrintService(service);
+                printJob.print();
+            }
+        } catch (Exception ex) {
+            throw
+                    new JRException(
+                            EXCEPTION_MESSAGE_KEY_ERROR_PRINTING_REPORT,
+                            null,
+                            ex);
+        }
 
-		return isOK;
-	}
+        return isOK;
+    }
 
+    /**
+     *
+     */
+    public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException {
+        if (Thread.interrupted()) {
+            throw new PrinterException("Current thread interrupted.");
+        }
 
-	/**
-	 *
-	 */
-	public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException
-	{
-		if (Thread.interrupted())
-		{
-			throw new PrinterException("Current thread interrupted.");
-		}
+        pageIndex += pageOffset;
 
-		pageIndex += pageOffset;
+        if (pageIndex < 0 || pageIndex >= jasperPrint.getPages().size()) {
+            return Printable.NO_SUCH_PAGE;
+        }
 
-		if ( pageIndex < 0 || pageIndex >= jasperPrint.getPages().size() )
-		{
-			return Printable.NO_SUCH_PAGE;
-		}
+        try {
+            JRGraphics2DExporter exporter = new JRGraphics2DExporter(jasperReportsContext);
+            exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+            SimpleGraphics2DExporterOutput output = new SimpleGraphics2DExporterOutput();
+            output.setGraphics2D((Graphics2D) graphics);
+            exporter.setExporterOutput(output);
+            SimpleGraphics2DReportConfiguration configuration = new SimpleGraphics2DReportConfiguration();
+            configuration.setPageIndex(pageIndex);
+            exporter.setConfiguration(configuration);
+            exporter.exportReport();
+        } catch (JRException e) {
+            if (log.isDebugEnabled()) {
+                log.debug("Print failed.", e);
+            }
 
-		try
-		{
-			JRGraphics2DExporter exporter = new JRGraphics2DExporter(jasperReportsContext);
-			exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-			SimpleGraphics2DExporterOutput output = new SimpleGraphics2DExporterOutput();
-			output.setGraphics2D((Graphics2D)graphics);
-			exporter.setExporterOutput(output);
-			SimpleGraphics2DReportConfiguration configuration = new SimpleGraphics2DReportConfiguration();
-			configuration.setPageIndex(pageIndex);
-			exporter.setConfiguration(configuration);
-			exporter.exportReport();
-		}
-		catch (JRException e)
-		{
-			if (log.isDebugEnabled())
-			{
-				log.debug("Print failed.", e);
-			}
+            throw new PrinterException(e.getMessage()); //NOPMD
+        }
 
-			throw new PrinterException(e.getMessage()); //NOPMD
-		}
+        return Printable.PAGE_EXISTS;
+    }
 
-		return Printable.PAGE_EXISTS;
-	}
+    /**
+     *
+     */
+    public Image printPageToImage(int pageIndex, float zoom) throws JRException {
+        PrintPageFormat pageFormat = jasperPrint.getPageFormat(pageIndex);
 
+        Image pageImage = new BufferedImage(
+                (int) (pageFormat.getPageWidth() * zoom) + 1,
+                (int) (pageFormat.getPageHeight() * zoom) + 1,
+                BufferedImage.TYPE_INT_RGB
+        );
 
-	/**
-	 *
-	 */
-	public Image printPageToImage(int pageIndex, float zoom) throws JRException
-	{
-		PrintPageFormat pageFormat = jasperPrint.getPageFormat(pageIndex);
-		
-		Image pageImage = new BufferedImage(
-			(int)(pageFormat.getPageWidth() * zoom) + 1,
-			(int)(pageFormat.getPageHeight() * zoom) + 1,
-			BufferedImage.TYPE_INT_RGB
-			);
+        JRGraphics2DExporter exporter = new JRGraphics2DExporter(jasperReportsContext);
+        exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+        SimpleGraphics2DExporterOutput output = new SimpleGraphics2DExporterOutput();
+        output.setGraphics2D((Graphics2D) pageImage.getGraphics());
+        exporter.setExporterOutput(output);
+        SimpleGraphics2DReportConfiguration configuration = new SimpleGraphics2DReportConfiguration();
+        configuration.setPageIndex(pageIndex);
+        configuration.setZoomRatio(zoom);
+        exporter.setConfiguration(configuration);
+        exporter.exportReport();
 
-		JRGraphics2DExporter exporter = new JRGraphics2DExporter(jasperReportsContext);
-		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-		SimpleGraphics2DExporterOutput output = new SimpleGraphics2DExporterOutput();
-		output.setGraphics2D((Graphics2D)pageImage.getGraphics());
-		exporter.setExporterOutput(output);
-		SimpleGraphics2DReportConfiguration configuration = new SimpleGraphics2DReportConfiguration();
-		configuration.setPageIndex(pageIndex);
-		configuration.setZoomRatio(zoom);
-		exporter.setConfiguration(configuration);
-		exporter.exportReport();
-		
-		return pageImage;
-	}
-
-
-	/**
-	 * Fix for bug ID 6255588 from Sun bug database
-	 * @param job print job that the fix applies to
-	 */
-	public static void initPrinterJobFields(PrinterJob job)
-	{
-		try
-		{
-			job.setPrintService(job.getPrintService());
-		}
-		catch (PrinterException e)
-		{
-		}
-	}
-	
-	
-	/**
-	 * @deprecated To be removed.
-	 */
-	public static long getImageSize(JasperPrint jasperPrint, float zoom)
-	{
-		int width = (int) (jasperPrint.getPageWidth() * zoom) + 1;
-		int height = (int) (jasperPrint.getPageHeight() * zoom) + 1;
-		return width * height;
-	}
+        return pageImage;
+    }
 }

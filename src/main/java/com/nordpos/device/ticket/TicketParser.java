@@ -1,20 +1,19 @@
 /**
- *
  * NORD POS is a fork of Openbravo POS.
- *
+ * <p>
  * Copyright (C) 2009-2016 Nord Trading Ltd. <http://www.nordpos.com>
- *
+ * <p>
  * This file is part of NORD POS.
- *
+ * <p>
  * NORD POS is free software: you can redistribute it and/or modify it under the
  * terms of the GNU General Public License as published by the Free Software
  * Foundation, either version 3 of the License, or (at your option) any later
  * version.
- *
+ * <p>
  * NORD POS is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
  * A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU General Public License along with
  * NORD POS. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -58,36 +57,6 @@ import java.util.Scanner;
  */
 public class TicketParser extends DefaultHandler {
 
-    private static SAXParser m_sp = null;
-    private static XMLReader m_sr = null;
-
-    private final DeviceTicketFactory printer;
-    private DataLogicSystem m_system;
-
-    private StringBuffer text;
-
-    private String bctype;
-    private String bcposition;
-    private int m_iTextAlign;
-    private int m_iTextLength;
-    private int m_iTextStyle;
-
-    private StringBuffer m_sVisorLine;
-    private int m_iVisorAnimation;
-    private String m_sVisorLine1;
-    private String m_sVisorLine2;
-
-    private double m_dValue1;
-    private double m_dValue2;
-    private int attribute3;
-
-    private String m_sPaymentType;
-
-    private Integer integerCharacterSize;
-    private String sUnderline;
-    private boolean bBold;
-
-    private int m_iOutputType;
     private static final int OUTPUT_NONE = 0;
     private static final int OUTPUT_DISPLAY = 1;
     private static final int OUTPUT_TICKET = 2;
@@ -95,11 +64,31 @@ public class TicketParser extends DefaultHandler {
     private static final int OUTPUT_FISCALREP = 4;
     private static final int OUTPUT_FISCALCASH = 5;
     private static final int OUTPUT_LABEL = 6;
-
+    private static SAXParser m_sp = null;
+    private static XMLReader m_sr = null;
+    private final DeviceTicketFactory printer;
+    private final InputStream shemaFile;
+    private DataLogicSystem m_system;
+    private StringBuffer text;
+    private String bctype;
+    private String bcposition;
+    private int m_iTextAlign;
+    private int m_iTextLength;
+    private int m_iTextStyle;
+    private StringBuffer m_sVisorLine;
+    private int m_iVisorAnimation;
+    private String m_sVisorLine1;
+    private String m_sVisorLine2;
+    private double m_dValue1;
+    private double m_dValue2;
+    private int attribute3;
+    private String m_sPaymentType;
+    private Integer integerCharacterSize;
+    private String sUnderline;
+    private boolean bBold;
+    private int m_iOutputType;
     private DevicePrinter m_oOutputPrinter;
-
     private DeviceFiscalPrinter m_oFiscalPrinter;
-
     private DeviceLabelPrinter m_oLabelPrinter;
     private String sLabelTextFontType;
     private String sLabelTextOrientation;
@@ -108,14 +97,11 @@ public class TicketParser extends DefaultHandler {
     private String sLabelTextFontHeight;
     private String sLabelTextFontWidth;
     private String sLabelTextFontWeight;
-
     private String sLabelBarcodeOrientation;
     private String sLabelBarcodeX;
     private String sLabelBarcodeY;
     private String sLabelBarcodeHeight;
     private String sLabelBarcodesDimension;
-
-    private final InputStream shemaFile;
 
     public TicketParser(InputStream shemaFile, DeviceTicketFactory printer) {
         this.shemaFile = shemaFile;
@@ -521,7 +507,7 @@ public class TicketParser extends DefaultHandler {
                             sLabelTextFontWeight,
                             readString(text.toString(), "???"));
                     text = null;
-                } else if ("barcode".equals(qName)) {                    
+                } else if ("barcode".equals(qName)) {
                     m_oLabelPrinter.drawBarCode(
                             bctype,
                             bcposition,

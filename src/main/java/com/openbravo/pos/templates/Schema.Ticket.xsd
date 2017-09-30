@@ -17,7 +17,8 @@
                 <xs:element name="discount-visible" type="BooleanValue" minOccurs="0"></xs:element>
                 <xs:element name="button" maxOccurs="unbounded" minOccurs="0">
                     <xs:annotation>
-                        <xs:documentation xml:lang="ru">Шаблон кнопки рамещаемой в верхней правой части панели продаж.</xs:documentation>
+                        <xs:documentation xml:lang="ru">Шаблон кнопки рамещаемой в верхней правой части панели продаж.
+                        </xs:documentation>
                     </xs:annotation>
                     <xs:complexType>
                         <xs:sequence></xs:sequence>

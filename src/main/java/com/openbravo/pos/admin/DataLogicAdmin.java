@@ -30,7 +30,6 @@ import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.forms.BeanFactoryDataSingle;
 
 /**
- *
  * @author adrianromero
  */
 public class DataLogicAdmin extends BeanFactoryDataSingle {
@@ -40,57 +39,62 @@ public class DataLogicAdmin extends BeanFactoryDataSingle {
     private TableDefinition m_troles;
     private TableDefinition m_tresources;
 
-    /** Creates a new instance of DataLogicAdmin */
+    /**
+     * Creates a new instance of DataLogicAdmin
+     */
     public DataLogicAdmin() {
     }
 
     @Override
-    public void init(Session s){
+    public void init(Session s) {
         this.s = s;
 
         m_tpeople = new TableDefinition(s,
-            "PEOPLE"
-            , new String[] {"ID", "NAME", "APPPASSWORD", "ROLE", "VISIBLE", "CARD", "IMAGE", "PROPERTIES"}
-            , new String[] {"ID", AppLocal.getIntString("label.peoplename"), AppLocal.getIntString("Label.Password"), AppLocal.getIntString("label.role"), AppLocal.getIntString("label.peoplevisible"), AppLocal.getIntString("label.card"), AppLocal.getIntString("label.peopleimage"), "PROPERTIES"}
-            , new Datas[] {Datas.STRING, Datas.STRING, Datas.STRING, Datas.STRING, Datas.BOOLEAN, Datas.STRING, Datas.IMAGE, Datas.BYTES}
-            , new Formats[] {Formats.STRING, Formats.STRING, Formats.STRING, Formats.STRING, Formats.BOOLEAN, Formats.STRING, Formats.NULL, Formats.NULL}
-            , "NAME"
-            , new int[] {0}
+                "PEOPLE"
+                , new String[]{"ID", "NAME", "APPPASSWORD", "ROLE", "VISIBLE", "CARD", "IMAGE", "PROPERTIES"}
+                , new String[]{"ID", AppLocal.getIntString("label.peoplename"), AppLocal.getIntString("Label.Password"), AppLocal.getIntString("label.role"), AppLocal.getIntString("label.peoplevisible"), AppLocal.getIntString("label.card"), AppLocal.getIntString("label.peopleimage"), "PROPERTIES"}
+                , new Datas[]{Datas.STRING, Datas.STRING, Datas.STRING, Datas.STRING, Datas.BOOLEAN, Datas.STRING, Datas.IMAGE, Datas.BYTES}
+                , new Formats[]{Formats.STRING, Formats.STRING, Formats.STRING, Formats.STRING, Formats.BOOLEAN, Formats.STRING, Formats.NULL, Formats.NULL}
+                , "NAME"
+                , new int[]{0}
         );
-        
+
         m_troles = new TableDefinition(s,
-            "ROLES"
-            , new String[] {"ID", "NAME", "PERMISSIONS"}
-            , new String[] {"ID", AppLocal.getIntString("Label.Name"), "PERMISSIONS"}
-            , new Datas[] {Datas.STRING, Datas.STRING, Datas.BYTES}
-            , new Formats[] {Formats.STRING, Formats.STRING, Formats.NULL}
-            , "NAME"
-            , new int[] {0}
+                "ROLES"
+                , new String[]{"ID", "NAME", "PERMISSIONS"}
+                , new String[]{"ID", AppLocal.getIntString("Label.Name"), "PERMISSIONS"}
+                , new Datas[]{Datas.STRING, Datas.STRING, Datas.BYTES}
+                , new Formats[]{Formats.STRING, Formats.STRING, Formats.NULL}
+                , "NAME"
+                , new int[]{0}
         );
 
         m_tresources = new TableDefinition(s,
-            "RESOURCES"
-            , new String[] {"ID", "NAME", "RESTYPE", "CONTENT"}
-            , new String[] {"ID", AppLocal.getIntString("Label.Name"), AppLocal.getIntString("label.type"), "CONTENT"}
-            , new Datas[] {Datas.STRING, Datas.STRING, Datas.INT, Datas.BYTES}
-            , new Formats[] {Formats.STRING, Formats.STRING, Formats.INT, Formats.NULL}
-            , "NAME"
-            , new int[] {0}
+                "RESOURCES"
+                , new String[]{"ID", "NAME", "RESTYPE", "CONTENT"}
+                , new String[]{"ID", AppLocal.getIntString("Label.Name"), AppLocal.getIntString("label.type"), "CONTENT"}
+                , new Datas[]{Datas.STRING, Datas.STRING, Datas.INT, Datas.BYTES}
+                , new Formats[]{Formats.STRING, Formats.STRING, Formats.INT, Formats.NULL}
+                , "NAME"
+                , new int[]{0}
         );
     }
 
     public final SentenceList getRolesList() {
         return new StaticSentence(s
-            , "SELECT ID, NAME FROM ROLES ORDER BY NAME"
-            , null
-            , new SerializerReadClass(RoleInfo.class));
+                , "SELECT ID, NAME FROM ROLES ORDER BY NAME"
+                , null
+                , new SerializerReadClass(RoleInfo.class));
     }
+
     public final TableDefinition getTablePeople() {
         return m_tpeople;
     }
+
     public final TableDefinition getTableRoles() {
         return m_troles;
     }
+
     public final TableDefinition getTableResources() {
         return m_tresources;
     }

@@ -20,15 +20,20 @@ package com.openbravo.pos.config;
 
 import com.openbravo.data.user.DirtyManager;
 import com.nordpos.device.util.StringParser;
+
 import java.awt.Component;
 
 /**
- *
  * @author adrian
  * @author Andrey Svininykh <svininykh@gmail.com>
  * @version NORD POS 3
  */
 public class ParametersExtendDriver extends javax.swing.JPanel implements ParametersConfig {
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JTextField jTextDriverName;
+    private javax.swing.JTextField jTextDriverSettings;
 
     public ParametersExtendDriver() {
         initComponents();
@@ -47,14 +52,14 @@ public class ParametersExtendDriver extends javax.swing.JPanel implements Parame
     }
 
     @Override
-    public void setParameters(StringParser p) {
-        jTextDriverName.setText(p.nextToken(':'));
-        jTextDriverSettings.setText(p.nextToken('\n'));
+    public String getParameters() {
+        return jTextDriverName.getText().concat(":").concat(jTextDriverSettings.getText());
     }
 
     @Override
-    public String getParameters() {
-        return jTextDriverName.getText().concat(":").concat(jTextDriverSettings.getText());
+    public void setParameters(StringParser p) {
+        jTextDriverName.setText(p.nextToken(':'));
+        jTextDriverSettings.setText(p.nextToken('\n'));
     }
 
     /**
@@ -76,31 +81,25 @@ public class ParametersExtendDriver extends javax.swing.JPanel implements Parame
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextDriverName, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextDriverSettings, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                      .addGroup(layout.createSequentialGroup()
+                                      .addComponent(jLabel1)
+                                      .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                      .addComponent(jTextDriverName, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                      .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                      .addComponent(jTextDriverSettings, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                      .addContainerGap())
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jTextDriverName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextDriverSettings, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, 0))
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                      .addGroup(layout.createSequentialGroup()
+                                      .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                      .addComponent(jLabel1)
+                                                      .addComponent(jTextDriverName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                      .addComponent(jTextDriverSettings, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                      .addGap(0, 0, 0))
         );
     }// </editor-fold>//GEN-END:initComponents
-
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JTextField jTextDriverName;
-    private javax.swing.JTextField jTextDriverSettings;
     // End of variables declaration//GEN-END:variables
 
 }

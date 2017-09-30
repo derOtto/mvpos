@@ -19,44 +19,55 @@
 
 package com.openbravo.beans;
 
+import javax.swing.*;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import javax.swing.*;
-import java.util.*;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 /**
- *
- * @author  Adrian
+ * @author Adrian
  */
 public class JCalendarDialog extends JDialog {
-    
+
     // private static ResourceBundle m_Intl;
     private static LocaleResources m_resources;
-    
+
     private Date m_date;
     private JCalendarPanel myCalendar = null;
     private JTimePanel myTime = null;
-    
-    /** Creates new form JCalendarDialog */
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private JPanel jPanel1;
+    private JPanel jPanel2;
+    private JPanel jPanelGrid;
+    private JButton jcmdCancel;
+    private JButton jcmdOK;
+
+    /**
+     * Creates new form JCalendarDialog
+     */
     public JCalendarDialog(Frame parent, boolean modal) {
         super(parent, modal);
-        
+
         if (m_resources == null) {
             m_resources = new LocaleResources();
             m_resources.addBundleName("beans_messages");
         }
     }
-    /** Creates new form JCalendarDialog */
+
+    /**
+     * Creates new form JCalendarDialog
+     */
     public JCalendarDialog(Dialog parent, boolean modal) {
         super(parent, modal);
-        
+
         if (m_resources == null) {
             m_resources = new LocaleResources();
             m_resources.addBundleName("beans_messages");
         }
-    }    
-    
+    }
+
     private static Window getWindow(Component parent) {
         if (parent == null) {
             return new JFrame();
@@ -65,79 +76,60 @@ public class JCalendarDialog extends JDialog {
         } else {
             return getWindow(parent.getParent());
         }
-    }    
-    
+    }
+
     public static Date showCalendarTimeHours(Component parent, Date date) {
         return internalCalendarTime(parent, date == null ? DateUtils.getToday() : date, true);
     }
-    
+
     public static Date showCalendarTime(Component parent, Date date) {
         return internalCalendarTime(parent, date == null ? DateUtils.getTodayMinutes() : date, true);
     }
-    
+
     public static Date showCalendar(Component parent, Date date) {
         return internalCalendarTime(parent, date == null ? DateUtils.getTodayMinutes() : date, false);
     }
-    
+
     private static Date internalCalendarTime(Component parent, Date date, boolean bTimePanel) {
-        
-        Window window = getWindow(parent);      
-        
+
+        Window window = getWindow(parent);
+
         JCalendarDialog myMsg;
-        if (window instanceof Frame) { 
+        if (window instanceof Frame) {
             myMsg = new JCalendarDialog((Frame) window, true);
         } else {
             myMsg = new JCalendarDialog((Dialog) window, true);
         }
-        
+
         myMsg.initComponents();
-        
+
         Date d = date;
         int dialogwidth = 400;
-        
-        myMsg.myCalendar = new JCalendarPanel(d);     
+
+        myMsg.myCalendar = new JCalendarPanel(d);
         myMsg.myCalendar.addPropertyChangeListener("Date", new JPanelCalendarChange(myMsg));
         myMsg.jPanelGrid.add(myMsg.myCalendar);
-        
+
         if (bTimePanel) {
             myMsg.myTime = new JTimePanel(d);
-            myMsg.myTime.addPropertyChangeListener("Date", new JPanelTimeChange(myMsg)); 
+            myMsg.myTime.addPropertyChangeListener("Date", new JPanelTimeChange(myMsg));
             myMsg.jPanelGrid.add(myMsg.myTime);
             dialogwidth += 400;
         }
-        
-        myMsg.getRootPane().setDefaultButton(myMsg.jcmdOK);        
-        
+
+        myMsg.getRootPane().setDefaultButton(myMsg.jcmdOK);
+
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         myMsg.setBounds((screenSize.width - dialogwidth) / 2, (screenSize.height - 359) / 2, dialogwidth, 359);
-        
+
         //myMsg.show();
         myMsg.m_date = null;
         myMsg.setVisible(true);
         return myMsg.m_date;
     }
-      
-    private static class JPanelTimeChange implements PropertyChangeListener {
-        private JCalendarDialog m_me;
-        public JPanelTimeChange(JCalendarDialog me) {
-            m_me = me;
-        }
-        public void propertyChange(PropertyChangeEvent evt) {
-            m_me.myCalendar.setDate(m_me.myTime.getDate());
-        }        
-    }
-      
-    private static class JPanelCalendarChange implements PropertyChangeListener {
-        private JCalendarDialog m_me;
-        public JPanelCalendarChange(JCalendarDialog me) {
-            m_me = me;
-        }
-        public void propertyChange(PropertyChangeEvent evt) {
-            m_me.myTime.setDate(m_me.myCalendar.getDate());
-        }        
-    }
-    
-    /** This method is called from within the constructor to
+
+    /**
+     * This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
      * always regenerated by the Form Editor.
@@ -198,10 +190,10 @@ public class JCalendarDialog extends JDialog {
     private void jcmdOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcmdOKActionPerformed
 
         GregorianCalendar dateresult;
-        
+
         GregorianCalendar date1 = new GregorianCalendar();
         date1.setTime(myCalendar.getDate());
-        
+
         if (myTime == null) {
             dateresult = new GregorianCalendar(
                     date1.get(GregorianCalendar.YEAR),
@@ -218,17 +210,17 @@ public class JCalendarDialog extends JDialog {
                     date2.get(GregorianCalendar.HOUR_OF_DAY),
                     date2.get(GregorianCalendar.MINUTE));
         }
-        
+
         m_date = dateresult.getTime();
-                
+
         setVisible(false);
-        dispose();        
+        dispose();
     }//GEN-LAST:event_jcmdOKActionPerformed
 
     private void jcmdCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcmdCancelActionPerformed
 
         setVisible(false);
-        dispose();        
+        dispose();
     }//GEN-LAST:event_jcmdCancelActionPerformed
 
     private void closeWindow(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_closeWindow
@@ -236,13 +228,30 @@ public class JCalendarDialog extends JDialog {
         setVisible(false);
         dispose();
     }//GEN-LAST:event_closeWindow
-       
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private JPanel jPanel1;
-    private JPanel jPanel2;
-    private JPanel jPanelGrid;
-    private JButton jcmdCancel;
-    private JButton jcmdOK;
+
+    private static class JPanelTimeChange implements PropertyChangeListener {
+        private JCalendarDialog m_me;
+
+        public JPanelTimeChange(JCalendarDialog me) {
+            m_me = me;
+        }
+
+        public void propertyChange(PropertyChangeEvent evt) {
+            m_me.myCalendar.setDate(m_me.myTime.getDate());
+        }
+    }
+
+    private static class JPanelCalendarChange implements PropertyChangeListener {
+        private JCalendarDialog m_me;
+
+        public JPanelCalendarChange(JCalendarDialog me) {
+            m_me = me;
+        }
+
+        public void propertyChange(PropertyChangeEvent evt) {
+            m_me.myTime.setDate(m_me.myCalendar.getDate());
+        }
+    }
     // End of variables declaration//GEN-END:variables
-    
+
 }

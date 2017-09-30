@@ -22,7 +22,7 @@ package com.openbravo.editor;
 import com.openbravo.format.Formats;
 
 public class JEditorPercent extends JEditorNumber {
-    
+
     public JEditorPercent() {
     }
 

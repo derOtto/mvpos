@@ -18,9 +18,11 @@
 //    along with Openbravo POS.  If not, see <http://www.gnu.org/licenses/>.
 
 package com.openbravo.pos.payment;
+
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+
 import com.openbravo.data.gui.MessageInf;
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.format.Formats;
@@ -31,6 +33,7 @@ import com.openbravo.pos.scripting.ScriptException;
 import com.openbravo.pos.scripting.ScriptFactory;
 import com.openbravo.pos.util.RoundUtils;
 import com.openbravo.pos.util.ThumbNailBuilder;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
@@ -38,49 +41,63 @@ import javax.swing.JButton;
 import javax.swing.SwingConstants;
 
 /**
- *
  * @author adrianromero
  */
 public class JPaymentCashPos extends javax.swing.JPanel implements JPaymentInterface {
-    
+
     private JPaymentNotifier m_notifier;
 
     private double m_dPaid;
-    private double m_dTotal;    
-    
-    /** Creates new form JPaymentCash */
+    private double m_dTotal;
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JLabel m_jChangeEuros;
+    private com.openbravo.editor.JEditorKeys m_jKeys;
+    private javax.swing.JLabel m_jMoneyEuros;
+    private com.openbravo.editor.JEditorCurrencyPositive m_jTendered;
+    /**
+     * Creates new form JPaymentCash
+     */
     public JPaymentCashPos(JPaymentNotifier notifier, DataLogicSystem dlSystem) {
-        
+
         m_notifier = notifier;
-        
-        initComponents();  
-        
+
+        initComponents();
+
         m_jTendered.addPropertyChangeListener("Edition", new RecalculateState());
         m_jTendered.addEditorKeys(m_jKeys);
-        
+
         String code = dlSystem.getResourceAsXML("payment.cash");
         if (code != null) {
             try {
                 ScriptEngine script = ScriptFactory.getScriptEngine(ScriptFactory.BEANSHELL);
-                script.put("payment", new ScriptPaymentCash(dlSystem));    
+                script.put("payment", new ScriptPaymentCash(dlSystem));
                 script.eval(code);
             } catch (ScriptException e) {
                 MessageInf msg = new MessageInf(MessageInf.SGN_NOTICE, AppLocal.getIntString("message.cannotexecute"), e);
                 msg.show(this);
             }
         }
-        
+
     }
-    
+
     public void activate(PaymentInfoList paymentInfoList, CustomerInfoExt customerext, double dTotal, String transID) {
-        
+
         m_dTotal = dTotal;
-        
+
         m_jTendered.reset();
         m_jTendered.activate();
-        
-        printState();        
+
+        printState();
     }
+
     public PaymentInfo executePayment() {
         if (m_dPaid - m_dTotal >= 0.0) {
             // pago completo
@@ -88,80 +105,34 @@ public class JPaymentCashPos extends javax.swing.JPanel implements JPaymentInter
         } else {
             // pago parcial
             return new PaymentInfoCash(m_dPaid, m_dPaid);
-        }        
+        }
     }
+
     public Component getComponent() {
         return this;
     }
-    
+
     private void printState() {
 
         Double value = m_jTendered.getDoubleValue();
         if (value == null || value == 0.0) {
             m_dPaid = m_dTotal;
-        } else {            
+        } else {
             m_dPaid = value;
-        }   
+        }
 
         int iCompare = RoundUtils.compare(m_dPaid, m_dTotal);
-        
+
         m_jMoneyEuros.setText(Formats.CURRENCY.formatValue(m_dPaid));
-        m_jChangeEuros.setText(iCompare > 0 
+        m_jChangeEuros.setText(iCompare > 0
                 ? Formats.CURRENCY.formatValue(m_dPaid - m_dTotal)
-                : ""); 
-        
+                : "");
+
         m_notifier.setStatus(m_dPaid > 0.0, iCompare >= 0);
     }
-    
-    private class RecalculateState implements PropertyChangeListener {
-        @Override
-        public void propertyChange(PropertyChangeEvent evt) {
-            printState();
-        }
-    }    
-    
-    public class ScriptPaymentCash {
-        
-        private DataLogicSystem dlSystem;
-        private ThumbNailBuilder tnbbutton;
-        
-        public ScriptPaymentCash(DataLogicSystem dlSystem) {
-            this.dlSystem = dlSystem;
-            tnbbutton = new ThumbNailBuilder(72,72, 12, "com/openbravo/images/cash.png");
-        }
-        
-        public void addButton(String image, double amount) {
-            JButton btn = new JButton();
-            btn.setIcon(new ImageIcon(tnbbutton.getThumbNailText(dlSystem.getResourceAsImage(image), Formats.CURRENCY.formatValue(amount))));
-            btn.setFocusPainted(false);
-            btn.setFocusable(false);
-            btn.setRequestFocusEnabled(false);
-            btn.setHorizontalTextPosition(SwingConstants.CENTER);
-            btn.setVerticalTextPosition(SwingConstants.BOTTOM);
-            btn.setMargin(new Insets(2, 2, 2, 2));
-            btn.addActionListener(new AddAmount(amount));
-            jPanel6.add(btn);  
-        }
-    }
-    
-    private class AddAmount implements ActionListener {        
-        private double amount;
-        public AddAmount(double amount) {
-            this.amount = amount;
-        }
-        public void actionPerformed(ActionEvent e) {
-            Double tendered = m_jTendered.getDoubleValue();
-            if (tendered == null) {
-                m_jTendered.setDoubleValue(amount);
-            } else {
-                m_jTendered.setDoubleValue(tendered + amount);
-            }
 
-            printState();
-        }
-    }
-    
-    /** This method is called from within the constructor to
+    /**
+     * This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
      * always regenerated by the Form Editor.
@@ -235,21 +206,56 @@ public class JPaymentCashPos extends javax.swing.JPanel implements JPaymentInter
 
         add(jPanel2, BorderLayout.LINE_END);
     }// </editor-fold>//GEN-END:initComponents
-    
-    
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
-    private javax.swing.JLabel m_jChangeEuros;
-    private com.openbravo.editor.JEditorKeys m_jKeys;
-    private javax.swing.JLabel m_jMoneyEuros;
-    private com.openbravo.editor.JEditorCurrencyPositive m_jTendered;
+
+    private class RecalculateState implements PropertyChangeListener {
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+            printState();
+        }
+    }
+
+    public class ScriptPaymentCash {
+
+        private DataLogicSystem dlSystem;
+        private ThumbNailBuilder tnbbutton;
+
+        public ScriptPaymentCash(DataLogicSystem dlSystem) {
+            this.dlSystem = dlSystem;
+            tnbbutton = new ThumbNailBuilder(72, 72, 12, "com/openbravo/images/cash.png");
+        }
+
+        public void addButton(String image, double amount) {
+            JButton btn = new JButton();
+            btn.setIcon(new ImageIcon(tnbbutton.getThumbNailText(dlSystem.getResourceAsImage(image), Formats.CURRENCY.formatValue(amount))));
+            btn.setFocusPainted(false);
+            btn.setFocusable(false);
+            btn.setRequestFocusEnabled(false);
+            btn.setHorizontalTextPosition(SwingConstants.CENTER);
+            btn.setVerticalTextPosition(SwingConstants.BOTTOM);
+            btn.setMargin(new Insets(2, 2, 2, 2));
+            btn.addActionListener(new AddAmount(amount));
+            jPanel6.add(btn);
+        }
+    }
+
+    private class AddAmount implements ActionListener {
+        private double amount;
+
+        public AddAmount(double amount) {
+            this.amount = amount;
+        }
+
+        public void actionPerformed(ActionEvent e) {
+            Double tendered = m_jTendered.getDoubleValue();
+            if (tendered == null) {
+                m_jTendered.setDoubleValue(amount);
+            } else {
+                m_jTendered.setDoubleValue(tendered + amount);
+            }
+
+            printState();
+        }
+    }
     // End of variables declaration//GEN-END:variables
-    
+
 }

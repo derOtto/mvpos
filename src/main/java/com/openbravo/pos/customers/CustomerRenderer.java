@@ -23,10 +23,12 @@ import javax.swing.*;
 import java.awt.*;
 
 public class CustomerRenderer extends DefaultListCellRenderer {
-                
+
     private Icon icocustomer;
 
-    /** Creates a new instance of ProductRenderer */
+    /**
+     * Creates a new instance of ProductRenderer
+     */
     public CustomerRenderer() {
 
         icocustomer = new ImageIcon(getClass().getClassLoader().getResource("com/openbravo/images/kdmconfig.png"));
@@ -38,5 +40,5 @@ public class CustomerRenderer extends DefaultListCellRenderer {
         setText(value.toString());
         setIcon(icocustomer);
         return this;
-    }      
+    }
 }

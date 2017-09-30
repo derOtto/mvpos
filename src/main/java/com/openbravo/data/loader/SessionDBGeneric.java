@@ -20,7 +20,6 @@
 package com.openbravo.data.loader;
 
 /**
- *
  * @author adrianromero
  */
 public class SessionDBGeneric implements SessionDB {
@@ -34,12 +33,15 @@ public class SessionDBGeneric implements SessionDB {
     public String TRUE() {
         return "TRUE";
     }
+
     public String FALSE() {
         return "FALSE";
     }
+
     public String INTEGER_NULL() {
         return "CAST(NULL AS INTEGER)";
     }
+
     public String CHAR_NULL() {
         return "CAST(NULL AS CHAR)";
     }

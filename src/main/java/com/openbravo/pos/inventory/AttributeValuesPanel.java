@@ -30,12 +30,12 @@ import com.openbravo.data.user.EditorRecord;
 import com.openbravo.format.Formats;
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.panels.JPanelTableExt;
+
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- *
  * @author adrianromero
  */
 public class AttributeValuesPanel extends JPanelTableExt {
@@ -78,7 +78,7 @@ public class AttributeValuesPanel extends JPanelTableExt {
     }
 
     @Override
-    public Component getFilter(){
+    public Component getFilter() {
         return filter.getComponent();
     }
 

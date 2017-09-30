@@ -20,7 +20,6 @@
 package com.openbravo.pos.forms;
 
 /**
- *
  * @author adrianromero
  */
 public interface BeanFactoryApp extends BeanFactory {

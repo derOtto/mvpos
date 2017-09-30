@@ -26,7 +26,9 @@ public class MagCardReaderAlternative implements MagCardReader {
     private MagCardParser magcardparser;
     private StringBuffer asciiCode = null;
 
-    /** Creates a new instance of GenericMagCardReader */
+    /**
+     * Creates a new instance of GenericMagCardReader
+     */
     public MagCardReaderAlternative() {
         magcardparser = new MagCardParserGeneric();
     }
@@ -35,12 +37,14 @@ public class MagCardReaderAlternative implements MagCardReader {
     public String getReaderName() {
         return "Alternative magnetic card reader";
     }
+
     @Override
     public void keyPressed(KeyEvent evt) {
         if (evt.getKeyCode() == KeyEvent.VK_ALT) {
             asciiCode = new StringBuffer();
         }
     }
+
     @Override
     public void keyReleased(KeyEvent evt) {
         if (evt.getKeyCode() == KeyEvent.VK_ALT) {
@@ -54,6 +58,7 @@ public class MagCardReaderAlternative implements MagCardReader {
             asciiCode = null;
         }
     }
+
     @Override
     public void keyTyped(KeyEvent evt) {
         if (asciiCode != null && Character.isDigit(evt.getKeyChar())) {
@@ -62,6 +67,7 @@ public class MagCardReaderAlternative implements MagCardReader {
             magcardparser.append(evt.getKeyChar());
         }
     }
+
     @Override
     public MagCardParser getMagCard() {
         return magcardparser;

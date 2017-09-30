@@ -21,6 +21,7 @@ package com.openbravo.pos.inventory;
 import java.awt.*;
 import javax.swing.JFrame;
 import javax.swing.ListModel;
+
 import com.openbravo.data.gui.MessageInf;
 import com.openbravo.data.user.BrowsableEditableData;
 import com.openbravo.pos.forms.AppLocal;
@@ -32,11 +33,11 @@ import com.openbravo.pos.forms.AppView;
 import com.openbravo.pos.forms.DataLogicSales;
 import com.openbravo.pos.sales.TaxesLogic;
 import com.openbravo.pos.util.RoundUtils;
+
 import java.util.Date;
 import java.util.Properties;
 
 /**
- *
  * @author adrianromero
  * @author Andrey Svininykh
  * @version NORD POS 3
@@ -48,6 +49,12 @@ public class JDlgUploadProducts extends javax.swing.JDialog {
     private DataLogicSales dataLogicSales;
     private TaxesLogic taxesLogic;
     private String locationId;
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JButton jcmdCancel;
+    private javax.swing.JButton jcmdOK;
 
     private JDlgUploadProducts(Frame parent, boolean modal) {
         super(parent, modal);
@@ -55,16 +62,6 @@ public class JDlgUploadProducts extends javax.swing.JDialog {
 
     private JDlgUploadProducts(Dialog parent, boolean modal) {
         super(parent, modal);
-    }
-
-    private void init(DeviceInputOutput deviceplu, BrowsableEditableData bd, DataLogicSales dataLogicSales, String locationId) {
-        initComponents();
-        getRootPane().setDefaultButton(jcmdOK);
-        m_deviceplu = deviceplu;        
-        m_bd = bd;
-        this.dataLogicSales = dataLogicSales;
-        this.locationId = locationId;
-        setVisible(true);
     }
 
     private static Window getWindow(Component parent) {
@@ -88,6 +85,16 @@ public class JDlgUploadProducts extends javax.swing.JDialog {
         }
 
         myMsg.init(appView.getDevicePLUs(), bd, dataLogicSales, appView.getAppUserView().getUser().getProperties().getProperty("user.location.id", appView.getDefaultInventoryLocation()));
+    }
+
+    private void init(DeviceInputOutput deviceplu, BrowsableEditableData bd, DataLogicSales dataLogicSales, String locationId) {
+        initComponents();
+        getRootPane().setDefaultButton(jcmdOK);
+        m_deviceplu = deviceplu;
+        m_bd = bd;
+        this.dataLogicSales = dataLogicSales;
+        this.locationId = locationId;
+        setVisible(true);
     }
 
     /**
@@ -139,7 +146,7 @@ public class JDlgUploadProducts extends javax.swing.JDialog {
         getContentPane().add(jPanel1, BorderLayout.CENTER);
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        setBounds((screenSize.width-474)/2, (screenSize.height-161)/2, 474, 161);
+        setBounds((screenSize.width - 474) / 2, (screenSize.height - 161) / 2, 474, 161);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jcmdCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcmdCancelActionPerformed
@@ -197,14 +204,6 @@ public class JDlgUploadProducts extends javax.swing.JDialog {
         dispose();
 
     }//GEN-LAST:event_jcmdOKActionPerformed
-
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JButton jcmdCancel;
-    private javax.swing.JButton jcmdOK;
     // End of variables declaration//GEN-END:variables
 
 }

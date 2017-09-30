@@ -26,7 +26,6 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- *
  * @author adrian
  */
 public class ScaleDialog implements DeviceScale {
@@ -38,7 +37,7 @@ public class ScaleDialog implements DeviceScale {
     }
 
     public Double readWeight() throws ScaleException {
-        
+
         // Set title for grams Kilos, ounzes, pounds, ...
         return JNumberDialog.showEditNumber(parent, AppLocal.getIntString("label.scale"), AppLocal.getIntString("label.scaleinput"), new ImageIcon(ScaleDialog.class.getResource("/com/openbravo/images/ark2.png")));
     }

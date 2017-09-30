@@ -43,6 +43,7 @@ import com.openbravo.pos.scripting.ScriptEngine;
 import com.openbravo.pos.scripting.ScriptException;
 import com.openbravo.pos.scripting.ScriptFactory;
 import com.openbravo.pos.ticket.ProductInfoExt;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -59,7 +60,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
- *
  * @author adrianromero
  * @author jldy0717
  * @author Andrey Svininykh <svininykh@gmail.com>
@@ -70,29 +70,54 @@ public class StockManagement extends JPanel implements JPanelView {
     private static final String PRINTER_SHEMA = "/com/nordpos/templates/Schema.Printer.xsd";
     private static final String PRINT_INVENTORY = "/com/nordpos/templates/Printer.Inventory.xml";
     private static final String PRINT_STOCK_PREVIEW = "/com/nordpos/templates/Printer.StockPreview.xml";
-
-    private final AppView m_App;
-    private final DataLogicSystem m_dlSystem;
-    final private DataLogicSales m_dlSales;
-    private TicketParser m_TTP;
-
-    private TaxesLogic taxeslogic;
-
-    private final CatalogSelector m_cat;
-    private final PropertiesConfig panelconfig;
-    private final ComboBoxValModel m_ReasonModel;
-
-    private final SentenceList m_sentlocations;
-    private ComboBoxValModel m_LocationsModel;
-    private ComboBoxValModel m_LocationsModelDes;
-
-    private final JInventoryLines m_invlines;
-
-    private int NUMBER_STATE = 0;
-    private int MULTIPLY = 0;
     private static final int DEFAULT = 0;
     private static final int ACTIVE = 1;
     private static final int DECIMAL = 2;
+    private final AppView m_App;
+    private final DataLogicSystem m_dlSystem;
+    final private DataLogicSales m_dlSales;
+    private final CatalogSelector m_cat;
+    private final PropertiesConfig panelconfig;
+    private final ComboBoxValModel m_ReasonModel;
+    private final SentenceList m_sentlocations;
+    private final JInventoryLines m_invlines;
+    private TicketParser m_TTP;
+    private TaxesLogic taxeslogic;
+    private ComboBoxValModel m_LocationsModel;
+    private ComboBoxValModel m_LocationsModelDes;
+    private int NUMBER_STATE = 0;
+    private int MULTIPLY = 0;
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnDownloadProducts;
+    private JPanel catcontainer;
+    private javax.swing.JButton jEditAttributes;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel8;
+    private com.openbravo.beans.JNumberKeys jNumberKeys;
+    private JPanel jPanel1;
+    private JPanel jPanel10;
+    private JPanel jPanel2;
+    private JPanel jPanel3;
+    private JPanel jPanel4;
+    private JPanel jPanel5;
+    private JPanel jPanel6;
+    private JPanel jPanel7;
+    private JPanel jPanel8;
+    private JPanel jPanel9;
+    private javax.swing.JButton m_jDelete;
+    private javax.swing.JButton m_jDown;
+    private javax.swing.JButton m_jEditLine;
+    private javax.swing.JButton m_jEnter;
+    private javax.swing.JTextField m_jKeyFactory;
+    private javax.swing.JComboBox m_jLocation;
+    private javax.swing.JComboBox m_jLocationDes;
+    private javax.swing.JButton m_jUp;
+    private javax.swing.JButton m_jbtnStockPreview;
+    private javax.swing.JButton m_jbtndate;
+    private javax.swing.JLabel m_jcodebar;
+    private javax.swing.JTextField m_jdate;
+    private javax.swing.JComboBox m_jreason;
 
     public StockManagement(AppView app) {
 
@@ -371,14 +396,14 @@ public class StockManagement extends JPanel implements JPanelView {
 
         for (InventoryLine inv : mergeInventoryLine(rec.getLines())) {
             sent.exec(new Object[]{
-                UUID.randomUUID().toString(),
-                rec.getDate(),
-                rec.getReason().getKey(),
-                rec.getLocation().getID(),
-                inv.getProductID(),
-                inv.getProductAttSetInstId(),
-                rec.getReason().samesignum(inv.getMultiply()),
-                inv.getPriceBuy()
+                    UUID.randomUUID().toString(),
+                    rec.getDate(),
+                    rec.getReason().getKey(),
+                    rec.getLocation().getID(),
+                    inv.getProductID(),
+                    inv.getProductAttSetInstId(),
+                    rec.getReason().samesignum(inv.getMultiply()),
+                    inv.getPriceBuy()
             });
         }
 
@@ -468,27 +493,6 @@ public class StockManagement extends JPanel implements JPanelView {
             }
         }
         return lines;
-    }
-
-    private class CatalogListener implements ActionListener {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            try {
-                if (!m_jcodebar.getText().isEmpty()) {
-
-                    String sQty = m_jcodebar.getText();
-                    Double dQty = (Double.valueOf(sQty) == 0) ? 1.0 : Double.valueOf(sQty);
-                    incProduct((ProductInfoExt) e.getSource(), dQty);
-                    m_jcodebar.setText("");
-
-                } else {
-                    incProduct((ProductInfoExt) e.getSource(), 1.0);
-                }
-            } catch (BasicException ex) {
-                Logger.getLogger(StockManagement.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
     }
 
     private void openAttributesEditor(int index) {
@@ -688,44 +692,44 @@ public class StockManagement extends JPanel implements JPanelView {
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel8Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(m_jdate, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(m_jLocation, 0, 175, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(m_jbtndate)
-                            .addComponent(m_jLocationDes, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(m_jreason, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(99, Short.MAX_VALUE))
+                jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                             .addGroup(jPanel8Layout.createSequentialGroup()
+                                                    .addContainerGap()
+                                                    .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                                           .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                                           .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                                           .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE))
+                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                    .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                                           .addGroup(jPanel8Layout.createSequentialGroup()
+                                                                                                  .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                                                                                                         .addComponent(m_jdate, javax.swing.GroupLayout.Alignment.LEADING)
+                                                                                                                         .addComponent(m_jLocation, 0, 175, Short.MAX_VALUE))
+                                                                                                  .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                                                  .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                                                                         .addComponent(m_jbtndate)
+                                                                                                                         .addComponent(m_jLocationDes, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                                           .addComponent(m_jreason, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                                    .addContainerGap(99, Short.MAX_VALUE))
         );
         jPanel8Layout.setVerticalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel8Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jLabel1)
-                    .addComponent(m_jdate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(m_jbtndate))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jLabel2)
-                    .addComponent(m_jreason, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(m_jLocationDes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8)
-                    .addComponent(m_jLocation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                             .addGroup(jPanel8Layout.createSequentialGroup()
+                                                    .addContainerGap()
+                                                    .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                                                                           .addComponent(jLabel1)
+                                                                           .addComponent(m_jdate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                           .addComponent(m_jbtndate))
+                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                    .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                                                                           .addComponent(jLabel2)
+                                                                           .addComponent(m_jreason, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                    .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                                                                           .addComponent(m_jLocationDes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                           .addComponent(jLabel8)
+                                                                           .addComponent(m_jLocation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                    .addContainerGap())
         );
 
         jPanel3.add(jPanel8, BorderLayout.NORTH);
@@ -809,23 +813,23 @@ public class StockManagement extends JPanel implements JPanelView {
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
         jPanel9Layout.setHorizontalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel9Layout.createSequentialGroup()
-                .addGap(6, 6, 6)
-                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 504, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                             .addGroup(jPanel9Layout.createSequentialGroup()
+                                                    .addGap(6, 6, 6)
+                                                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 504, Short.MAX_VALUE)
+                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                    .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addContainerGap())
         );
         jPanel9Layout.setVerticalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel9Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel9Layout.createSequentialGroup()
-                        .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())))
+                jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                             .addGroup(jPanel9Layout.createSequentialGroup()
+                                                    .addContainerGap()
+                                                    .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                           .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                                           .addGroup(jPanel9Layout.createSequentialGroup()
+                                                                                                  .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                                                                  .addContainerGap())))
         );
 
         jPanel3.add(jPanel9, BorderLayout.CENTER);
@@ -924,23 +928,23 @@ public class StockManagement extends JPanel implements JPanelView {
 
     }//GEN-LAST:event_jNumberKeysKeyPerformed
 
-private void m_jcodebarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_m_jcodebarMouseClicked
-    java.awt.EventQueue.invokeLater(new Runnable() {
-        public void run() {
-            m_jKeyFactory.requestFocus();
+    private void m_jcodebarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_m_jcodebarMouseClicked
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                m_jKeyFactory.requestFocus();
+            }
+        });
+    }//GEN-LAST:event_m_jcodebarMouseClicked
+
+    private void jEditAttributesActionPerformed(ActionEvent evt) {//GEN-FIRST:event_jEditAttributesActionPerformed
+
+        int i = m_invlines.getSelectedRow();
+        if (i < 0) {
+            Toolkit.getDefaultToolkit().beep(); // no line selected
+        } else {
+            openAttributesEditor(i);
         }
-    });
-}//GEN-LAST:event_m_jcodebarMouseClicked
-
-private void jEditAttributesActionPerformed(ActionEvent evt) {//GEN-FIRST:event_jEditAttributesActionPerformed
-
-    int i = m_invlines.getSelectedRow();
-    if (i < 0) {
-        Toolkit.getDefaultToolkit().beep(); // no line selected
-    } else {
-        openAttributesEditor(i);
-    }
-}//GEN-LAST:event_jEditAttributesActionPerformed
+    }//GEN-LAST:event_jEditAttributesActionPerformed
 
     private void m_jKeyFactoryKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_m_jKeyFactoryKeyTyped
         m_jKeyFactory.setText(null);
@@ -1010,37 +1014,26 @@ private void jEditAttributesActionPerformed(ActionEvent evt) {//GEN-FIRST:event_
         }
     }//GEN-LAST:event_m_jEditLineActionPerformed
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnDownloadProducts;
-    private JPanel catcontainer;
-    private javax.swing.JButton jEditAttributes;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel8;
-    private com.openbravo.beans.JNumberKeys jNumberKeys;
-    private JPanel jPanel1;
-    private JPanel jPanel10;
-    private JPanel jPanel2;
-    private JPanel jPanel3;
-    private JPanel jPanel4;
-    private JPanel jPanel5;
-    private JPanel jPanel6;
-    private JPanel jPanel7;
-    private JPanel jPanel8;
-    private JPanel jPanel9;
-    private javax.swing.JButton m_jDelete;
-    private javax.swing.JButton m_jDown;
-    private javax.swing.JButton m_jEditLine;
-    private javax.swing.JButton m_jEnter;
-    private javax.swing.JTextField m_jKeyFactory;
-    private javax.swing.JComboBox m_jLocation;
-    private javax.swing.JComboBox m_jLocationDes;
-    private javax.swing.JButton m_jUp;
-    private javax.swing.JButton m_jbtnStockPreview;
-    private javax.swing.JButton m_jbtndate;
-    private javax.swing.JLabel m_jcodebar;
-    private javax.swing.JTextField m_jdate;
-    private javax.swing.JComboBox m_jreason;
+    private class CatalogListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            try {
+                if (!m_jcodebar.getText().isEmpty()) {
+
+                    String sQty = m_jcodebar.getText();
+                    Double dQty = (Double.valueOf(sQty) == 0) ? 1.0 : Double.valueOf(sQty);
+                    incProduct((ProductInfoExt) e.getSource(), dQty);
+                    m_jcodebar.setText("");
+
+                } else {
+                    incProduct((ProductInfoExt) e.getSource(), 1.0);
+                }
+            } catch (BasicException ex) {
+                Logger.getLogger(StockManagement.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
     // End of variables declaration//GEN-END:variables
 
 }

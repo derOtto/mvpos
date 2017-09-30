@@ -26,33 +26,37 @@ import java.awt.Frame;
 import java.awt.Window;
 
 /**
- *
  * @author adrianromero
  */
 public class JPaymentSelectReceipt extends JPaymentSelect {
-    
-    /** Creates new form JPaymentSelect */
+
+    /**
+     * Creates new form JPaymentSelect
+     */
     protected JPaymentSelectReceipt(Frame parent, boolean modal, ComponentOrientation o) {
         super(parent, modal, o);
     }
-    /** Creates new form JPaymentSelect */
+
+    /**
+     * Creates new form JPaymentSelect
+     */
     protected JPaymentSelectReceipt(Dialog parent, boolean modal, ComponentOrientation o) {
         super(parent, modal, o);
-    } 
-    
+    }
+
     public static JPaymentSelect getDialog(Component parent) {
-         
+
         Window window = getWindow(parent);
-        
-        if (window instanceof Frame) { 
+
+        if (window instanceof Frame) {
             return new JPaymentSelectReceipt((Frame) window, true, parent.getComponentOrientation());
         } else {
             return new JPaymentSelectReceipt((Dialog) window, true, parent.getComponentOrientation());
         }
-    } 
-    
+    }
+
     protected void addTabs() {
-        
+
         addTabPayment(new JPaymentCashCreator());
         addTabPayment(new JPaymentChequeCreator());
         addTabPayment(new JPaymentPaperCreator());
@@ -61,13 +65,13 @@ public class JPaymentSelectReceipt extends JPaymentSelect {
         addTabPayment(new JPaymentDebtCreator());
         setHeaderVisible(true);
     }
-    
+
     protected void setStatusPanel(boolean isPositive, boolean isComplete) {
-        
+
         setAddEnabled(isPositive && !isComplete);
         setOKEnabled(isComplete);
     }
-    
+
     protected PaymentInfo getDefaultPayment(double total) {
         return new PaymentInfoCash(total, total);
     }

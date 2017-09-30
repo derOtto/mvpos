@@ -21,21 +21,25 @@ package com.openbravo.pos.catalog;
 
 import com.openbravo.basic.BasicException;
 import com.openbravo.pos.forms.AppView;
+
 import java.awt.Component;
 import java.awt.event.ActionListener;
 
 /**
- *
  * @author adrianromero
  * @author Andrey Svininykh <svininykh@gmail.com>
  */
 public interface CatalogSelector {
-    
+
     public void loadCatalog(AppView app) throws BasicException;
+
     public void showCatalogPanel(String id);
+
     public void setComponentEnabled(boolean value);
+
     public Component getComponent();
-    
-    public void addActionListener(ActionListener l);  
-    public void removeActionListener(ActionListener l);    
+
+    public void addActionListener(ActionListener l);
+
+    public void removeActionListener(ActionListener l);
 }

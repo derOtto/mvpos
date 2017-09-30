@@ -18,9 +18,10 @@
 //    along with Openbravo POS.  If not, see <http://www.gnu.org/licenses/>.
 package com.openbravo.format;
 
+import com.openbravo.basic.BasicException;
+
 import java.text.*;
 import java.util.Date;
-import com.openbravo.basic.BasicException;
 
 public abstract class Formats {
 
@@ -56,30 +57,6 @@ public abstract class Formats {
     public static int getCurrencyDecimals() {
 
         return m_currencyformat.getMaximumFractionDigits();
-    }
-
-    public String formatValue(Object value) {
-        if (value == null) {
-            return "";
-        } else {
-            return formatValueInt(value);
-        }
-    }
-
-    public Object parseValue(String value, Object defvalue) throws BasicException {
-        if (value == null || "".equals(value)) {
-            return defvalue;
-        } else {
-            try {
-                return parseValueInt(value);
-            } catch (ParseException e) {
-                throw new BasicException(e.getMessage(), e);
-            }
-        }
-    }
-
-    public Object parseValue(String value) throws BasicException {
-        return parseValue(value, null);
     }
 
     public static void setIntegerPattern(String pattern) {
@@ -144,6 +121,30 @@ public abstract class Formats {
         } else {
             m_datetimeformat = new SimpleDateFormat(pattern);
         }
+    }
+
+    public String formatValue(Object value) {
+        if (value == null) {
+            return "";
+        } else {
+            return formatValueInt(value);
+        }
+    }
+
+    public Object parseValue(String value, Object defvalue) throws BasicException {
+        if (value == null || "".equals(value)) {
+            return defvalue;
+        } else {
+            try {
+                return parseValueInt(value);
+            } catch (ParseException e) {
+                throw new BasicException(e.getMessage(), e);
+            }
+        }
+    }
+
+    public Object parseValue(String value) throws BasicException {
+        return parseValue(value, null);
     }
 
     protected abstract String formatValueInt(Object value);

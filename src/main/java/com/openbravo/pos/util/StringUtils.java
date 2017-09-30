@@ -28,27 +28,29 @@ import java.text.NumberFormat;
 import java.util.Random;
 
 public class StringUtils {
-    
-    private static final char [] hexchars = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
-     
+
+    private static final char[] hexchars = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
+
     private static final NumberFormat cardformat = new DecimalFormat("000000");
     private static final Random cardrandom = new Random();
-    
-    /** Creates a new instance of StringUtils */
+
+    /**
+     * Creates a new instance of StringUtils
+     */
     private StringUtils() {
     }
-    
+
     public static String getCardNumber() {
-    return cardformat.format(Math.abs(System.currentTimeMillis()) % 1000000L)
-         + cardformat.format(Math.abs(cardrandom.nextLong()) % 1000000L);
+        return cardformat.format(Math.abs(System.currentTimeMillis()) % 1000000L)
+                + cardformat.format(Math.abs(cardrandom.nextLong()) % 1000000L);
     }
-    
+
     public static String encodeXML(String sValue) {
-        
+
         if (sValue == null) {
             return null;
         } else {
-            StringBuffer buffer = new StringBuffer();      
+            StringBuffer buffer = new StringBuffer();
             for (int i = 0; i < sValue.length(); i++) {
                 char charToCompare = sValue.charAt(i);
                 if (charToCompare == '&') {
@@ -67,10 +69,10 @@ public class StringUtils {
             }
             return buffer.toString();
         }
-    }  
-    
+    }
+
     public static String byte2hex(byte[] binput) {
-        
+
         StringBuffer sb = new StringBuffer(binput.length * 2);
         for (int i = 0; i < binput.length; i++) {
             int high = ((binput[i] & 0xF0) >> 4);
@@ -79,9 +81,9 @@ public class StringUtils {
             sb.append(hexchars[low]);
         }
         return sb.toString();
-    }    
+    }
 
-    public static byte [] hex2byte(String sinput) {
+    public static byte[] hex2byte(String sinput) {
         int length = sinput.length();
 
         if ((length & 0x01) != 0) {
@@ -98,10 +100,10 @@ public class StringUtils {
         }
 
         return out;
-    }  
-    
+    }
+
     public static String readResource(String resource) throws IOException {
-        
+
         InputStream in = StringUtils.class.getResourceAsStream(resource);
         if (in == null) {
             throw new FileNotFoundException(resource);
@@ -116,23 +118,23 @@ public class StringUtils {
 
         return new String(data, "UTF-8");
     }
-        
-    public static boolean isNumber(String sCardNumber){
-        
-        if ( (sCardNumber==null) || (sCardNumber.equals("")) ){
+
+    public static boolean isNumber(String sCardNumber) {
+
+        if ((sCardNumber == null) || (sCardNumber.equals(""))) {
             return false;
         }
-        
+
         for (int i = 0; i < sCardNumber.length(); i++) {
             char c = sCardNumber.charAt(i);
             if (c != '0' && c != '1' && c != '2' && c != '3' && c != '4' && c != '5' && c != '6' && c != '7' && c != '8' && c != '9') {
                 return false;
             }
         }
-        
+
         return true;
     }
-    
+
     public static String getWhiteString(int iSize, char cWhiteChar) {
 
         char[] cFill = new char[iSize];

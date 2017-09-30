@@ -25,69 +25,71 @@ import com.openbravo.data.loader.IKeyed;
 import com.openbravo.data.loader.SerializableRead;
 
 /**
- *
  * @author adrianromero
  * Created on February 13, 2007, 10:13 AM
- *
  */
 public class LocationInfo implements SerializableRead, IKeyed {
-    
+
     private static final long serialVersionUID = 9032683595230L;
     private String m_sID;
     private String m_sName;
     private String m_sAddress;
     private boolean m_bClose;
-    
-    /** Creates a new instance of LocationInfo */
+
+    /**
+     * Creates a new instance of LocationInfo
+     */
     public LocationInfo() {
         m_sID = null;
         m_sName = null;
         m_sAddress = null;
         m_bClose = false;
     }
-    
+
     public Object getKey() {
         return m_sID;
     }
+
     public void readValues(DataRead dr) throws BasicException {
         m_sID = dr.getString(1);
         m_sName = dr.getString(2);
         m_sAddress = dr.getString(3);
         m_bClose = dr.getBoolean(4);
-    } 
-    
-    public void setID(String sID) {
-        m_sID = sID;
     }
-    
+
     public String getID() {
         return m_sID;
+    }
+
+    public void setID(String sID) {
+        m_sID = sID;
     }
 
     public String getName() {
         return m_sName;
     }
-    
+
     public void setName(String sName) {
         m_sName = sName;
-    }  
+    }
 
     public String getAddress() {
         return m_sAddress;
     }
-    
+
     public void setAddress(String sAddress) {
         m_sAddress = sAddress;
-    } 
-    
-    public boolean isClose() {            
+    }
+
+    public boolean isClose() {
         return m_bClose;
     }
-    public void setClose(boolean bValue){            
+
+    public void setClose(boolean bValue) {
         m_bClose = bValue;
     }
-    
-    public String toString(){
+
+    public String toString() {
         return m_sName;
-    }    
+    }
 }

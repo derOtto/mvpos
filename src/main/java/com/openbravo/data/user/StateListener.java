@@ -21,10 +21,9 @@
 package com.openbravo.data.user;
 
 /**
- *
- * @author  adrian
+ * @author adrian
  */
 public interface StateListener extends java.util.EventListener {
- 
-    public void updateState(int iState);   
+
+    public void updateState(int iState);
 }

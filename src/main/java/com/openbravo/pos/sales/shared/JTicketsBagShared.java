@@ -19,6 +19,7 @@
 package com.openbravo.pos.sales.shared;
 
 import com.openbravo.pos.ticket.TicketInfo;
+
 import java.util.*;
 import javax.swing.*;
 
@@ -31,6 +32,11 @@ public class JTicketsBagShared extends JTicketsBag {
 
     private String m_sCurrentTicket = null;
     private DataLogicReceipts dlReceipts = null;
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private JPanel jPanel1;
+    private JButton m_jDelTicket;
+    private JButton m_jListTickets;
+    private JButton m_jNewTicket;
 
     /**
      * Creates new form JTicketsBagShared
@@ -58,7 +64,7 @@ public class JTicketsBagShared extends JTicketsBag {
 
     public boolean deactivate() {
 
-        // precondicion es que tenemos ticket activado aqui y ticket en el panel 
+        // precondicion es que tenemos ticket activado aqui y ticket en el panel
         saveCurrentTicket();
 
         m_sCurrentTicket = null;
@@ -82,7 +88,7 @@ public class JTicketsBagShared extends JTicketsBag {
         return new JPanel();
     }
 
-    private void saveCurrentTicket() {        
+    private void saveCurrentTicket() {
 
         // save current ticket, if exists,
         if (m_sCurrentTicket != null) {
@@ -108,7 +114,7 @@ public class JTicketsBagShared extends JTicketsBag {
             m_panelticket.setActiveTicket(ticket, null);
         }
         checkLayaways();
-        // END TRANSACTION                 
+        // END TRANSACTION
     }
 
     private void checkLayaways() throws BasicException {
@@ -126,7 +132,7 @@ public class JTicketsBagShared extends JTicketsBag {
     private void selectValidTicket() {
 
         try {
-            List<SharedTicketInfo> l = dlReceipts.getSharedTicketList();            
+            List<SharedTicketInfo> l = dlReceipts.getSharedTicketList();
             if (l.size() == 0) {
                 newTicket();
             } else {
@@ -239,13 +245,6 @@ public class JTicketsBagShared extends JTicketsBag {
         newTicket();
 
     }//GEN-LAST:event_m_jNewTicketActionPerformed
-
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private JPanel jPanel1;
-    private JButton m_jDelTicket;
-    private JButton m_jListTickets;
-    private JButton m_jNewTicket;
     // End of variables declaration//GEN-END:variables
 
 }

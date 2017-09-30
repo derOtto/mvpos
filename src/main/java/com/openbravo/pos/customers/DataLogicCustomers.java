@@ -41,38 +41,37 @@ import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.forms.BeanFactoryDataSingle;
 
 /**
- *
  * @author adrianromero
  */
 public class DataLogicCustomers extends BeanFactoryDataSingle {
 
+    private static Datas[] customerdatas = new Datas[]{Datas.STRING, Datas.TIMESTAMP, Datas.TIMESTAMP, Datas.STRING, Datas.STRING, Datas.STRING, Datas.STRING, Datas.INT, Datas.BOOLEAN, Datas.STRING};
     protected Session s;
     private TableDefinition tcustomers;
-    private static Datas[] customerdatas = new Datas[] {Datas.STRING, Datas.TIMESTAMP, Datas.TIMESTAMP, Datas.STRING, Datas.STRING, Datas.STRING, Datas.STRING, Datas.INT, Datas.BOOLEAN, Datas.STRING};
 
-    public void init(Session s){
+    public void init(Session s) {
 
         this.s = s;
         tcustomers = new TableDefinition(s
-            , "CUSTOMERS"
-            , new String[] { "ID", "TAXID", "SEARCHKEY", "NAME", "NOTES", "VISIBLE", "CARD", "MAXDEBT", "CURDATE", "CURDEBT"
-                           , "FIRSTNAME", "LASTNAME", "EMAIL", "PHONE", "PHONE2", "FAX"
-                           , "ADDRESS", "ADDRESS2", "POSTAL", "CITY", "REGION", "COUNTRY"
-                           , "TAXCATEGORY" }
-            , new String[] { "ID", AppLocal.getIntString("label.taxid"), AppLocal.getIntString("label.searchkey"), AppLocal.getIntString("label.name"), AppLocal.getIntString("label.notes"), "VISIBLE", "CARD", AppLocal.getIntString("label.maxdebt"), AppLocal.getIntString("label.curdate"), AppLocal.getIntString("label.curdebt")
-                           , AppLocal.getIntString("label.firstname"), AppLocal.getIntString("label.lastname"), AppLocal.getIntString("label.email"), AppLocal.getIntString("label.phone"), AppLocal.getIntString("label.phone2"), AppLocal.getIntString("label.fax")
-                           , AppLocal.getIntString("label.address"), AppLocal.getIntString("label.address2"), AppLocal.getIntString("label.postal"), AppLocal.getIntString("label.city"), AppLocal.getIntString("label.region"), AppLocal.getIntString("label.country")
-                           , "TAXCATEGORY"}
-            , new Datas[] { Datas.STRING, Datas.STRING, Datas.STRING, Datas.STRING, Datas.STRING, Datas.BOOLEAN, Datas.STRING, Datas.DOUBLE, Datas.TIMESTAMP, Datas.DOUBLE
-                          , Datas.STRING, Datas.STRING, Datas.STRING, Datas.STRING, Datas.STRING, Datas.STRING
-                          , Datas.STRING, Datas.STRING, Datas.STRING, Datas.STRING, Datas.STRING, Datas.STRING
-                          , Datas.STRING}
-            , new Formats[] { Formats.STRING, Formats.STRING, Formats.STRING, Formats.STRING, Formats.STRING, Formats.BOOLEAN, Formats.STRING, Formats.CURRENCY, Formats.TIMESTAMP, Formats.CURRENCY
-                            , Formats.STRING, Formats.STRING, Formats.STRING, Formats.STRING, Formats.STRING, Formats.STRING
-                            , Formats.STRING, Formats.STRING, Formats.STRING, Formats.STRING, Formats.STRING, Formats.STRING
-                            , Formats.STRING}
-            , "NAME"
-            , new int[] {0}
+                , "CUSTOMERS"
+                , new String[]{"ID", "TAXID", "SEARCHKEY", "NAME", "NOTES", "VISIBLE", "CARD", "MAXDEBT", "CURDATE", "CURDEBT"
+                , "FIRSTNAME", "LASTNAME", "EMAIL", "PHONE", "PHONE2", "FAX"
+                , "ADDRESS", "ADDRESS2", "POSTAL", "CITY", "REGION", "COUNTRY"
+                , "TAXCATEGORY"}
+                , new String[]{"ID", AppLocal.getIntString("label.taxid"), AppLocal.getIntString("label.searchkey"), AppLocal.getIntString("label.name"), AppLocal.getIntString("label.notes"), "VISIBLE", "CARD", AppLocal.getIntString("label.maxdebt"), AppLocal.getIntString("label.curdate"), AppLocal.getIntString("label.curdebt")
+                , AppLocal.getIntString("label.firstname"), AppLocal.getIntString("label.lastname"), AppLocal.getIntString("label.email"), AppLocal.getIntString("label.phone"), AppLocal.getIntString("label.phone2"), AppLocal.getIntString("label.fax")
+                , AppLocal.getIntString("label.address"), AppLocal.getIntString("label.address2"), AppLocal.getIntString("label.postal"), AppLocal.getIntString("label.city"), AppLocal.getIntString("label.region"), AppLocal.getIntString("label.country")
+                , "TAXCATEGORY"}
+                , new Datas[]{Datas.STRING, Datas.STRING, Datas.STRING, Datas.STRING, Datas.STRING, Datas.BOOLEAN, Datas.STRING, Datas.DOUBLE, Datas.TIMESTAMP, Datas.DOUBLE
+                , Datas.STRING, Datas.STRING, Datas.STRING, Datas.STRING, Datas.STRING, Datas.STRING
+                , Datas.STRING, Datas.STRING, Datas.STRING, Datas.STRING, Datas.STRING, Datas.STRING
+                , Datas.STRING}
+                , new Formats[]{Formats.STRING, Formats.STRING, Formats.STRING, Formats.STRING, Formats.STRING, Formats.BOOLEAN, Formats.STRING, Formats.CURRENCY, Formats.TIMESTAMP, Formats.CURRENCY
+                , Formats.STRING, Formats.STRING, Formats.STRING, Formats.STRING, Formats.STRING, Formats.STRING
+                , Formats.STRING, Formats.STRING, Formats.STRING, Formats.STRING, Formats.STRING, Formats.STRING
+                , Formats.STRING}
+                , "NAME"
+                , new int[]{0}
         );
 
     }
@@ -80,17 +79,17 @@ public class DataLogicCustomers extends BeanFactoryDataSingle {
     // CustomerList list
     public SentenceList getCustomerList() {
         return new StaticSentence(s
-            , new QBFBuilder("SELECT ID, TAXID, SEARCHKEY, NAME FROM CUSTOMERS WHERE VISIBLE = " + s.DB.TRUE() + " AND ?(QBF_FILTER) ORDER BY NAME", new String[] {"TAXID", "SEARCHKEY", "NAME"})
-            , new SerializerWriteBasic(new Datas[] {Datas.OBJECT, Datas.STRING, Datas.OBJECT, Datas.STRING, Datas.OBJECT, Datas.STRING})
-            , new SerializerRead() {
-                    public Object readValues(DataRead dr) throws BasicException {
-                        CustomerInfo c = new CustomerInfo(dr.getString(1));
-                        c.setTaxid(dr.getString(2));
-                        c.setSearchkey(dr.getString(3));
-                        c.setName(dr.getString(4));
-                        return c;
-                    }
-                });
+                , new QBFBuilder("SELECT ID, TAXID, SEARCHKEY, NAME FROM CUSTOMERS WHERE VISIBLE = " + s.DB.TRUE() + " AND ?(QBF_FILTER) ORDER BY NAME", new String[]{"TAXID", "SEARCHKEY", "NAME"})
+                , new SerializerWriteBasic(new Datas[]{Datas.OBJECT, Datas.STRING, Datas.OBJECT, Datas.STRING, Datas.OBJECT, Datas.STRING})
+                , new SerializerRead() {
+            public Object readValues(DataRead dr) throws BasicException {
+                CustomerInfo c = new CustomerInfo(dr.getString(1));
+                c.setTaxid(dr.getString(2));
+                c.setSearchkey(dr.getString(3));
+                c.setName(dr.getString(4));
+                return c;
+            }
+        });
     }
 
     public int updateCustomerExt(final CustomerInfoExt customer) throws BasicException {
@@ -98,19 +97,21 @@ public class DataLogicCustomers extends BeanFactoryDataSingle {
         return new PreparedSentence(s
                 , "UPDATE CUSTOMERS SET NOTES = ? WHERE ID = ?"
                 , SerializerWriteParams.INSTANCE
-                ).exec(new DataParams() { public void writeValues() throws BasicException {
-                        setString(1, customer.getNotes());
-                        setString(2, customer.getId());
-                }});
+        ).exec(new DataParams() {
+            public void writeValues() throws BasicException {
+                setString(1, customer.getNotes());
+                setString(2, customer.getId());
+            }
+        });
     }
 
     public final SentenceList getReservationsList() {
         return new PreparedSentence(s
-            , "SELECT R.ID, R.CREATED, R.DATENEW, C.CUSTOMER, CUSTOMERS.TAXID, CUSTOMERS.SEARCHKEY, COALESCE(CUSTOMERS.NAME, R.TITLE),  R.CHAIRS, R.ISDONE, R.DESCRIPTION " +
-              "FROM RESERVATIONS R LEFT OUTER JOIN RESERVATION_CUSTOMERS C ON R.ID = C.ID LEFT OUTER JOIN CUSTOMERS ON C.CUSTOMER = CUSTOMERS.ID " +
-              "WHERE R.DATENEW >= ? AND R.DATENEW < ?"
-            , new SerializerWriteBasic(new Datas[] {Datas.TIMESTAMP, Datas.TIMESTAMP})
-            , new SerializerReadBasic(customerdatas));
+                , "SELECT R.ID, R.CREATED, R.DATENEW, C.CUSTOMER, CUSTOMERS.TAXID, CUSTOMERS.SEARCHKEY, COALESCE(CUSTOMERS.NAME, R.TITLE),  R.CHAIRS, R.ISDONE, R.DESCRIPTION " +
+                "FROM RESERVATIONS R LEFT OUTER JOIN RESERVATION_CUSTOMERS C ON R.ID = C.ID LEFT OUTER JOIN CUSTOMERS ON C.CUSTOMER = CUSTOMERS.ID " +
+                "WHERE R.DATENEW >= ? AND R.DATENEW < ?"
+                , new SerializerWriteBasic(new Datas[]{Datas.TIMESTAMP, Datas.TIMESTAMP})
+                , new SerializerReadBasic(customerdatas));
     }
 
     public final SentenceExec getReservationsUpdate() {
@@ -118,16 +119,16 @@ public class DataLogicCustomers extends BeanFactoryDataSingle {
             public int execInTransaction(Object params) throws BasicException {
 
                 new PreparedSentence(s
-                    , "DELETE FROM RESERVATION_CUSTOMERS WHERE ID = ?"
-                    , new SerializerWriteBasicExt(customerdatas, new int[]{0})).exec(params);
+                        , "DELETE FROM RESERVATION_CUSTOMERS WHERE ID = ?"
+                        , new SerializerWriteBasicExt(customerdatas, new int[]{0})).exec(params);
                 if (((Object[]) params)[3] != null) {
                     new PreparedSentence(s
-                        , "INSERT INTO RESERVATION_CUSTOMERS (ID, CUSTOMER) VALUES (?, ?)"
-                        , new SerializerWriteBasicExt(customerdatas, new int[]{0, 3})).exec(params);
+                            , "INSERT INTO RESERVATION_CUSTOMERS (ID, CUSTOMER) VALUES (?, ?)"
+                            , new SerializerWriteBasicExt(customerdatas, new int[]{0, 3})).exec(params);
                 }
                 return new PreparedSentence(s
-                    , "UPDATE RESERVATIONS SET ID = ?, CREATED = ?, DATENEW = ?, TITLE = ?, CHAIRS = ?, ISDONE = ?, DESCRIPTION = ? WHERE ID = ?"
-                    , new SerializerWriteBasicExt(customerdatas, new int[]{0, 1, 2, 6, 7, 8, 9, 0})).exec(params);
+                        , "UPDATE RESERVATIONS SET ID = ?, CREATED = ?, DATENEW = ?, TITLE = ?, CHAIRS = ?, ISDONE = ?, DESCRIPTION = ? WHERE ID = ?"
+                        , new SerializerWriteBasicExt(customerdatas, new int[]{0, 1, 2, 6, 7, 8, 9, 0})).exec(params);
             }
         };
     }
@@ -137,11 +138,11 @@ public class DataLogicCustomers extends BeanFactoryDataSingle {
             public int execInTransaction(Object params) throws BasicException {
 
                 new PreparedSentence(s
-                    , "DELETE FROM RESERVATION_CUSTOMERS WHERE ID = ?"
-                    , new SerializerWriteBasicExt(customerdatas, new int[]{0})).exec(params);
+                        , "DELETE FROM RESERVATION_CUSTOMERS WHERE ID = ?"
+                        , new SerializerWriteBasicExt(customerdatas, new int[]{0})).exec(params);
                 return new PreparedSentence(s
-                    , "DELETE FROM RESERVATIONS WHERE ID = ?"
-                    , new SerializerWriteBasicExt(customerdatas, new int[]{0})).exec(params);
+                        , "DELETE FROM RESERVATIONS WHERE ID = ?"
+                        , new SerializerWriteBasicExt(customerdatas, new int[]{0})).exec(params);
             }
         };
     }
@@ -151,13 +152,13 @@ public class DataLogicCustomers extends BeanFactoryDataSingle {
             public int execInTransaction(Object params) throws BasicException {
 
                 int i = new PreparedSentence(s
-                    , "INSERT INTO RESERVATIONS (ID, CREATED, DATENEW, TITLE, CHAIRS, ISDONE, DESCRIPTION) VALUES (?, ?, ?, ?, ?, ?, ?)"
-                    , new SerializerWriteBasicExt(customerdatas, new int[]{0, 1, 2, 6, 7, 8, 9})).exec(params);
+                        , "INSERT INTO RESERVATIONS (ID, CREATED, DATENEW, TITLE, CHAIRS, ISDONE, DESCRIPTION) VALUES (?, ?, ?, ?, ?, ?, ?)"
+                        , new SerializerWriteBasicExt(customerdatas, new int[]{0, 1, 2, 6, 7, 8, 9})).exec(params);
 
                 if (((Object[]) params)[3] != null) {
                     new PreparedSentence(s
-                        , "INSERT INTO RESERVATION_CUSTOMERS (ID, CUSTOMER) VALUES (?, ?)"
-                        , new SerializerWriteBasicExt(customerdatas, new int[]{0, 3})).exec(params);
+                            , "INSERT INTO RESERVATION_CUSTOMERS (ID, CUSTOMER) VALUES (?, ?)"
+                            , new SerializerWriteBasicExt(customerdatas, new int[]{0, 3})).exec(params);
                 }
                 return i;
             }

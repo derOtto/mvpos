@@ -20,5 +20,5 @@
     along with Openbravo POS.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <permissions>
-    <class name="com.openbravo.pos.sales.JPanelTicketSales"/>  
+    <class name="com.openbravo.pos.sales.JPanelTicketSales"/>
 </permissions>

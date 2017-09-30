@@ -19,7 +19,7 @@
     NORD POS. If not, see <http://www.gnu.org/licenses/>.
 -->
 <output xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
-   xsi:noNamespaceSchemaLocation="Schema.Printer.xsd">
+        xsi:noNamespaceSchemaLocation="Schema.Printer.xsd">
     <ticket>
         <image>Printer.Ticket.Logo</image>
         <line></line>
@@ -34,29 +34,29 @@
         </line>
         <line></line>
         <line size="1">
-        #if ($payment.getReason().equals("cashin"))
+            #if ($payment.getReason().equals("cashin"))
             <text align="center">${local.getScriptString("payment.cashin")}</text>
-        #elseif ($payment.getReason().equals("cashout"))
+            #elseif ($payment.getReason().equals("cashout"))
             <text align="center">${local.getScriptString("payment.cashout")}</text>
-        #end
+            #end
         </line>
-        <line> 
+        <line>
             <text align="left" length="10">${local.getScriptString("payment.date")}</text>
             <text align="center" length="32">${payment.printDate()}</text>
         </line>
-        <line> 
+        <line>
             <text align="left" length="10" bold="true">${local.getScriptString("payment.total")}</text>
-            <text align="right" length="32" bold="true" underline="true">${payment.printTotal()}</text>        
-        </line>        
+            <text align="right" length="32" bold="true" underline="true">${payment.printTotal()}</text>
+        </line>
         <line>
             <text align="center" length="42">${local.getScriptString("label.thankyouvisit")}</text>
-        </line> 
+        </line>
     </ticket>
     <fiscalcash>
-      #if ($payment.getReason().equals("cashin"))
-       <fiscalcashin value="${payment.getTotal()}"/>
-      #elseif ($payment.getReason().equals("cashout"))
-       <fiscalcashout value="${payment.getTotal()}"/>
-      #end 
-    </fiscalcash>      
+        #if ($payment.getReason().equals("cashin"))
+        <fiscalcashin value="${payment.getTotal()}"/>
+        #elseif ($payment.getReason().equals("cashout"))
+        <fiscalcashout value="${payment.getTotal()}"/>
+        #end
+    </fiscalcash>
 </output>

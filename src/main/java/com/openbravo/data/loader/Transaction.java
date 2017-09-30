@@ -24,27 +24,27 @@ import com.openbravo.basic.BasicException;
 import java.sql.SQLException;
 
 /**
- *
  * @author adrianromero
  * Created on 26 de febrero de 2007, 21:50
- *
  */
 public abstract class Transaction<T> {
-    
+
     private Session s;
-    
-    /** Creates a new instance of Transaction */
+
+    /**
+     * Creates a new instance of Transaction
+     */
     public Transaction(Session s) {
         this.s = s;
     }
-    
+
     public final T execute() throws BasicException {
-        
+
         if (s.isTransaction()) {
             return transact();
         } else {
             try {
-                try {    
+                try {
                     s.begin();
                     T result = transact();
                     s.commit();
@@ -58,6 +58,6 @@ public abstract class Transaction<T> {
             }
         }
     }
-    
+
     protected abstract T transact() throws BasicException;
 }

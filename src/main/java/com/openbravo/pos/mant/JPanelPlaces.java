@@ -32,10 +32,10 @@ import com.openbravo.format.Formats;
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.forms.DataLogicSales;
 import com.openbravo.pos.panels.*;
+
 import javax.swing.ListCellRenderer;
 
 /**
- *
  * @author adrianromero
  */
 public class JPanelPlaces extends JPanelTable {
@@ -43,7 +43,9 @@ public class JPanelPlaces extends JPanelTable {
     private TableDefinition tplaces;
     private PlacesEditor jeditor;
 
-    /** Creates a new instance of JPanelPlaces */
+    /**
+     * Creates a new instance of JPanelPlaces
+     */
     public JPanelPlaces() {
     }
 
@@ -52,13 +54,13 @@ public class JPanelPlaces extends JPanelTable {
         dlSales = (DataLogicSales) app.getBean("com.openbravo.pos.forms.DataLogicSales");
 
         tplaces = new TableDefinition(app.getSession(),
-            "PLACES"
-            , new String[] {"ID", "NAME", "X", "Y", "FLOOR"}
-            , new String[] {"ID", AppLocal.getIntString("Label.Name"), "X", "Y", AppLocal.getIntString("label.placefloor")}
-            , new Datas[] {Datas.STRING, Datas.STRING, Datas.INT, Datas.INT, Datas.STRING}
-            , new Formats[] {Formats.STRING, Formats.STRING, Formats.INT, Formats.INT, Formats.NULL}
-            , "NAME"
-            , new int[] {0}
+                "PLACES"
+                , new String[]{"ID", "NAME", "X", "Y", "FLOOR"}
+                , new String[]{"ID", AppLocal.getIntString("Label.Name"), "X", "Y", AppLocal.getIntString("label.placefloor")}
+                , new Datas[]{Datas.STRING, Datas.STRING, Datas.INT, Datas.INT, Datas.STRING}
+                , new Formats[]{Formats.STRING, Formats.STRING, Formats.INT, Formats.INT, Formats.NULL}
+                , "NAME"
+                , new int[]{0}
         );
         jeditor = new PlacesEditor(dlSales, dirty);
     }

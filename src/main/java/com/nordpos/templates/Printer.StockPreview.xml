@@ -45,36 +45,36 @@
             <text align="left" length="15">${local.getScriptString("inventory.reason")}</text>
             <text>${inventoryrecord.printReason()}</text>
         </line>
-        <line></line>    
+        <line></line>
         <line>
-            <text align ="left" length="17">${local.getScriptString("product.name")}</text>
-            <text align ="right" length="25">${local.getScriptString("inventory.stockdiff")}</text>
-        </line>     
+            <text align="left" length="17">${local.getScriptString("product.name")}</text>
+            <text align="right" length="25">${local.getScriptString("inventory.stockdiff")}</text>
+        </line>
         <line>
             <text>------------------------------------------</text>
-        </line>   
+        </line>
         #foreach ($inventoryline in $inventoryrecord.getLines())
         <line>
-            <text align ="left" length="12">${inventoryline.printName()}</text>
-            <text align ="right" length="10">${inventoryline.getStockQty()}</text>            
+            <text align="left" length="12">${inventoryline.printName()}</text>
+            <text align="right" length="10">${inventoryline.getStockQty()}</text>
             #if ($inventoryrecord.getReason().isInput())
             #set ($diff = ${inventoryline.getStockQty()} + ${inventoryline.getMultiply()})
-            <text align ="right" length="10">+${inventoryline.getMultiply()}</text>
-            <text align ="right" length="10">$diff</text>
+            <text align="right" length="10">+${inventoryline.getMultiply()}</text>
+            <text align="right" length="10">$diff</text>
             #else
             #set ($diff = ${inventoryline.getStockQty()} - ${inventoryline.getMultiply()})
-            <text align ="right" length="10">-${inventoryline.getMultiply()}</text>
-            <text align ="right" length="10">$diff</text>
+            <text align="right" length="10">-${inventoryline.getMultiply()}</text>
+            <text align="right" length="10">$diff</text>
             #end
-        </line> 
+        </line>
         #if ($inventoryline.productAttSetInstId)
         <line>
-	        <text align ="left" length="42">    ${inventoryline.productAttSetInstDesc}</text>
+            <text align="left" length="42">${inventoryline.productAttSetInstDesc}</text>
         </line>
         #end
         #end
         <line>
             <text>------------------------------------------</text>
-        </line>   
+        </line>
     </ticket>
 </output>

@@ -1,20 +1,19 @@
 /**
- *
  * NORD POS is a fork of Openbravo POS.
- *
+ * <p>
  * Copyright (C) 2009-2013 Nord Trading Ltd. <http://www.nordpos.com>
- *
+ * <p>
  * This file is part of NORD POS.
- *
+ * <p>
  * NORD POS is free software: you can redistribute it and/or modify it under the
  * terms of the GNU General Public License as published by the Free Software
  * Foundation, either version 3 of the License, or (at your option) any later
  * version.
- *
+ * <p>
  * NORD POS is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
  * A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU General Public License along with
  * NORD POS. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -35,15 +34,13 @@ import java.util.logging.Logger;
 public class WritterRXTX extends Writter {
 
     private static final Logger logger = Logger.getLogger(WritterRXTX.class.getName());
-
-    private CommPortIdentifier m_PortIdPrinter;
-    private CommPort m_CommPortPrinter;
-
     private final String m_sPortPrinter;
     private final Integer m_iPortSpeed;
     private final Integer m_iPortBits;
     private final Integer m_iPortStopBits;
     private final Integer m_iPortParity;
+    private CommPortIdentifier m_PortIdPrinter;
+    private CommPort m_CommPortPrinter;
     private OutputStream m_out;
 
     public WritterRXTX(String sPortPrinter, Integer iPortSpeed, Integer iPortBits, Integer iPortStopBits, Integer iPortParity) {

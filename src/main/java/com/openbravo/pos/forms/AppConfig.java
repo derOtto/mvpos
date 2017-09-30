@@ -19,6 +19,7 @@
 package com.openbravo.pos.forms;
 
 import com.openbravo.pos.util.AltEncrypter;
+
 import java.io.*;
 import java.util.Locale;
 import java.util.Properties;
@@ -26,7 +27,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
  * @author adrianromero
  * @author Andrey Svininykh <svininykh@gmail.com>
  * @version NORD POS 3
@@ -213,12 +213,12 @@ public class AppConfig implements AppProperties {
         m_propsconfig.setProperty("paper.standard.mediasizename", "A4");
 
         m_propsconfig.setProperty("machine.uniqueinstance", "false");
-        
+
         m_propsconfig.setProperty("server.webapp.startup", "disable");
         m_propsconfig.setProperty("server.webapp.port", "8135");
         m_propsconfig.setProperty("server.webapp.context", "/");
-        
+
         m_propsconfig.setProperty("server.database.startup", "enable");
-        
+
     }
 }

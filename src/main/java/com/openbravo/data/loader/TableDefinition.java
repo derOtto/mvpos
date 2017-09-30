@@ -36,7 +36,9 @@ public class TableDefinition {
     private int[] idinx;
 
 
-    /** Creates a new instance of TableDefinition */
+    /**
+     * Creates a new instance of TableDefinition
+     */
     public TableDefinition(
             Session s,
             String tablename,
@@ -55,6 +57,7 @@ public class TableDefinition {
 
         this.idinx = idinx;
     }
+
     public TableDefinition(
             Session s,
             String tablename,
@@ -80,7 +83,7 @@ public class TableDefinition {
         return new RenderStringBasic(fieldformat, aiFields);
     }
 
-    public ComparatorCreator getComparatorCreator(int [] aiOrders) {
+    public ComparatorCreator getComparatorCreator(int[] aiOrders) {
         return new ComparatorCreatorBasic(fieldtran, fielddata, aiOrders);
     }
 
@@ -95,12 +98,15 @@ public class TableDefinition {
     public SerializerRead getSerializerReadBasic() {
         return new SerializerReadBasic(fielddata);
     }
+
     public SerializerWrite getSerializerInsertBasic(int[] fieldindx) {
         return new SerializerWriteBasicExt(fielddata, fieldindx);
     }
+
     public SerializerWrite getSerializerDeleteBasic() {
         return new SerializerWriteBasicExt(fielddata, idinx);
     }
+
     public SerializerWrite getSerializerUpdateBasic(int[] fieldindx) {
 
         int[] aindex = new int[fieldindx.length + idinx.length];
@@ -120,7 +126,7 @@ public class TableDefinition {
     }
 
     public SentenceList getListSentence(SerializerRead sr) {
-        return new PreparedSentence(m_s, getListSQL(), null,  sr);
+        return new PreparedSentence(m_s, getListSQL(), null, sr);
     }
 
     public String getListSQL() {
@@ -128,7 +134,7 @@ public class TableDefinition {
         StringBuffer sent = new StringBuffer();
         sent.append("select ");
 
-        for (int i = 0; i < fieldname.length; i ++) {
+        for (int i = 0; i < fieldname.length; i++) {
             if (i > 0) {
                 sent.append(", ");
             }
@@ -159,7 +165,7 @@ public class TableDefinition {
         sent.append("delete from ");
         sent.append(tablename);
 
-        for (int i = 0; i < idinx.length; i ++) {
+        for (int i = 0; i < idinx.length; i++) {
             sent.append((i == 0) ? " where " : " and ");
             sent.append(fieldname[idinx[i]]);
             sent.append(" = ?");
@@ -185,7 +191,7 @@ public class TableDefinition {
         sent.append(tablename);
         sent.append(" (");
 
-        for (int i = 0; i < fieldindx.length; i ++) {
+        for (int i = 0; i < fieldindx.length; i++) {
             if (i > 0) {
                 sent.append(", ");
                 values.append(", ");
@@ -226,7 +232,7 @@ public class TableDefinition {
         sent.append(tablename);
         sent.append(" set ");
 
-        for (int i = 0; i < fieldindx.length; i ++) {
+        for (int i = 0; i < fieldindx.length; i++) {
             if (i > 0) {
                 sent.append(", ");
             }
@@ -234,7 +240,7 @@ public class TableDefinition {
             sent.append(" = ?");
         }
 
-        for (int i = 0; i < idinx.length; i ++) {
+        for (int i = 0; i < idinx.length; i++) {
             sent.append((i == 0) ? " where " : " and ");
             sent.append(fieldname[idinx[i]]);
             sent.append(" = ?");

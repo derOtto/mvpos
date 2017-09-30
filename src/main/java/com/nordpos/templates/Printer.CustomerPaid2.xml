@@ -18,9 +18,9 @@
     You should have received a copy of the GNU General Public License along with
     NORD POS. If not, see <http://www.gnu.org/licenses/>.
 -->
-<output  xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
-   xsi:noNamespaceSchemaLocation="Schema.Printer.xsd">
-    <display>        
+<output xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+        xsi:noNamespaceSchemaLocation="Schema.Printer.xsd">
+    <display>
         <line>
             <text align="left" length="10">${local.getScriptString("paid.total")}</text>
             <text align="right" length="10">${ticket.printTotalPaid()}</text>

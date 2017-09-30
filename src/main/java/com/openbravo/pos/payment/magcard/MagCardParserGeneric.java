@@ -21,21 +21,14 @@ package com.openbravo.pos.payment.magcard;
 
 import com.openbravo.pos.util.LuhnAlgorithm;
 import com.openbravo.pos.util.StringUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
  * @author adrian
  */
 public class MagCardParserGeneric implements MagCardParser {
-
-    private String m_sHolderName;
-    private String m_sCardNumber;
-    private String m_sExpirationDate;
-    private StringBuffer track1;
-    private StringBuffer track2;
-    private StringBuffer track3;
 
     private static final int READING_STARTSENTINEL1 = 0;
     private static final int READING_STARTSENTINEL2 = 1;
@@ -45,6 +38,12 @@ public class MagCardParserGeneric implements MagCardParser {
     private static final int READING_TRACK2 = 5;
     private static final int READING_TRACK3 = 6;
     private static final int READING_END = 7;
+    private String m_sHolderName;
+    private String m_sCardNumber;
+    private String m_sExpirationDate;
+    private StringBuffer track1;
+    private StringBuffer track2;
+    private StringBuffer track3;
     private int m_iAutomState;
 
     private List m_aTrack1;
@@ -53,7 +52,9 @@ public class MagCardParserGeneric implements MagCardParser {
     private StringBuffer m_sField;
     private char m_cCardType;
 
-    /** Creates a new instance of GenericMagCardReader */
+    /**
+     * Creates a new instance of GenericMagCardReader
+     */
     public MagCardParserGeneric() {
         reset();
     }
@@ -147,21 +148,29 @@ public class MagCardParserGeneric implements MagCardParser {
     private void checkTracks() {
 
         // Test del tipo de tarjeta
-        if (m_cCardType != 'B') return;
+        if (m_cCardType != 'B') {
+            return;
+        }
 
         // Lectura de los valores
         String sCardNumber1 = (m_aTrack1 == null || m_aTrack1.size() < 1) ? null : (String) m_aTrack1.get(0);
         String sCardNumber2 = (m_aTrack2 == null || m_aTrack2.size() < 1) ? null : (String) m_aTrack2.get(0);
         String sHolderName = (m_aTrack1 == null || m_aTrack1.size() < 2) ? null : (String) m_aTrack1.get(1);
-        String sExpDate1 =  (m_aTrack1 == null || m_aTrack1.size() < 3) ? null : ((String) m_aTrack1.get(2)).substring(0, 4);
-        String sExpDate2 =  (m_aTrack2 == null || m_aTrack2.size() < 2) ? null : ((String) m_aTrack2.get(1)).substring(0, 4);
+        String sExpDate1 = (m_aTrack1 == null || m_aTrack1.size() < 3) ? null : ((String) m_aTrack1.get(2)).substring(0, 4);
+        String sExpDate2 = (m_aTrack2 == null || m_aTrack2.size() < 2) ? null : ((String) m_aTrack2.get(1)).substring(0, 4);
 
         // Test del numero de tarjeta
-        if (!checkCardNumber(sCardNumber1) || (sCardNumber2 != null && !sCardNumber1.equals(sCardNumber2))) return;
+        if (!checkCardNumber(sCardNumber1) || (sCardNumber2 != null && !sCardNumber1.equals(sCardNumber2))) {
+            return;
+        }
         // Test del nombre del propietario
-        if (sHolderName == null) return;
+        if (sHolderName == null) {
+            return;
+        }
         // Test de la fecha de expiracion
-        if ((sExpDate1 != null || !checkExpDate(sExpDate2)) && (!checkExpDate(sExpDate1) || !sExpDate1.equals(sExpDate2))) return;
+        if ((sExpDate1 != null || !checkExpDate(sExpDate2)) && (!checkExpDate(sExpDate1) || !sExpDate1.equals(sExpDate2))) {
+            return;
+        }
 
         m_sCardNumber = sCardNumber1;
         m_sHolderName = formatHolderName(sHolderName);
@@ -174,7 +183,7 @@ public class MagCardParserGeneric implements MagCardParser {
     }
 
     private boolean checkExpDate(String sDate) {
-        return ( sDate.length()==4 && StringUtils.isNumber(sDate.trim()) );
+        return (sDate.length() == 4 && StringUtils.isNumber(sDate.trim()));
     }
 
     private String formatHolderName(String sName) {
@@ -191,26 +200,32 @@ public class MagCardParserGeneric implements MagCardParser {
     public boolean isComplete() {
         return m_sCardNumber != null;
     }
+
     @Override
     public String getHolderName() {
         return m_sHolderName;
     }
+
     @Override
     public String getCardNumber() {
         return m_sCardNumber;
     }
+
     @Override
     public String getExpirationDate() {
         return m_sExpirationDate;
     }
+
     @Override
     public String getTrack1() {
         return track1 == null ? null : track1.toString();
     }
+
     @Override
     public String getTrack2() {
         return track2 == null ? null : track2.toString();
     }
+
     @Override
     public String getTrack3() {
         return track3 == null ? null : track3.toString();

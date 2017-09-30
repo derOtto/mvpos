@@ -24,13 +24,15 @@ import com.openbravo.basic.BasicException;
 import javax.swing.*;
 
 /**
- *
  * @author adrianromero
  */
 public interface JPanelView {
-       
+
     public abstract String getTitle();
+
     public abstract void activate() throws BasicException;
+
     public abstract boolean deactivate();
+
     public abstract JComponent getComponent();
 }

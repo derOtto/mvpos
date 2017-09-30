@@ -26,13 +26,11 @@ public class MyPrinterState {
 
     private int m_iSize;
 
-    /** Creates a new instance of PrinterState */
+    /**
+     * Creates a new instance of PrinterState
+     */
     public MyPrinterState(int iSize) {
         m_iSize = iSize;
-    }
-
-    public int getLineMult() {
-        return getLineMult(m_iSize);
     }
 
     public static int getLineMult(int iSize) {
@@ -46,6 +44,10 @@ public class MyPrinterState {
             default:
                 return 1;
         }
+    }
+
+    public int getLineMult() {
+        return getLineMult(m_iSize);
     }
 
     public Font getFont(Font baseFont, int iStyle) {

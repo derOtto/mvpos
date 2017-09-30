@@ -19,33 +19,33 @@
     NORD POS. If not, see <http://www.gnu.org/licenses/>.
 -->
 <output xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
-   xsi:noNamespaceSchemaLocation="Schema.Printer.xsd">
+        xsi:noNamespaceSchemaLocation="Schema.Printer.xsd">
     <display>
         <line1>
             <text align="left" length="10">${local.getScriptString("sale.total")}</text>
-            <text align ="right" length="10">${ticket.printTotal()}</text>
-        </line1>  
-    #foreach ($paymentline in $ticket.payments) 
-     #if ($paymentline.name == "cash")  
+            <text align="right" length="10">${ticket.printTotal()}</text>
+        </line1>
+        #foreach ($paymentline in $ticket.payments)
+        #if ($paymentline.name == "cash")
         <line2>
             <text align="left" length="10">${local.getScriptString("paid.cash.change")}</text>
-            <text align ="right" length="10">${paymentline.printChange()}</text>
+            <text align="right" length="10">${paymentline.printChange()}</text>
         </line2>
-     #else
+        #else
         <line2>
-            <text align ="center" length="20">${local.getScriptString("sale.thankyou")}</text>
+            <text align="center" length="20">${local.getScriptString("sale.thankyou")}</text>
         </line2>
-     #end
-    #end 
+        #end
+        #end
     </display>
-    
-    #foreach ($paymentline in $ticket.payments)      
-     #if ($paymentline.name == "cash")
+
+    #foreach ($paymentline in $ticket.payments)
+    #if ($paymentline.name == "cash")
     <opendrawer/>
-     #end
-     #if ($paymentline.name == "cashrefund")
-    <opendrawer/>
-     #end  
     #end
-    
+    #if ($paymentline.name == "cashrefund")
+    <opendrawer/>
+    #end
+    #end
+
 </output>

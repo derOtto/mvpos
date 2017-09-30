@@ -26,47 +26,51 @@ import java.awt.Frame;
 import java.awt.Window;
 
 /**
- *
  * @author adrianromero
  */
 public class JPaymentSelectCustomer extends JPaymentSelect {
-    
-    /** Creates new form JPaymentSelect */
+
+    /**
+     * Creates new form JPaymentSelect
+     */
     protected JPaymentSelectCustomer(Frame parent, boolean modal, ComponentOrientation o) {
         super(parent, modal, o);
     }
-    /** Creates new form JPaymentSelect */
+
+    /**
+     * Creates new form JPaymentSelect
+     */
     protected JPaymentSelectCustomer(Dialog parent, boolean modal, ComponentOrientation o) {
         super(parent, modal, o);
-    } 
-    
+    }
+
     public static JPaymentSelect getDialog(Component parent) {
 
         Window window = getWindow(parent);
-        
-        if (window instanceof Frame) { 
+
+        if (window instanceof Frame) {
             return new JPaymentSelectCustomer((Frame) window, true, parent.getComponentOrientation());
         } else {
             return new JPaymentSelectCustomer((Dialog) window, true, parent.getComponentOrientation());
-        } 
-    } 
-    
+        }
+    }
+
     protected void addTabs() {
-        
+
         addTabPayment(new JPaymentCashCreator());
         addTabPayment(new JPaymentChequeCreator());
         addTabPayment(new JPaymentPaperCreator());
         addTabPayment(new JPaymentMagcardCreator());
         setHeaderVisible(true);
     }
-    
+
     protected void setStatusPanel(boolean isPositive, boolean isComplete) {
-        
+
         setAddEnabled(isPositive && !isComplete);
         setOKEnabled(isPositive);
     }
-    
+
     protected PaymentInfo getDefaultPayment(double total) {
         return new PaymentInfoCash(total, total);
-    }    
+    }
 }

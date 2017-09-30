@@ -30,7 +30,9 @@ public class PrintItemLine implements PrintItem {
     protected int textsize;
     protected List<StyledText> m_atext;
 
-    /** Creates a new instance of PrinterItemLine */
+    /**
+     * Creates a new instance of PrinterItemLine
+     */
     public PrintItemLine(int textsize, Font font, int fontheight) {
         this.textsize = textsize;
         this.font = font;
@@ -61,11 +63,11 @@ public class PrintItemLine implements PrintItem {
 
     protected static class StyledText {
 
+        public int style;
+        public String text;
         public StyledText(int style, String text) {
             this.style = style;
             this.text = text;
         }
-        public int style;
-        public String text;
     }
 }

@@ -31,40 +31,41 @@ import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.panels.JPanelTableExt;
 
 /**
- *
  * @author adrian
  */
 public class AttributesPanel extends JPanelTableExt {
-    
+
     private EditorRecord editor;
 
-    /** Creates a new instance of JPanelCategories */
-    public AttributesPanel() {        
-    }   
-    
-    protected void init() {          
-        
+    /**
+     * Creates a new instance of JPanelCategories
+     */
+    public AttributesPanel() {
+    }
+
+    protected void init() {
+
         row = new Row(
                 new Field("ID", Datas.STRING, Formats.STRING),
                 new Field(AppLocal.getIntString("Label.Name"), Datas.STRING, Formats.STRING, true, true, true)
         );
-        
+
         Table table = new Table(
                 "ATTRIBUTE",
                 new PrimaryKey("ID"),
                 new Column("NAME"));
-        
+
         lpr = row.getListProvider(app.getSession(), table);
-        spr = row.getSaveProvider(app.getSession(), table);        
-        
-        editor = new AttributesEditor(dirty);    
-    } 
-    
+        spr = row.getSaveProvider(app.getSession(), table);
+
+        editor = new AttributesEditor(dirty);
+    }
+
     public EditorRecord getEditor() {
         return editor;
-    }  
-    
+    }
+
     public String getTitle() {
         return AppLocal.getIntString("Menu.Attributes");
-    }        
+    }
 }

@@ -24,6 +24,7 @@ import com.openbravo.data.user.EditorCreator;
 import com.openbravo.data.user.ListProvider;
 import com.openbravo.data.user.ListProviderCreator;
 import com.openbravo.pos.forms.AppLocal;
+
 import java.awt.Component;
 import java.awt.Dialog;
 import java.awt.Dimension;
@@ -33,29 +34,52 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 
 /**
- *
- * @author  adrianromero
+ * @author adrianromero
  */
 public class JCustomerFinder extends javax.swing.JDialog implements EditorCreator {
 
     private CustomerInfo selectedCustomer;
     private ListProvider lpr;
-   
-    /** Creates new form JCustomerFinder */
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JList jListCustomers;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton jcmdCancel;
+    private javax.swing.JButton jcmdOK;
+    private com.openbravo.editor.JEditorKeys m_jKeys;
+    private com.openbravo.editor.JEditorString m_jtxtName;
+    private com.openbravo.editor.JEditorString m_jtxtSearchKey;
+    private com.openbravo.editor.JEditorString m_jtxtTaxID;
+    /**
+     * Creates new form JCustomerFinder
+     */
     private JCustomerFinder(Frame parent, boolean modal) {
         super(parent, modal);
     }
-
-    /** Creates new form JCustomerFinder */
+    /**
+     * Creates new form JCustomerFinder
+     */
     private JCustomerFinder(Dialog parent, boolean modal) {
         super(parent, modal);
     }
-    
+
     public static JCustomerFinder getCustomerFinder(Component parent, DataLogicCustomers dlCustomers) {
         Window window = getWindow(parent);
-        
+
         JCustomerFinder myMsg;
-        if (window instanceof Frame) { 
+        if (window instanceof Frame) {
             myMsg = new JCustomerFinder((Frame) window, true);
         } else {
             myMsg = new JCustomerFinder((Dialog) window, true);
@@ -64,7 +88,17 @@ public class JCustomerFinder extends javax.swing.JDialog implements EditorCreato
         myMsg.applyComponentOrientation(parent.getComponentOrientation());
         return myMsg;
     }
-    
+
+    private static Window getWindow(Component parent) {
+        if (parent == null) {
+            return new JFrame();
+        } else if (parent instanceof Frame || parent instanceof Dialog) {
+            return (Window) parent;
+        } else {
+            return getWindow(parent.getParent());
+        }
+    }
+
     public CustomerInfo getSelectedCustomer() {
         return selectedCustomer;
     }
@@ -82,7 +116,7 @@ public class JCustomerFinder extends javax.swing.JDialog implements EditorCreato
         m_jtxtTaxID.reset();
         m_jtxtSearchKey.reset();
         m_jtxtName.reset();
-        
+
         m_jtxtTaxID.activate();
 
         lpr = new ListProviderCreator(dlCustomers.getCustomerList(), this);
@@ -93,34 +127,34 @@ public class JCustomerFinder extends javax.swing.JDialog implements EditorCreato
 
         selectedCustomer = null;
     }
-    
+
     public void search(CustomerInfo customer) {
-        
+
         if (customer == null || customer.getName() == null || customer.getName().equals("")) {
-            
+
             m_jtxtTaxID.reset();
             m_jtxtSearchKey.reset();
             m_jtxtName.reset();
 
-            m_jtxtTaxID.activate();    
-            
+            m_jtxtTaxID.activate();
+
             cleanSearch();
         } else {
-            
+
             m_jtxtTaxID.setText(customer.getTaxid());
             m_jtxtSearchKey.setText(customer.getSearchkey());
             m_jtxtName.setText(customer.getName());
 
             m_jtxtTaxID.activate();
-            
+
             executeSearch();
         }
     }
-    
+
     private void cleanSearch() {
         jListCustomers.setModel(new MyListData(new ArrayList()));
     }
-    
+
     public void executeSearch() {
         try {
             jListCustomers.setModel(new MyListData(lpr.loadData()));
@@ -129,13 +163,13 @@ public class JCustomerFinder extends javax.swing.JDialog implements EditorCreato
             }
         } catch (BasicException e) {
             e.printStackTrace();
-        }        
+        }
     }
-    
+
     public Object createValue() throws BasicException {
-        
+
         Object[] afilter = new Object[6];
-        
+
         // TaxID
         if (m_jtxtTaxID.getText() == null || m_jtxtTaxID.getText().equals("")) {
             afilter[0] = QBFCompareEnum.COMP_NONE;
@@ -144,7 +178,7 @@ public class JCustomerFinder extends javax.swing.JDialog implements EditorCreato
             afilter[0] = QBFCompareEnum.COMP_RE;
             afilter[1] = "%" + m_jtxtTaxID.getText() + "%";
         }
-        
+
         // SearchKey
         if (m_jtxtSearchKey.getText() == null || m_jtxtSearchKey.getText().equals("")) {
             afilter[2] = QBFCompareEnum.COMP_NONE;
@@ -153,7 +187,7 @@ public class JCustomerFinder extends javax.swing.JDialog implements EditorCreato
             afilter[2] = QBFCompareEnum.COMP_RE;
             afilter[3] = "%" + m_jtxtSearchKey.getText() + "%";
         }
-        
+
         // Name
         if (m_jtxtName.getText() == null || m_jtxtName.getText().equals("")) {
             afilter[4] = QBFCompareEnum.COMP_NONE;
@@ -162,38 +196,12 @@ public class JCustomerFinder extends javax.swing.JDialog implements EditorCreato
             afilter[4] = QBFCompareEnum.COMP_RE;
             afilter[5] = "%" + m_jtxtName.getText() + "%";
         }
-        
-        return afilter;
-    } 
 
-    private static Window getWindow(Component parent) {
-        if (parent == null) {
-            return new JFrame();
-        } else if (parent instanceof Frame || parent instanceof Dialog) {
-            return (Window) parent;
-        } else {
-            return getWindow(parent.getParent());
-        }
+        return afilter;
     }
-    
-    private static class MyListData extends javax.swing.AbstractListModel {
-        
-        private java.util.List m_data;
-        
-        public MyListData(java.util.List data) {
-            m_data = data;
-        }
-        
-        public Object getElementAt(int index) {
-            return m_data.get(index);
-        }
-        
-        public int getSize() {
-            return m_data.size();
-        } 
-    }   
-    
-    /** This method is called from within the constructor to
+
+    /**
+     * This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
      * always regenerated by the Form Editor.
@@ -244,40 +252,40 @@ public class JCustomerFinder extends javax.swing.JDialog implements EditorCreato
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(m_jtxtTaxID, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(m_jtxtName, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(m_jtxtSearchKey, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                             .addGroup(jPanel7Layout.createSequentialGroup()
+                                                    .addContainerGap()
+                                                    .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                           .addGroup(jPanel7Layout.createSequentialGroup()
+                                                                                                  .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                                  .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                                                  .addComponent(m_jtxtTaxID, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                           .addGroup(jPanel7Layout.createSequentialGroup()
+                                                                                                  .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                                  .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                                                  .addComponent(m_jtxtName, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                           .addGroup(jPanel7Layout.createSequentialGroup()
+                                                                                                  .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                                  .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                                                  .addComponent(m_jtxtSearchKey, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel7)
-                    .addComponent(m_jtxtTaxID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6)
-                    .addComponent(m_jtxtSearchKey, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5)
-                    .addComponent(m_jtxtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                             .addGroup(jPanel7Layout.createSequentialGroup()
+                                                    .addContainerGap()
+                                                    .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                           .addComponent(jLabel7)
+                                                                           .addComponent(m_jtxtTaxID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                    .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                           .addComponent(jLabel6)
+                                                                           .addComponent(m_jtxtSearchKey, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                    .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                           .addComponent(jLabel5)
+                                                                           .addComponent(m_jtxtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel5.add(jPanel7, java.awt.BorderLayout.CENTER);
@@ -365,23 +373,24 @@ public class JCustomerFinder extends javax.swing.JDialog implements EditorCreato
         setSize(new Dimension(613, 610));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
     private void jcmdOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcmdOKActionPerformed
 
         selectedCustomer = (CustomerInfo) jListCustomers.getSelectedValue();
         dispose();
-        
+
     }//GEN-LAST:event_jcmdOKActionPerformed
 
     private void jcmdCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcmdCancelActionPerformed
 
         dispose();
-        
+
     }//GEN-LAST:event_jcmdCancelActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
 
         executeSearch();
-        
+
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jListCustomersValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jListCustomersValueChanged
@@ -391,46 +400,40 @@ public class JCustomerFinder extends javax.swing.JDialog implements EditorCreato
     }//GEN-LAST:event_jListCustomersValueChanged
 
     private void jListCustomersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jListCustomersMouseClicked
-        
+
         if (evt.getClickCount() == 2) {
             selectedCustomer = (CustomerInfo) jListCustomers.getSelectedValue();
             dispose();
         }
-        
+
     }//GEN-LAST:event_jListCustomersMouseClicked
 
-private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
- 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
         m_jtxtTaxID.reset();
         m_jtxtSearchKey.reset();
         m_jtxtName.reset();
 
-        m_jtxtTaxID.activate();    
+        m_jtxtTaxID.activate();
 
-        cleanSearch();           
-}//GEN-LAST:event_jButton1ActionPerformed
+        cleanSearch();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JList jListCustomers;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel7;
-    private javax.swing.JPanel jPanel8;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JButton jcmdCancel;
-    private javax.swing.JButton jcmdOK;
-    private com.openbravo.editor.JEditorKeys m_jKeys;
-    private com.openbravo.editor.JEditorString m_jtxtName;
-    private com.openbravo.editor.JEditorString m_jtxtSearchKey;
-    private com.openbravo.editor.JEditorString m_jtxtTaxID;
+    private static class MyListData extends javax.swing.AbstractListModel {
+
+        private java.util.List m_data;
+
+        public MyListData(java.util.List data) {
+            m_data = data;
+        }
+
+        public Object getElementAt(int index) {
+            return m_data.get(index);
+        }
+
+        public int getSize() {
+            return m_data.size();
+        }
+    }
     // End of variables declaration//GEN-END:variables
 }

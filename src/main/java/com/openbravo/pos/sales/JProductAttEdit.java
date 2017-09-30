@@ -33,6 +33,7 @@ import com.openbravo.data.loader.SerializerWriteString;
 import com.openbravo.data.loader.Session;
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.inventory.AttributeSetInfo;
+
 import java.awt.Component;
 import java.awt.Dialog;
 import java.awt.Frame;
@@ -43,7 +44,6 @@ import java.util.UUID;
 import javax.swing.SwingUtilities;
 
 /**
- *
  * @author adrianromero
  */
 public class JProductAttEdit extends javax.swing.JDialog {
@@ -63,15 +63,43 @@ public class JProductAttEdit extends javax.swing.JDialog {
     private String attInstanceDescription;
 
     private boolean ok;
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JButton m_jButtonCancel;
+    private javax.swing.JButton m_jButtonOK;
+    private com.openbravo.editor.JEditorKeys m_jKeys;
 
-    /** Creates new form JProductAttEdit */
+    /**
+     * Creates new form JProductAttEdit
+     */
     private JProductAttEdit(Frame parent, boolean modal) {
         super(parent, modal);
     }
 
-    /** Creates new form JProductAttEdit */
+    /**
+     * Creates new form JProductAttEdit
+     */
     private JProductAttEdit(Dialog parent, boolean modal) {
         super(parent, modal);
+    }
+
+    public static JProductAttEdit getAttributesEditor(Component parent, Session s) {
+
+        Window window = SwingUtilities.getWindowAncestor(parent);
+
+        JProductAttEdit myMsg;
+        if (window instanceof Frame) {
+            myMsg = new JProductAttEdit((Frame) window, true);
+        } else {
+            myMsg = new JProductAttEdit((Dialog) window, true);
+        }
+        myMsg.init(s);
+        myMsg.applyComponentOrientation(parent.getComponentOrientation());
+        return myMsg;
     }
 
     private void init(Session s) {
@@ -88,9 +116,11 @@ public class JProductAttEdit extends javax.swing.JDialog {
         attsetSent = new PreparedSentence(s,
                 "SELECT ID, NAME FROM ATTRIBUTESET WHERE ID = ?",
                 SerializerWriteString.INSTANCE,
-                new SerializerRead() { public Object readValues(DataRead dr) throws BasicException {
-                    return new AttributeSetInfo(dr.getString(1), dr.getString(2));
-                }});
+                new SerializerRead() {
+                    public Object readValues(DataRead dr) throws BasicException {
+                        return new AttributeSetInfo(dr.getString(1), dr.getString(2));
+                    }
+                });
         attsetinstExistsSent = new PreparedSentence(s,
                 "SELECT ID FROM ATTRIBUTESETINSTANCE WHERE ATTRIBUTESET_ID = ? AND DESCRIPTION = ?",
                 new SerializerWriteBasic(Datas.STRING, Datas.STRING),
@@ -100,39 +130,27 @@ public class JProductAttEdit extends javax.swing.JDialog {
                 "FROM ATTRIBUTEUSE AU JOIN ATTRIBUTE A ON AU.ATTRIBUTE_ID = A.ID " +
                 "WHERE AU.ATTRIBUTESET_ID = ? " +
                 "ORDER BY AU.LINENO",
-            SerializerWriteString.INSTANCE,
-            new SerializerRead() { public Object readValues(DataRead dr) throws BasicException {
-                return new AttributeInstInfo(dr.getString(1), dr.getString(2), dr.getString(3), dr.getString(4));
-            }});
+                SerializerWriteString.INSTANCE,
+                new SerializerRead() {
+                    public Object readValues(DataRead dr) throws BasicException {
+                        return new AttributeInstInfo(dr.getString(1), dr.getString(2), dr.getString(3), dr.getString(4));
+                    }
+                });
         attinstSent2 = new PreparedSentence(s, "SELECT A.ID, A.NAME, AI.ID, AI.VALUE " +
-            "FROM ATTRIBUTEUSE AU JOIN ATTRIBUTE A ON AU.ATTRIBUTE_ID = A.ID LEFT OUTER JOIN ATTRIBUTEINSTANCE AI ON AI.ATTRIBUTE_ID = A.ID " +
-            "WHERE AU.ATTRIBUTESET_ID = ? AND AI.ATTRIBUTESETINSTANCE_ID = ?" +
-            "ORDER BY AU.LINENO",
-            new SerializerWriteBasic(Datas.STRING, Datas.STRING),
-            new SerializerRead() { public Object readValues(DataRead dr) throws BasicException {
-                return new AttributeInstInfo(dr.getString(1), dr.getString(2), dr.getString(3), dr.getString(4));
-            }});
+                "FROM ATTRIBUTEUSE AU JOIN ATTRIBUTE A ON AU.ATTRIBUTE_ID = A.ID LEFT OUTER JOIN ATTRIBUTEINSTANCE AI ON AI.ATTRIBUTE_ID = A.ID " +
+                "WHERE AU.ATTRIBUTESET_ID = ? AND AI.ATTRIBUTESETINSTANCE_ID = ?" +
+                "ORDER BY AU.LINENO",
+                new SerializerWriteBasic(Datas.STRING, Datas.STRING),
+                new SerializerRead() {
+                    public Object readValues(DataRead dr) throws BasicException {
+                        return new AttributeInstInfo(dr.getString(1), dr.getString(2), dr.getString(3), dr.getString(4));
+                    }
+                });
         attvaluesSent = new PreparedSentence(s, "SELECT VALUE FROM ATTRIBUTEVALUE WHERE ATTRIBUTE_ID = ?",
                 SerializerWriteString.INSTANCE,
                 SerializerReadString.INSTANCE);
 
         getRootPane().setDefaultButton(m_jButtonOK);
-    }
-
-
-    public static JProductAttEdit getAttributesEditor(Component parent, Session s) {
-
-        Window window = SwingUtilities.getWindowAncestor(parent);
-
-        JProductAttEdit myMsg;
-        if (window instanceof Frame) {
-            myMsg = new JProductAttEdit((Frame) window, true);
-        } else {
-            myMsg = new JProductAttEdit((Dialog) window, true);
-        }
-        myMsg.init(s);
-        myMsg.applyComponentOrientation(parent.getComponentOrientation());
-        return myMsg;
     }
 
     public void editAttributes(String attsetid, String attsetinstid) throws BasicException {
@@ -169,10 +187,10 @@ public class JProductAttEdit extends javax.swing.JDialog {
                 List<String> values = attvaluesSent.list(aii.getAttid());
                 if (values.isEmpty()) {
                     // Does not exist a list of values then a textfield
-                    item = new JProductAttEditItem(aii.getAttid(),  aii.getAttname(), aii.getValue(), m_jKeys);
+                    item = new JProductAttEditItem(aii.getAttid(), aii.getAttname(), aii.getValue(), m_jKeys);
                 } else {
                     // Does exist a list with the values
-                    item = new JProductAttListItem(aii.getAttid(),  aii.getAttname(), aii.getValue(), values);
+                    item = new JProductAttListItem(aii.getAttid(), aii.getAttname(), aii.getValue(), values);
                 }
 
                 itemslist.add(item);
@@ -197,64 +215,8 @@ public class JProductAttEdit extends javax.swing.JDialog {
         return attInstanceDescription;
     }
 
-    private static class AttributeInstInfo {
-        
-        private String attid;
-        private String attname;
-        private String id;
-        private String value;
-
-        public AttributeInstInfo(String attid, String attname, String id, String value) {
-            this.attid = attid;
-            this.attname = attname;
-            this.id = id;
-            this.value = value;
-        }
-
-        /**
-         * @return the attid
-         */
-        public String getAttid() {
-            return attid;
-        }
-
-        /**
-         * @return the attname
-         */
-        public String getAttname() {
-            return attname;
-        }
-
-        /**
-         * @return the id
-         */
-        public String getId() {
-            return id;
-        }
-
-        /**
-         * @param id the id to set
-         */
-        public void setId(String id) {
-            this.id = id;
-        }
-
-        /**
-         * @return the value
-         */
-        public String getValue() {
-            return value;
-        }
-
-        /**
-         * @param value the value to set
-         */
-        public void setValue(String value) {
-            this.value = value;
-        }
-    }
-
-    /** This method is called from within the constructor to
+    /**
+     * This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
      * always regenerated by the Form Editor.
@@ -321,11 +283,11 @@ public class JProductAttEdit extends javax.swing.JDialog {
         getContentPane().add(jPanel3, java.awt.BorderLayout.EAST);
 
         java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-        setBounds((screenSize.width-609)/2, (screenSize.height-388)/2, 609, 388);
+        setBounds((screenSize.width - 609) / 2, (screenSize.height - 388) / 2, 609, 388);
     }// </editor-fold>//GEN-END:initComponents
 
     private void m_jButtonOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_jButtonOKActionPerformed
-       
+
         StringBuilder description = new StringBuilder();
         for (JProductAttEditI item : itemslist) {
             String value = item.getValue();
@@ -336,7 +298,6 @@ public class JProductAttEdit extends javax.swing.JDialog {
                 description.append(value);
             }
         }
-
 
 
         String id;
@@ -385,15 +346,62 @@ public class JProductAttEdit extends javax.swing.JDialog {
         dispose();
     }//GEN-LAST:event_m_jButtonCancelActionPerformed
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JButton m_jButtonCancel;
-    private javax.swing.JButton m_jButtonOK;
-    private com.openbravo.editor.JEditorKeys m_jKeys;
+    private static class AttributeInstInfo {
+
+        private String attid;
+        private String attname;
+        private String id;
+        private String value;
+
+        public AttributeInstInfo(String attid, String attname, String id, String value) {
+            this.attid = attid;
+            this.attname = attname;
+            this.id = id;
+            this.value = value;
+        }
+
+        /**
+         * @return the attid
+         */
+        public String getAttid() {
+            return attid;
+        }
+
+        /**
+         * @return the attname
+         */
+        public String getAttname() {
+            return attname;
+        }
+
+        /**
+         * @return the id
+         */
+        public String getId() {
+            return id;
+        }
+
+        /**
+         * @param id the id to set
+         */
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        /**
+         * @return the value
+         */
+        public String getValue() {
+            return value;
+        }
+
+        /**
+         * @param value the value to set
+         */
+        public void setValue(String value) {
+            this.value = value;
+        }
+    }
     // End of variables declaration//GEN-END:variables
 
 }

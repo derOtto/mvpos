@@ -25,7 +25,6 @@ import javax.swing.Action;
 import javax.swing.ImageIcon;
 
 /**
- *
  * @author adrianromero
  */
 public class MenuPanelAction extends AbstractAction {
@@ -33,7 +32,9 @@ public class MenuPanelAction extends AbstractAction {
     private AppView m_App;
     private String m_sMyView;
 
-    /** Creates a new instance of MenuPanelAction */
+    /**
+     * Creates a new instance of MenuPanelAction
+     */
     public MenuPanelAction(AppView app, String icon, String keytext, String sMyView) {
         putValue(Action.SMALL_ICON, new ImageIcon(JPrincipalApp.class.getResource(icon)));
         putValue(Action.NAME, AppLocal.getIntString(keytext));
@@ -41,8 +42,9 @@ public class MenuPanelAction extends AbstractAction {
         m_App = app;
         m_sMyView = sMyView;
     }
+
     public void actionPerformed(ActionEvent evt) {
 
-        m_App.getAppUserView().showTask(m_sMyView);            
-    }    
+        m_App.getAppUserView().showTask(m_sMyView);
+    }
 }

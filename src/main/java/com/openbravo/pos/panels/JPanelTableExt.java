@@ -24,20 +24,20 @@ import com.openbravo.data.loader.Vectorer;
 import com.openbravo.data.model.Row;
 import com.openbravo.data.user.ListProvider;
 import com.openbravo.data.user.SaveProvider;
+
 import javax.swing.ListCellRenderer;
 
 /**
- *
  * @author adrianromero
  * @author Andrey Svininykh
  * @version NORD POS 3
  */
 public abstract class JPanelTableExt extends JPanelTable {
-   
+
     protected Row row;
     protected ListProvider lpr;
-    protected SaveProvider spr;   
-    
+    protected SaveProvider spr;
+
     @Override
     public final ListProvider getListProvider() {
         return lpr;
@@ -47,19 +47,19 @@ public abstract class JPanelTableExt extends JPanelTable {
     public final SaveProvider getSaveProvider() {
         return spr;
     }
-    
+
     @Override
     public final Vectorer getVectorer() {
         return row.getVectorer();
     }
-    
+
     @Override
     public final ComparatorCreator getComparatorCreator() {
         return row.getComparatorCreator();
     }
-    
+
     @Override
     public final ListCellRenderer getListCellRenderer() {
         return row.getListCellRenderer();
-    } 
+    }
 }

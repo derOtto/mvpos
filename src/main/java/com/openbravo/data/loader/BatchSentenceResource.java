@@ -27,31 +27,32 @@ import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 
 /**
- *
  * @author adrianromero
  */
 public class BatchSentenceResource extends BatchSentence {
 
     private String m_sResScript;
-    
-    /** Creates a new instance of BatchSentenceResource */
+
+    /**
+     * Creates a new instance of BatchSentenceResource
+     */
     public BatchSentenceResource(Session s, String resscript) {
         super(s);
         m_sResScript = resscript;
     }
-    
+
     protected Reader getReader() throws BasicException {
-        
+
         InputStream in = BatchSentenceResource.class.getResourceAsStream(m_sResScript);
-        
+
         if (in == null) {
             throw new BasicException(LocalRes.getIntString("exception.nosentencesfile"));
-        } else {  
+        } else {
             try {
                 return new InputStreamReader(in, "UTF-8");
             } catch (UnsupportedEncodingException ex) {
                 throw new BasicException(LocalRes.getIntString("exception.nosentencesfile"), ex);
             }
         }
-    }   
+    }
 }

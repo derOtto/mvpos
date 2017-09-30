@@ -32,6 +32,7 @@ import com.nordpos.device.ticket.TicketPrinterException;
 import com.openbravo.pos.scripting.ScriptEngine;
 import com.openbravo.pos.scripting.ScriptException;
 import com.openbravo.pos.scripting.ScriptFactory;
+
 import java.awt.Dimension;
 import java.io.InputStream;
 import java.text.ParseException;
@@ -44,7 +45,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
 /**
- *
  * @author adrianromero
  * @author Andrey Svininykh <svininykh@gmail.com>
  */
@@ -53,16 +53,40 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
     private static final String PRINTER_SHEMA = "/com/nordpos/templates/Schema.Printer.xsd";
     private static final String PRINT_CLOSE_CASH = "/com/nordpos/templates/Printer.CloseCash.xml";
     private static final String PRINT_PARTIAL_CASH = "/com/nordpos/templates/Printer.PartialCash.xml";
-
+    private static final Logger logger = Logger.getLogger(JPanelCloseMoney.class.getName());
     private AppView m_App;
     private DataLogicSystem m_dlSystem;
-
     private PaymentsModel m_PaymentsToClose = null;
-
     private TicketParser m_TTP;
-
-    private static final Logger logger = Logger.getLogger(JPanelCloseMoney.class.getName());
-
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private JLabel jLabel1;
+    private JLabel jLabel11;
+    private JLabel jLabel12;
+    private JLabel jLabel2;
+    private JLabel jLabel3;
+    private JLabel jLabel4;
+    private JLabel jLabel5;
+    private JLabel jLabel6;
+    private JLabel jLabel7;
+    private JPanel jPanel1;
+    private JPanel jPanel4;
+    private JPanel jPanel5;
+    private JPanel jPanel6;
+    private JTextField m_jCash;
+    private JButton m_jCloseCash;
+    private JTextField m_jCount;
+    private JTextField m_jMaxDate;
+    private JTextField m_jMinDate;
+    private JButton m_jPrintCash;
+    private JTextField m_jSales;
+    private JTextField m_jSalesSubtotal;
+    private JTextField m_jSalesTaxes;
+    private JTextField m_jSalesTotal;
+    private JScrollPane m_jScrollSales;
+    private JScrollPane m_jScrollTableTicket;
+    private JTextField m_jSequence;
+    private JTable m_jTicketTable;
+    private JTable m_jsalestable;
     /**
      * Creates new form JPanelCloseMoney
      */
@@ -202,24 +226,6 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
         }
     }
 
-    private class FormatsPayment extends Formats {
-
-        @Override
-        protected String formatValueInt(Object value) {
-            return AppLocal.getIntString("transpayment." + (String) value);
-        }
-
-        @Override
-        protected Object parseValueInt(String value) throws ParseException {
-            return value;
-        }
-
-        @Override
-        public int getAlignment() {
-            return SwingConstants.LEFT;
-        }
-    }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -279,39 +285,39 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
         GroupLayout jPanel4Layout = new GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel11, GroupLayout.PREFERRED_SIZE, 140, GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(m_jSequence, GroupLayout.PREFERRED_SIZE, 160, GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel2, GroupLayout.PREFERRED_SIZE, 140, GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(m_jMinDate, GroupLayout.PREFERRED_SIZE, 160, GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel3, GroupLayout.PREFERRED_SIZE, 140, GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(m_jMaxDate, GroupLayout.PREFERRED_SIZE, 160, GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(33, Short.MAX_VALUE))
+                jPanel4Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                             .addGroup(jPanel4Layout.createSequentialGroup()
+                                                    .addContainerGap()
+                                                    .addGroup(jPanel4Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                                                           .addGroup(jPanel4Layout.createSequentialGroup()
+                                                                                                  .addComponent(jLabel11, GroupLayout.PREFERRED_SIZE, 140, GroupLayout.PREFERRED_SIZE)
+                                                                                                  .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                                                                  .addComponent(m_jSequence, GroupLayout.PREFERRED_SIZE, 160, GroupLayout.PREFERRED_SIZE))
+                                                                           .addGroup(jPanel4Layout.createSequentialGroup()
+                                                                                                  .addComponent(jLabel2, GroupLayout.PREFERRED_SIZE, 140, GroupLayout.PREFERRED_SIZE)
+                                                                                                  .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                                                                  .addComponent(m_jMinDate, GroupLayout.PREFERRED_SIZE, 160, GroupLayout.PREFERRED_SIZE))
+                                                                           .addGroup(jPanel4Layout.createSequentialGroup()
+                                                                                                  .addComponent(jLabel3, GroupLayout.PREFERRED_SIZE, 140, GroupLayout.PREFERRED_SIZE)
+                                                                                                  .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                                                                  .addComponent(m_jMaxDate, GroupLayout.PREFERRED_SIZE, 160, GroupLayout.PREFERRED_SIZE)))
+                                                    .addContainerGap(33, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGroup(jPanel4Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel11)
-                    .addComponent(m_jSequence, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(m_jMinDate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(m_jMaxDate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(16, Short.MAX_VALUE))
+                jPanel4Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                             .addGroup(jPanel4Layout.createSequentialGroup()
+                                                    .addGroup(jPanel4Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                                                           .addComponent(jLabel11)
+                                                                           .addComponent(m_jSequence, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                    .addGroup(jPanel4Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                                                           .addComponent(jLabel2)
+                                                                           .addComponent(m_jMinDate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                    .addGroup(jPanel4Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                                                           .addComponent(jLabel3)
+                                                                           .addComponent(m_jMaxDate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                                    .addContainerGap(16, Short.MAX_VALUE))
         );
 
         jPanel5.setBorder(BorderFactory.createTitledBorder(AppLocal.getIntString("label.paymentstitle"))); // NOI18N
@@ -338,36 +344,36 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
         GroupLayout jPanel5Layout = new GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(m_jScrollTableTicket, GroupLayout.PREFERRED_SIZE, 350, GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel5Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel1, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(m_jCount, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel4, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(m_jCash, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(67, Short.MAX_VALUE))
+                jPanel5Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                             .addGroup(jPanel5Layout.createSequentialGroup()
+                                                    .addContainerGap()
+                                                    .addComponent(m_jScrollTableTicket, GroupLayout.PREFERRED_SIZE, 350, GroupLayout.PREFERRED_SIZE)
+                                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                    .addGroup(jPanel5Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                                                           .addGroup(jPanel5Layout.createSequentialGroup()
+                                                                                                  .addComponent(jLabel1, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)
+                                                                                                  .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                                                                  .addComponent(m_jCount, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE))
+                                                                           .addGroup(jPanel5Layout.createSequentialGroup()
+                                                                                                  .addComponent(jLabel4, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)
+                                                                                                  .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                                                                  .addComponent(m_jCash, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)))
+                                                    .addContainerGap(67, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGroup(jPanel5Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                    .addComponent(m_jScrollTableTicket, GroupLayout.PREFERRED_SIZE, 140, GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGroup(jPanel5Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(m_jCount, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel5Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel4)
-                            .addComponent(m_jCash, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(16, Short.MAX_VALUE))
+                jPanel5Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                             .addGroup(jPanel5Layout.createSequentialGroup()
+                                                    .addGroup(jPanel5Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                                                           .addComponent(m_jScrollTableTicket, GroupLayout.PREFERRED_SIZE, 140, GroupLayout.PREFERRED_SIZE)
+                                                                           .addGroup(jPanel5Layout.createSequentialGroup()
+                                                                                                  .addGroup(jPanel5Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                                                                                                         .addComponent(jLabel1)
+                                                                                                                         .addComponent(m_jCount, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                                                                                  .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                                                                  .addGroup(jPanel5Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                                                                                                         .addComponent(jLabel4)
+                                                                                                                         .addComponent(m_jCash, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
+                                                    .addContainerGap(16, Short.MAX_VALUE))
         );
 
         jPanel6.setBorder(BorderFactory.createTitledBorder(AppLocal.getIntString("label.salestitle"))); // NOI18N
@@ -401,52 +407,52 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
         GroupLayout jPanel6Layout = new GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(m_jScrollSales, GroupLayout.PREFERRED_SIZE, 350, GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel6Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addComponent(jLabel5, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(m_jSales, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addComponent(jLabel6, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(m_jSalesSubtotal, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addComponent(jLabel12, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(m_jSalesTaxes, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addComponent(jLabel7, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(m_jSalesTotal, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(65, Short.MAX_VALUE))
+                jPanel6Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                             .addGroup(jPanel6Layout.createSequentialGroup()
+                                                    .addContainerGap()
+                                                    .addComponent(m_jScrollSales, GroupLayout.PREFERRED_SIZE, 350, GroupLayout.PREFERRED_SIZE)
+                                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                    .addGroup(jPanel6Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                                                           .addGroup(jPanel6Layout.createSequentialGroup()
+                                                                                                  .addComponent(jLabel5, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)
+                                                                                                  .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                                                                  .addComponent(m_jSales, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE))
+                                                                           .addGroup(jPanel6Layout.createSequentialGroup()
+                                                                                                  .addComponent(jLabel6, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)
+                                                                                                  .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                                                                  .addComponent(m_jSalesSubtotal, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE))
+                                                                           .addGroup(jPanel6Layout.createSequentialGroup()
+                                                                                                  .addComponent(jLabel12, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)
+                                                                                                  .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                                                                  .addComponent(m_jSalesTaxes, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE))
+                                                                           .addGroup(jPanel6Layout.createSequentialGroup()
+                                                                                                  .addComponent(jLabel7, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)
+                                                                                                  .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                                                                  .addComponent(m_jSalesTotal, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)))
+                                                    .addContainerGap(65, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGroup(jPanel6Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                    .addComponent(m_jScrollSales, GroupLayout.PREFERRED_SIZE, 140, GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGroup(jPanel6Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel5)
-                            .addComponent(m_jSales, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel6Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel6)
-                            .addComponent(m_jSalesSubtotal, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel6Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel12)
-                            .addComponent(m_jSalesTaxes, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel6Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel7)
-                            .addComponent(m_jSalesTotal, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(16, Short.MAX_VALUE))
+                jPanel6Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                             .addGroup(jPanel6Layout.createSequentialGroup()
+                                                    .addGroup(jPanel6Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                                                           .addComponent(m_jScrollSales, GroupLayout.PREFERRED_SIZE, 140, GroupLayout.PREFERRED_SIZE)
+                                                                           .addGroup(jPanel6Layout.createSequentialGroup()
+                                                                                                  .addGroup(jPanel6Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                                                                                                         .addComponent(jLabel5)
+                                                                                                                         .addComponent(m_jSales, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                                                                                  .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                                                                  .addGroup(jPanel6Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                                                                                                         .addComponent(jLabel6)
+                                                                                                                         .addComponent(m_jSalesSubtotal, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                                                                                  .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                                                                  .addGroup(jPanel6Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                                                                                                         .addComponent(jLabel12)
+                                                                                                                         .addComponent(m_jSalesTaxes, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                                                                                  .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                                                                  .addGroup(jPanel6Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                                                                                                         .addComponent(jLabel7)
+                                                                                                                         .addComponent(m_jSalesTotal, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
+                                                    .addContainerGap(16, Short.MAX_VALUE))
         );
 
         m_jCloseCash.setText(AppLocal.getIntString("Button.CloseCash")); // NOI18N
@@ -466,34 +472,34 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
         GroupLayout jPanel1Layout = new GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel6, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel5, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jPanel4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(m_jPrintCash, GroupLayout.PREFERRED_SIZE, 86, GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(m_jCloseCash)))
-                .addContainerGap())
+                jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                             .addGroup(jPanel1Layout.createSequentialGroup()
+                                                    .addContainerGap()
+                                                    .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                                                           .addComponent(jPanel6, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                                           .addComponent(jPanel5, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                                           .addGroup(jPanel1Layout.createSequentialGroup()
+                                                                                                  .addComponent(jPanel4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                                                                                  .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                                                                  .addComponent(m_jPrintCash, GroupLayout.PREFERRED_SIZE, 86, GroupLayout.PREFERRED_SIZE)
+                                                                                                  .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                                                                  .addComponent(m_jCloseCash)))
+                                                    .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                        .addComponent(m_jPrintCash)
-                        .addComponent(m_jCloseCash)))
-                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel5, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel6, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                             .addGroup(jPanel1Layout.createSequentialGroup()
+                                                    .addContainerGap()
+                                                    .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
+                                                                           .addComponent(jPanel4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                                                           .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                                                                                  .addComponent(m_jPrintCash)
+                                                                                                  .addComponent(m_jCloseCash)))
+                                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                    .addComponent(jPanel5, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                    .addComponent(jPanel6, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                                    .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         add(jPanel1, java.awt.BorderLayout.CENTER);
@@ -566,47 +572,34 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
         }
     }//GEN-LAST:event_m_jCloseCashActionPerformed
 
-private void m_jPrintCashActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_jPrintCashActionPerformed
+    private void m_jPrintCashActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_jPrintCashActionPerformed
 
-    // print report
-    try {
-        printPayments(PRINT_PARTIAL_CASH);
-        // Not important errors
-    } catch (TicketPrinterException e) {
+        // print report
+        try {
+            printPayments(PRINT_PARTIAL_CASH);
+            // Not important errors
+        } catch (TicketPrinterException e) {
+        }
+
+    }//GEN-LAST:event_m_jPrintCashActionPerformed
+
+    private class FormatsPayment extends Formats {
+
+        @Override
+        protected String formatValueInt(Object value) {
+            return AppLocal.getIntString("transpayment." + (String) value);
+        }
+
+        @Override
+        protected Object parseValueInt(String value) throws ParseException {
+            return value;
+        }
+
+        @Override
+        public int getAlignment() {
+            return SwingConstants.LEFT;
+        }
     }
-
-}//GEN-LAST:event_m_jPrintCashActionPerformed
-
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private JLabel jLabel1;
-    private JLabel jLabel11;
-    private JLabel jLabel12;
-    private JLabel jLabel2;
-    private JLabel jLabel3;
-    private JLabel jLabel4;
-    private JLabel jLabel5;
-    private JLabel jLabel6;
-    private JLabel jLabel7;
-    private JPanel jPanel1;
-    private JPanel jPanel4;
-    private JPanel jPanel5;
-    private JPanel jPanel6;
-    private JTextField m_jCash;
-    private JButton m_jCloseCash;
-    private JTextField m_jCount;
-    private JTextField m_jMaxDate;
-    private JTextField m_jMinDate;
-    private JButton m_jPrintCash;
-    private JTextField m_jSales;
-    private JTextField m_jSalesSubtotal;
-    private JTextField m_jSalesTaxes;
-    private JTextField m_jSalesTotal;
-    private JScrollPane m_jScrollSales;
-    private JScrollPane m_jScrollTableTicket;
-    private JTextField m_jSequence;
-    private JTable m_jTicketTable;
-    private JTable m_jsalestable;
     // End of variables declaration//GEN-END:variables
 
 }

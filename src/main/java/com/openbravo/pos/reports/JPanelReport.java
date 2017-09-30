@@ -43,14 +43,18 @@ import com.openbravo.pos.util.JRViewer;
 
 public abstract class JPanelReport extends JPanel implements JPanelView, BeanFactoryApp {
 
+    protected AppView m_App;
+    protected SentenceList taxsent;
+    protected TaxesLogic taxeslogic;
     private JRViewer reportviewer = null;
     private JasperReport jr = null;
     private EditorCreator editor = null;
-
-    protected AppView m_App;
-
-    protected SentenceList taxsent;
-    protected TaxesLogic taxeslogic;
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private JButton jButton1;
+    private JPanel jPanel1;
+    private JPanel jPanelFilter;
+    private JPanel jPanelHeader;
+    private JToggleButton jToggleFilter;
 
     /**
      * Creates new form JPanelReport
@@ -237,14 +241,6 @@ public abstract class JPanelReport extends JPanel implements JPanelView, BeanFac
         jPanelFilter.setVisible(jToggleFilter.isSelected());
 
     }//GEN-LAST:event_jToggleFilterActionPerformed
-
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private JButton jButton1;
-    private JPanel jPanel1;
-    private JPanel jPanelFilter;
-    private JPanel jPanelHeader;
-    private JToggleButton jToggleFilter;
     // End of variables declaration//GEN-END:variables
 
 }

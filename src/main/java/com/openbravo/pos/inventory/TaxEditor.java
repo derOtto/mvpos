@@ -34,38 +34,57 @@ import com.openbravo.data.user.EditorRecord;
 import com.openbravo.data.user.DirtyManager;
 import com.openbravo.pos.forms.AppView;
 import com.openbravo.pos.forms.DataLogicSales;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class TaxEditor extends JPanel implements EditorRecord {
-    
+
     private Object m_oId;
-    
+
     private SentenceList taxcatsent;
-    private ComboBoxValModel taxcatmodel;    
-    
+    private ComboBoxValModel taxcatmodel;
+
     private SentenceList taxcustcatsent;
-    private ComboBoxValModel taxcustcatmodel;   
-    
+    private ComboBoxValModel taxcustcatmodel;
+
     private SentenceList taxparentsent;
-    private ComboBoxValModel taxparentmodel;    
-    
-    /** Creates new form taxEditor */
+    private ComboBoxValModel taxparentmodel;
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private JButton btnValidFrom;
+    private JCheckBox jCascade;
+    private JLabel jLabel1;
+    private JLabel jLabel2;
+    private JLabel jLabel3;
+    private JLabel jLabel4;
+    private JLabel jLabel5;
+    private JLabel jLabel6;
+    private JLabel jLabel7;
+    private JTextField jOrder;
+    private JComboBox m_jCustTaxCategory;
+    private JTextField m_jName;
+    private JTextField m_jRate;
+    private JComboBox m_jTaxCategory;
+    private JComboBox m_jTaxParent;
+    private JTextField txtValidFrom;
+    /**
+     * Creates new form taxEditor
+     */
     public TaxEditor(AppView app, DirtyManager dirty) {
-        
+
         DataLogicSales dlSales = (DataLogicSales) app.getBean("com.openbravo.pos.forms.DataLogicSales");
-        
+
         initComponents();
-        
+
         taxcatsent = dlSales.getTaxCategoriesList();
-        taxcatmodel = new ComboBoxValModel();        
-        
+        taxcatmodel = new ComboBoxValModel();
+
         taxcustcatsent = dlSales.getTaxCustCategoriesList();
-        taxcustcatmodel = new ComboBoxValModel();    
-        
+        taxcustcatmodel = new ComboBoxValModel();
+
         taxparentsent = dlSales.getTaxList();
-        taxparentmodel = new ComboBoxValModel();    
+        taxparentmodel = new ComboBoxValModel();
 
         m_jName.getDocument().addDocumentListener(dirty);
         m_jTaxCategory.addActionListener(dirty);
@@ -75,28 +94,28 @@ public class TaxEditor extends JPanel implements EditorRecord {
         m_jRate.getDocument().addDocumentListener(dirty);
         jCascade.addActionListener(dirty);
         jOrder.getDocument().addDocumentListener(dirty);
-        
+
         writeValueEOF();
     }
-    
+
     public void activate() throws BasicException {
-        
+
         List a = taxcatsent.list();
         taxcatmodel = new ComboBoxValModel(a);
         m_jTaxCategory.setModel(taxcatmodel);
-        
+
         a = taxcustcatsent.list();
         a.add(0, null); // The null item
         taxcustcatmodel = new ComboBoxValModel(a);
-        m_jCustTaxCategory.setModel(taxcustcatmodel);    
-        
-       
+        m_jCustTaxCategory.setModel(taxcustcatmodel);
+
+
     }
-    
+
     public void refresh() {
-        
+
         List a;
-        
+
         try {
             a = taxparentsent.list();
         } catch (BasicException eD) {
@@ -104,12 +123,12 @@ public class TaxEditor extends JPanel implements EditorRecord {
             msg.show(this);
             a = new ArrayList();
         }
-        
+
         a.add(0, null); // The null item
         taxparentmodel = new ComboBoxValModel(a);
-        m_jTaxParent.setModel(taxparentmodel);    
+        m_jTaxParent.setModel(taxparentmodel);
     }
-    
+
     public void writeValueEOF() {
         m_oId = null;
         m_jName.setText(null);
@@ -120,7 +139,7 @@ public class TaxEditor extends JPanel implements EditorRecord {
         m_jRate.setText(null);
         jCascade.setSelected(false);
         jOrder.setText(null);
-        
+
         m_jName.setEnabled(false);
         m_jTaxCategory.setEnabled(false);
         txtValidFrom.setEnabled(false);
@@ -131,6 +150,7 @@ public class TaxEditor extends JPanel implements EditorRecord {
         jCascade.setEnabled(false);
         jOrder.setEnabled(false);
     }
+
     public void writeValueInsert() {
         m_oId = UUID.randomUUID().toString();
         m_jName.setText(null);
@@ -144,17 +164,18 @@ public class TaxEditor extends JPanel implements EditorRecord {
         m_jRate.setBackground(COLOR_MANDATORY_FIELD);
         jCascade.setSelected(false);
         jOrder.setText(null);
-        
+
         m_jName.setEnabled(true);
         m_jTaxCategory.setEnabled(true);
         txtValidFrom.setEnabled(true);
         btnValidFrom.setEnabled(true);
         m_jCustTaxCategory.setEnabled(true);
-        m_jTaxParent.setEnabled(true);        
+        m_jTaxParent.setEnabled(true);
         m_jRate.setEnabled(true);
-        jCascade.setEnabled(true);    
+        jCascade.setEnabled(true);
         jOrder.setEnabled(true);
     }
+
     public void writeValueDelete(Object value) {
 
         Object[] tax = (Object[]) value;
@@ -170,7 +191,7 @@ public class TaxEditor extends JPanel implements EditorRecord {
         m_jRate.setBackground(null);
         jCascade.setSelected((Boolean) tax[7]);
         jOrder.setText(Formats.INT.formatValue(tax[8]));
-        
+
         m_jName.setEnabled(false);
         m_jTaxCategory.setEnabled(false);
         txtValidFrom.setEnabled(false);
@@ -180,7 +201,8 @@ public class TaxEditor extends JPanel implements EditorRecord {
         m_jRate.setEnabled(false);
         jCascade.setEnabled(false);
         jOrder.setEnabled(false);
-    }    
+    }
+
     public void writeValueEdit(Object value) {
 
         Object[] tax = (Object[]) value;
@@ -193,20 +215,20 @@ public class TaxEditor extends JPanel implements EditorRecord {
         m_jRate.setText(Formats.PERCENT.formatValue(tax[6]));
         jCascade.setSelected((Boolean) tax[7]);
         jOrder.setText(Formats.INT.formatValue(tax[8]));
-        
+
         m_jName.setEnabled(true);
         m_jTaxCategory.setEnabled(true);
         txtValidFrom.setEnabled(true);
         btnValidFrom.setEnabled(true);
         m_jCustTaxCategory.setEnabled(true);
-        m_jTaxParent.setEnabled(true);        
+        m_jTaxParent.setEnabled(true);
         m_jRate.setEnabled(true);
         jCascade.setEnabled(true);
         jOrder.setEnabled(true);
     }
 
     public Object createValue() throws BasicException {
-        
+
         Object[] tax = new Object[9];
 
         tax[0] = m_oId;
@@ -218,15 +240,16 @@ public class TaxEditor extends JPanel implements EditorRecord {
         tax[6] = Formats.PERCENT.parseValue(m_jRate.getText());
         tax[7] = Boolean.valueOf(jCascade.isSelected());
         tax[8] = Formats.INT.parseValue(jOrder.getText());
-        
+
         return tax;
-    }    
-     
+    }
+
     public Component getComponent() {
         return this;
     }
-    
-    /** This method is called from within the constructor to
+
+    /**
+     * This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
      * always regenerated by the Form Editor.
@@ -277,68 +300,68 @@ public class TaxEditor extends JPanel implements EditorRecord {
         GroupLayout layout = new GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2, GroupLayout.PREFERRED_SIZE, 220, GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1, GroupLayout.PREFERRED_SIZE, 220, GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7, GroupLayout.PREFERRED_SIZE, 120, GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4, GroupLayout.PREFERRED_SIZE, 220, GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5, GroupLayout.PREFERRED_SIZE, 220, GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3, GroupLayout.PREFERRED_SIZE, 220, GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6, GroupLayout.PREFERRED_SIZE, 220, GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                    .addComponent(m_jCustTaxCategory, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE)
-                    .addComponent(m_jTaxCategory, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE)
-                    .addComponent(m_jTaxParent, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jOrder, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
-                    .addComponent(m_jName, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(m_jRate, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jCascade, GroupLayout.PREFERRED_SIZE, 110, GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(txtValidFrom, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnValidFrom)))
-                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                      .addGroup(layout.createSequentialGroup()
+                                      .addContainerGap()
+                                      .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                                      .addComponent(jLabel2, GroupLayout.PREFERRED_SIZE, 220, GroupLayout.PREFERRED_SIZE)
+                                                      .addComponent(jLabel1, GroupLayout.PREFERRED_SIZE, 220, GroupLayout.PREFERRED_SIZE)
+                                                      .addComponent(jLabel7, GroupLayout.PREFERRED_SIZE, 120, GroupLayout.PREFERRED_SIZE)
+                                                      .addComponent(jLabel4, GroupLayout.PREFERRED_SIZE, 220, GroupLayout.PREFERRED_SIZE)
+                                                      .addComponent(jLabel5, GroupLayout.PREFERRED_SIZE, 220, GroupLayout.PREFERRED_SIZE)
+                                                      .addComponent(jLabel3, GroupLayout.PREFERRED_SIZE, 220, GroupLayout.PREFERRED_SIZE)
+                                                      .addComponent(jLabel6, GroupLayout.PREFERRED_SIZE, 220, GroupLayout.PREFERRED_SIZE))
+                                      .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                      .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                                      .addComponent(m_jCustTaxCategory, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE)
+                                                      .addComponent(m_jTaxCategory, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE)
+                                                      .addComponent(m_jTaxParent, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE)
+                                                      .addComponent(jOrder, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
+                                                      .addComponent(m_jName, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE)
+                                                      .addGroup(layout.createSequentialGroup()
+                                                                      .addComponent(m_jRate, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
+                                                                      .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                                      .addComponent(jCascade, GroupLayout.PREFERRED_SIZE, 110, GroupLayout.PREFERRED_SIZE))
+                                                      .addGroup(layout.createSequentialGroup()
+                                                                      .addComponent(txtValidFrom, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE)
+                                                                      .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                                      .addComponent(btnValidFrom)))
+                                      .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                    .addComponent(jLabel2)
-                    .addComponent(m_jName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                    .addComponent(jLabel1)
-                    .addComponent(m_jTaxCategory, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                    .addComponent(jLabel7)
-                    .addComponent(txtValidFrom, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnValidFrom))
-                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                    .addComponent(jLabel4)
-                    .addComponent(m_jCustTaxCategory, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                    .addComponent(jLabel5)
-                    .addComponent(m_jTaxParent, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                    .addComponent(jLabel3)
-                    .addComponent(m_jRate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCascade))
-                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                    .addComponent(jLabel6)
-                    .addComponent(jOrder, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                      .addGroup(layout.createSequentialGroup()
+                                      .addContainerGap()
+                                      .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+                                                      .addComponent(jLabel2)
+                                                      .addComponent(m_jName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                      .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                      .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+                                                      .addComponent(jLabel1)
+                                                      .addComponent(m_jTaxCategory, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                      .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                      .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+                                                      .addComponent(jLabel7)
+                                                      .addComponent(txtValidFrom, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                                      .addComponent(btnValidFrom))
+                                      .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                      .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+                                                      .addComponent(jLabel4)
+                                                      .addComponent(m_jCustTaxCategory, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                      .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                      .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+                                                      .addComponent(jLabel5)
+                                                      .addComponent(m_jTaxParent, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                      .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                      .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+                                                      .addComponent(jLabel3)
+                                                      .addComponent(m_jRate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                                      .addComponent(jCascade))
+                                      .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                      .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+                                                      .addComponent(jLabel6)
+                                                      .addComponent(jOrder, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                      .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -354,26 +377,7 @@ public class TaxEditor extends JPanel implements EditorRecord {
         if (date != null) {
             txtValidFrom.setText(Formats.TIMESTAMP.formatValue(date));
         }
-}//GEN-LAST:event_btnValidFromActionPerformed
-    
-    
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private JButton btnValidFrom;
-    private JCheckBox jCascade;
-    private JLabel jLabel1;
-    private JLabel jLabel2;
-    private JLabel jLabel3;
-    private JLabel jLabel4;
-    private JLabel jLabel5;
-    private JLabel jLabel6;
-    private JLabel jLabel7;
-    private JTextField jOrder;
-    private JComboBox m_jCustTaxCategory;
-    private JTextField m_jName;
-    private JTextField m_jRate;
-    private JComboBox m_jTaxCategory;
-    private JComboBox m_jTaxParent;
-    private JTextField txtValidFrom;
+    }//GEN-LAST:event_btnValidFromActionPerformed
     // End of variables declaration//GEN-END:variables
-    
+
 }

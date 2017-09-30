@@ -31,6 +31,7 @@ import com.openbravo.pos.ticket.CategoryInfo;
 import com.openbravo.pos.ticket.ProductInfoExt;
 import com.openbravo.pos.ticket.TaxInfo;
 import com.openbravo.pos.util.ThumbNailBuilder;
+
 import java.awt.CardLayout;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
@@ -44,12 +45,12 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 /**
- *
  * @author adrianromero
  * @author Andrey Svininykh <svininykh@gmail.com>
  */
 public class JCatalog extends JPanel implements ListSelectionListener, CatalogSelector {
 
+    private final int iTextFontSize;
     protected EventListenerList listeners = new EventListenerList();
     private DataLogicSales m_dlSales;
     private TaxesLogic taxeslogic;
@@ -66,8 +67,16 @@ public class JCatalog extends JPanel implements ListSelectionListener, CatalogSe
     private CategoryInfo showingcategory = null;
     private LinkedList<CategoryInfo> subcategories;
     private String s_DefProdCat;
-    private final int iTextFontSize;
     private String s_DefLocation;
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private JPanel jPanel1;
+    private JPanel jPanel5;
+    private JButton m_btnBackRoot;
+    private JButton m_btnBackSub;
+    private JPanel m_jCategories;
+    private com.openbravo.data.gui.JImageViewer m_jImage;
+    private JPanel m_jPanelImageViewer;
+    private JPanel m_jProducts;
 
     public JCatalog(DataLogicSales dlSales, PropertiesConfig panelconfig) {
 
@@ -327,33 +336,6 @@ public class JCatalog extends JPanel implements ListSelectionListener, CatalogSe
         }
     }
 
-    private class SelectedAction implements ActionListener {
-
-        private ProductInfoExt prod;
-
-        public SelectedAction(ProductInfoExt prod) {
-            this.prod = prod;
-        }
-
-        public void actionPerformed(ActionEvent e) {
-            fireSelectedProduct(prod);
-        }
-    }
-
-    private class SelectedCategory implements ActionListener {
-
-        private CategoryInfo category;
-
-        public SelectedCategory(CategoryInfo category) {
-            this.category = category;
-        }
-
-        public void actionPerformed(ActionEvent e) {
-            subcategories.add(showingcategory);
-            showSubcategoryPanel(category);
-        }
-    }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -434,14 +416,32 @@ public class JCatalog extends JPanel implements ListSelectionListener, CatalogSe
             subcategories.removeLast();
         }
     }//GEN-LAST:event_m_btnBackSubActionPerformed
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private JPanel jPanel1;
-    private JPanel jPanel5;
-    private JButton m_btnBackRoot;
-    private JButton m_btnBackSub;
-    private JPanel m_jCategories;
-    private com.openbravo.data.gui.JImageViewer m_jImage;
-    private JPanel m_jPanelImageViewer;
-    private JPanel m_jProducts;
+
+    private class SelectedAction implements ActionListener {
+
+        private ProductInfoExt prod;
+
+        public SelectedAction(ProductInfoExt prod) {
+            this.prod = prod;
+        }
+
+        public void actionPerformed(ActionEvent e) {
+            fireSelectedProduct(prod);
+        }
+    }
+
+    private class SelectedCategory implements ActionListener {
+
+        private CategoryInfo category;
+
+        public SelectedCategory(CategoryInfo category) {
+            this.category = category;
+        }
+
+        public void actionPerformed(ActionEvent e) {
+            subcategories.add(showingcategory);
+            showSubcategoryPanel(category);
+        }
+    }
     // End of variables declaration//GEN-END:variables
 }

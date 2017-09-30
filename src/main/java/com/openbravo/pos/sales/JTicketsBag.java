@@ -21,7 +21,9 @@ package com.openbravo.pos.sales;
 import com.nordpos.sales.geomap.JTicketsBagLocationMap;
 import com.openbravo.pos.sales.simple.JTicketsBagSimple;
 import com.openbravo.pos.forms.*;
+
 import javax.swing.*;
+
 import com.openbravo.pos.sales.restaurant.JTicketsBagRestaurantMap;
 import com.openbravo.pos.sales.shared.JTicketsBagShared;
 
@@ -40,16 +42,6 @@ public abstract class JTicketsBag extends JPanel {
         m_dlSales = (DataLogicSales) m_App.getBean("com.openbravo.pos.forms.DataLogicSales");
     }
 
-    public abstract void activate();
-
-    public abstract boolean deactivate();
-
-    public abstract void deleteTicket();
-
-    protected abstract JComponent getBagComponent();
-
-    protected abstract JComponent getNullComponent();
-
     public static JTicketsBag createTicketsBag(String sName, AppView app, TicketsEditor panelticket) {
 
         if (null != sName) {
@@ -67,4 +59,14 @@ public abstract class JTicketsBag extends JPanel {
         // "simple"
         return new JTicketsBagSimple(app, panelticket);
     }
+
+    public abstract void activate();
+
+    public abstract boolean deactivate();
+
+    public abstract void deleteTicket();
+
+    protected abstract JComponent getBagComponent();
+
+    protected abstract JComponent getNullComponent();
 }

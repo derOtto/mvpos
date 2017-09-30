@@ -20,15 +20,17 @@
 package com.openbravo.pos.payment;
 
 import com.openbravo.pos.customers.CustomerInfoExt;
+
 import java.awt.Component;
 
 /**
- *
  * @author Adrian
  */
 public interface JPaymentInterface {
-    
-    public void activate(PaymentInfoList paymentInfoList, CustomerInfoExt customerext, double dTotal, String transactionID);    
+
+    public void activate(PaymentInfoList paymentInfoList, CustomerInfoExt customerext, double dTotal, String transactionID);
+
     public PaymentInfo executePayment();
+
     public Component getComponent();
 }

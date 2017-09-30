@@ -1,20 +1,19 @@
 /**
- *
  * NORD POS is a fork of Openbravo POS.
- *
+ * <p>
  * Copyright (C) 2009-2016 Nord Trading Ltd. <http://www.nordpos.com>
- *
+ * <p>
  * This file is part of NORD POS.
- *
+ * <p>
  * NORD POS is free software: you can redistribute it and/or modify it under the
  * terms of the GNU General Public License as published by the Free Software
  * Foundation, either version 3 of the License, or (at your option) any later
  * version.
- *
+ * <p>
  * NORD POS is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
  * A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU General Public License along with
  * NORD POS. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -41,6 +40,12 @@ public class JMarkerEdit extends javax.swing.JDialog implements JMapViewerEventL
     private boolean ok;
     private JMapViewerTree treeMap;
     private MapMarker mapMarker;
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private JPanel jPanel1;
+    private JPanel jPanel5;
+    private javax.swing.JButton m_jButtonCancel;
+    private javax.swing.JButton m_jButtonOK;
+    private JPanel m_jPanelMap;
 
     private JMarkerEdit(Frame parent, boolean modal) {
         super(parent, modal);
@@ -48,6 +53,21 @@ public class JMarkerEdit extends javax.swing.JDialog implements JMapViewerEventL
 
     private JMarkerEdit(Dialog parent, boolean modal) {
         super(parent, modal);
+    }
+
+    public static JMarkerEdit getMarkerLocation(Component parent) {
+
+        Window window = SwingUtilities.getWindowAncestor(parent);
+
+        JMarkerEdit myMsg;
+        if (window instanceof Frame) {
+            myMsg = new JMarkerEdit((Frame) window, true);
+        } else {
+            myMsg = new JMarkerEdit((Dialog) window, true);
+        }
+        myMsg.init();
+        myMsg.applyComponentOrientation(parent.getComponentOrientation());
+        return myMsg;
     }
 
     private void init() {
@@ -79,21 +99,6 @@ public class JMarkerEdit extends javax.swing.JDialog implements JMapViewerEventL
         });
     }
 
-    public static JMarkerEdit getMarkerLocation(Component parent) {
-
-        Window window = SwingUtilities.getWindowAncestor(parent);
-
-        JMarkerEdit myMsg;
-        if (window instanceof Frame) {
-            myMsg = new JMarkerEdit((Frame) window, true);
-        } else {
-            myMsg = new JMarkerEdit((Dialog) window, true);
-        }
-        myMsg.init();
-        myMsg.applyComponentOrientation(parent.getComponentOrientation());
-        return myMsg;
-    }
-
     public void editMarker(Geolayer layer, Geomarker marker) {
         Coordinate coordinate = new Coordinate(marker.getLatitude(), marker.getLongtitude());
         Layer mapLayer = new Layer(layer.getName());
@@ -110,7 +115,7 @@ public class JMarkerEdit extends javax.swing.JDialog implements JMapViewerEventL
         map().setDisplayPosition(coordinate, JMapViewer.MAX_ZOOM / 2);
     }
 
-        public MapMarker getMapMarker() {
+    public MapMarker getMapMarker() {
         return mapMarker;
     }
 
@@ -212,13 +217,6 @@ public class JMarkerEdit extends javax.swing.JDialog implements JMapViewerEventL
 
         dispose();
     }//GEN-LAST:event_m_jButtonCancelActionPerformed
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private JPanel jPanel1;
-    private JPanel jPanel5;
-    private javax.swing.JButton m_jButtonCancel;
-    private javax.swing.JButton m_jButtonOK;
-    private JPanel m_jPanelMap;
     // End of variables declaration//GEN-END:variables
 
 }

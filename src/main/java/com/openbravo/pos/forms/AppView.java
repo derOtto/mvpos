@@ -23,48 +23,64 @@ import com.openbravo.data.loader.Session;
 import com.nordpos.device.plu.DeviceInputOutput;
 import com.nordpos.device.ticket.DeviceTicketFactory;
 import com.nordpos.device.scale.DeviceScaleFactory;
+
 import java.util.Date;
 
 /**
- *
  * @author adrianromero
  * @author Andrey Svininykh <svininykh@gmail.com>
  */
 public interface AppView {
 
     public DeviceScaleFactory getDeviceScale();
+
     public DeviceTicketFactory getDeviceTicket();
+
     public DeviceInputOutput getDevicePLUs();
 
     public Session getSession();
+
     public AppProperties getProperties();
-//    public HostProperties getHostProperties();
+
+    //    public HostProperties getHostProperties();
     public Object getBean(String beanfactory) throws BeanFactoryException;
 
     public void setActiveCash(String value, int iSeq, Date dStart, Date dEnd);
+
     public String getActiveCashIndex();
+
     public int getActiveCashSequence();
+
     public Date getActiveCashDateStart();
+
     public Date getActiveCashDateEnd();
 
     public String getInventoryLocation();
 
     public String getGenerateProductReference();
+
     public String getGenerateProductBarcode();
 
     public String getCustomerCard();
+
     public String getUserCard();
 
     public String getUserBarcode();
+
     public String getPriceBarcode();
+
     public String getUnitBarcode();
+
     public String getProductPriceBarcode();
 
     public String getDefaultInventoryLocation();
+
     public String getDefaultTaxCategory();
+
     public String getDefaultProductCategory();
 
     public void waitCursorBegin();
+
     public void waitCursorEnd();
 
     public AppUserView getAppUserView();

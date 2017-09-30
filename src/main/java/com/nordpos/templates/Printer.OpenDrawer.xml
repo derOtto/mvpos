@@ -20,6 +20,6 @@
     along with Openbravo POS.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <output xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
-   xsi:noNamespaceSchemaLocation="Schema.Printer.xsd">
-    <opendrawer/>   
+        xsi:noNamespaceSchemaLocation="Schema.Printer.xsd">
+    <opendrawer/>
 </output>

@@ -20,16 +20,15 @@
 package com.nordpos.device.display;
 
 /**
- *
  * @author adrianromero
  */
 public abstract class BaseAnimator implements DisplayAnimator {
-    
+
     protected String baseLine1;
     protected String baseLine2;
     protected String currentLine1;
-    protected String currentLine2; 
-    
+    protected String currentLine2;
+
     public BaseAnimator() {
         baseLine1 = null;
         baseLine2 = null;

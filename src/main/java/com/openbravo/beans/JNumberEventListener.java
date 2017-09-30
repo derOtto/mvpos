@@ -20,10 +20,9 @@
 package com.openbravo.beans;
 
 import java.util.EventListener;
+
 /**
- *
- * @author  adrian romero
- * @version 
+ * @author adrian romero
  */
 public interface JNumberEventListener extends EventListener {
 

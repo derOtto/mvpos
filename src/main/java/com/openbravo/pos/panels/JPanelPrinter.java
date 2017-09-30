@@ -19,9 +19,11 @@
 package com.openbravo.pos.panels;
 
 import com.nordpos.device.fiscalprinter.DeviceFiscalPrinter;
+
 import java.util.List;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
+
 import com.openbravo.basic.BasicException;
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.forms.JPanelView;
@@ -29,12 +31,16 @@ import com.openbravo.pos.forms.AppView;
 import com.nordpos.device.receiptprinter.DevicePrinter;
 
 /**
- *
  * @author adrianromero
  * @author Andrey Svininykh <svininykh@gmail.com>
  * @version NORD POS 3
  */
 public class JPanelPrinter extends JPanel implements JPanelView {
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private JPanel jPanel1;
+    private JPanel m_jDisplay;
+    private javax.swing.JTabbedPane m_jPrinters;
 
     public JPanelPrinter(AppView oApp) {
 
@@ -99,12 +105,6 @@ public class JPanelPrinter extends JPanel implements JPanelView {
         add(jPanel1, java.awt.BorderLayout.CENTER);
 
     }// </editor-fold>//GEN-END:initComponents
-
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private JPanel jPanel1;
-    private JPanel m_jDisplay;
-    private javax.swing.JTabbedPane m_jPrinters;
     // End of variables declaration//GEN-END:variables
 
 }

@@ -20,6 +20,7 @@ package com.openbravo.pos.sales;
 
 import com.openbravo.basic.BasicException;
 import com.openbravo.pos.ticket.ProductInfoExt;
+
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -28,7 +29,6 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 /**
- *
  * @author adrianromero
  * @author Andrey Svininykh <svininykh@gmail.com>
  */
@@ -36,7 +36,9 @@ public class JPanelTicketEdits extends JPanelTicket {
 
     private JTicketCatalogLines m_catandlines;
 
-    /** Creates a new instance of JPanelTicketRefunds */
+    /**
+     * Creates a new instance of JPanelTicketRefunds
+     */
     public JPanelTicketEdits() {
     }
 

@@ -27,11 +27,11 @@ import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.forms.DataLogicSales;
 import com.openbravo.pos.panels.JPanelTableExt;
 import com.openbravo.pos.ticket.ProductFilter;
+
 import java.awt.Component;
 import javax.swing.JButton;
 
 /**
- *
  * @author adrianromero
  * Created on 1 de marzo de 2007, 22:15
  * @author Andrey Svininykh <svininykh@gmail.com>

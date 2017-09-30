@@ -20,24 +20,23 @@
 package com.openbravo.pos.payment.magcard;
 
 /**
- *
  * @author adrian
  */
 public class MagCardParserIntelligent implements MagCardParser {
-
-    private String m_sHolderName;
-    private String m_sCardNumber;
-    private String m_sExpirationDate;
-
-    private StringBuffer m_sField;
 
     private static final int READING_HOLDER = 0;
     private static final int READING_NUMBER = 1;
     private static final int READING_DATE = 2;
     private static final int READING_FINISHED = 3;
+    private String m_sHolderName;
+    private String m_sCardNumber;
+    private String m_sExpirationDate;
+    private StringBuffer m_sField;
     private int m_iAutomState;
 
-    /** Creates a new instance of BasicMagCardReader */
+    /**
+     * Creates a new instance of BasicMagCardReader
+     */
     public MagCardParserIntelligent() {
         reset();
     }
@@ -113,22 +112,27 @@ public class MagCardParserIntelligent implements MagCardParser {
     public String getHolderName() {
         return m_sHolderName;
     }
+
     @Override
     public String getCardNumber() {
         return m_sCardNumber;
     }
+
     @Override
     public String getExpirationDate() {
         return m_sExpirationDate;
     }
+
     @Override
     public String getTrack1() {
         return null;
     }
+
     @Override
     public String getTrack2() {
         return null;
     }
+
     @Override
     public String getTrack3() {
         return null;

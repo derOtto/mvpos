@@ -24,17 +24,18 @@ import com.openbravo.pos.payment.magcard.MagCardReaderGeneric;
 import com.openbravo.pos.payment.magcard.MagCardReaderIntelligent;
 
 /**
- *
  * @author adrianromero
  */
 public class PaymentPanelFac {
-    
-    /** Creates a new instance of PaymentPanelFac */
+
+    /**
+     * Creates a new instance of PaymentPanelFac
+     */
     private PaymentPanelFac() {
     }
-    
+
     public static PaymentPanel getPaymentPanel(String sReader, JPaymentNotifier notifier) {
-        
+
         if ("Intelligent".equals(sReader)) {
             return new PaymentPanelMagCard(new MagCardReaderIntelligent(), notifier);
         } else if ("Generic".equals(sReader)) {
@@ -46,5 +47,5 @@ public class PaymentPanelFac {
         } else { // "Not defined
             return new PaymentPanelBasic(notifier);
         }
-    }      
+    }
 }

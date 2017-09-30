@@ -26,23 +26,25 @@ import java.net.URLClassLoader;
 import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+
 import com.openbravo.basic.BasicException;
 import com.openbravo.data.loader.Session;
 import com.openbravo.pos.util.AltEncrypter;
 
 /**
- *
  * @author adrianromero
  */
 public class AppViewConnection {
 
-    /** Creates a new instance of AppViewConnection */
+    /**
+     * Creates a new instance of AppViewConnection
+     */
     private AppViewConnection() {
     }
 
     public static Session createSession(AppProperties props) throws BasicException {
 
-        try{
+        try {
 
             // register the database driver
             if (isJavaWebStart()) {

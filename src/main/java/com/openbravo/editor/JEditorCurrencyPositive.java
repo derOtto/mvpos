@@ -22,11 +22,13 @@ package com.openbravo.editor;
 import com.openbravo.format.Formats;
 
 public class JEditorCurrencyPositive extends JEditorNumber {
-    
-    /** Creates a new instance of JEditorCurrencyPositive */
+
+    /**
+     * Creates a new instance of JEditorCurrencyPositive
+     */
     public JEditorCurrencyPositive() {
     }
-    
+
     protected Formats getFormat() {
         return Formats.CURRENCY;
     }

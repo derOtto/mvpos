@@ -30,10 +30,10 @@ import com.openbravo.data.user.SaveProvider;
 import com.openbravo.format.Formats;
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.panels.*;
+
 import javax.swing.ListCellRenderer;
 
 /**
- *
  * @author adrianromero
  */
 public class JPanelFloors extends JPanelTable {
@@ -41,19 +41,21 @@ public class JPanelFloors extends JPanelTable {
     private TableDefinition tfloors;
     private FloorsEditor jeditor;
 
-    /** Creates a new instance of JPanelFloors */
+    /**
+     * Creates a new instance of JPanelFloors
+     */
     public JPanelFloors() {
     }
 
     protected void init() {
         tfloors = new TableDefinition(app.getSession(),
-            "FLOORS"
-            , new String[] {"ID", "NAME", "IMAGE"}
-            , new String[] {"ID", AppLocal.getIntString("Label.Name"), "IMAGE"}
-            , new Datas[] {Datas.STRING, Datas.STRING, Datas.IMAGE}
-            , new Formats[] {Formats.NULL, Formats.STRING}
-            , "NAME"
-            , new int[] {0}
+                "FLOORS"
+                , new String[]{"ID", "NAME", "IMAGE"}
+                , new String[]{"ID", AppLocal.getIntString("Label.Name"), "IMAGE"}
+                , new Datas[]{Datas.STRING, Datas.STRING, Datas.IMAGE}
+                , new Formats[]{Formats.NULL, Formats.STRING}
+                , "NAME"
+                , new int[]{0}
         );
         jeditor = new FloorsEditor(dirty);
     }

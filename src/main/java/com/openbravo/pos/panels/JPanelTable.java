@@ -29,7 +29,6 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- *
  * @author adrianromero
  */
 public abstract class JPanelTable extends JPanel implements JPanelView, BeanFactoryApp {
@@ -37,6 +36,10 @@ public abstract class JPanelTable extends JPanel implements JPanelView, BeanFact
     protected BrowsableEditableData bd;
     protected DirtyManager dirty;
     protected AppView app;
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private JPanel container;
+    private JToggleButton jToggleFilter;
+    private JPanel toolbar;
 
     public JPanelTable() {
 
@@ -82,7 +85,9 @@ public abstract class JPanelTable extends JPanel implements JPanelView, BeanFact
             if (cr != null) {
                 JListNavigator nl = new JListNavigator(bd);
                 nl.applyComponentOrientation(getComponentOrientation());
-                if (cr != null) nl.setCellRenderer(cr);
+                if (cr != null) {
+                    nl.setCellRenderer(cr);
+                }
                 container.add(nl, BorderLayout.LINE_START);
             }
 
@@ -116,7 +121,7 @@ public abstract class JPanelTable extends JPanel implements JPanelView, BeanFact
     public Component getFilter() {
         return null;
     }
-    
+
     public boolean isToggleFilter() {
         return jToggleFilter.isSelected();
     }
@@ -146,7 +151,7 @@ public abstract class JPanelTable extends JPanel implements JPanelView, BeanFact
     }
 
     public void activate() throws BasicException {
-        if(getFilter() == null){
+        if (getFilter() == null) {
             jToggleFilter.setVisible(false);
         }
         startNavigation();
@@ -201,12 +206,6 @@ public abstract class JPanelTable extends JPanel implements JPanelView, BeanFact
     private void jToggleFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleFilterActionPerformed
         getFilter().setVisible(jToggleFilter.isSelected());
     }//GEN-LAST:event_jToggleFilterActionPerformed
-
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private JPanel container;
-    private JToggleButton jToggleFilter;
-    private JPanel toolbar;
     // End of variables declaration//GEN-END:variables
 
 }

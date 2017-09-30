@@ -58,7 +58,7 @@ public class DeviceScaleFactory {
         }
     }
 
-    public boolean existsScale() {       
+    public boolean existsScale() {
         return !sScaleType.equals("Not defined");
     }
 

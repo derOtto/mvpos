@@ -29,7 +29,9 @@ public abstract class BasicTicket implements PrintItem {
     protected PrintItemLine pil;
     protected int m_iBodyHeight;
 
-    /** Creates a new instance of AbstractTicket */
+    /**
+     * Creates a new instance of AbstractTicket
+     */
     public BasicTicket() {
         m_aCommands = new ArrayList<PrintItem>();
         pil = null;

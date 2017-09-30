@@ -28,6 +28,8 @@ public class DevicePrinterPanel extends JPanel implements DevicePrinter {
 
     private final JTicketContainer m_jTicketContainer;
     private BasicTicket m_ticketcurrent;
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private JScrollPane m_jScrollView;
 
     public DevicePrinterPanel() {
         initComponents();
@@ -122,10 +124,6 @@ public class DevicePrinterPanel extends JPanel implements DevicePrinter {
         setLayout(new BorderLayout());
         add(m_jScrollView, BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
-
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private JScrollPane m_jScrollView;
     // End of variables declaration//GEN-END:variables
 
 }

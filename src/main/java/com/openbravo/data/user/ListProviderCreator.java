@@ -26,23 +26,25 @@ import com.openbravo.data.loader.TableDefinition;
 import java.util.List;
 
 public class ListProviderCreator implements ListProvider {
-    
+
     private SentenceList sent;
     private EditorCreator prov;
     private Object params;
-    
-    /** Creates a new instance of ListProviderEditor */
+
+    /**
+     * Creates a new instance of ListProviderEditor
+     */
     public ListProviderCreator(SentenceList sent, EditorCreator prov) {
         this.sent = sent;
         this.prov = prov;
         params = null;
     }
-    
+
     public ListProviderCreator(SentenceList sent) {
         this(sent, null);
     }
-    
-    public ListProviderCreator(TableDefinition table) {        
+
+    public ListProviderCreator(TableDefinition table) {
         this(table.getListSentence(), null);
     }
 //    public ListProviderECreator(Connection c, ISQLBuilderStatic sqlbuilder, SerializerRead sr, SerializerWrite sw, EditorCreator prov) {
@@ -76,12 +78,12 @@ public class ListProviderCreator implements ListProvider {
 //        sent.setSerializerWrite(sw);
 //    }
 
-    public List loadData() throws BasicException {       
+    public List loadData() throws BasicException {
         params = (prov == null) ? null : prov.createValue();
         return refreshData();
     }
-    
+
     public List refreshData() throws BasicException {
         return sent.list(params);
-    }    
+    }
 }

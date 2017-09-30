@@ -23,6 +23,7 @@ import com.openbravo.basic.BasicException;
 import com.openbravo.data.loader.*;
 import com.openbravo.format.Formats;
 import com.openbravo.pos.util.ThumbNailBuilder;
+
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.HashMap;
@@ -34,45 +35,71 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 /**
- *
  * @author adrianromero
  * @author Andrey Svininykh <svininykh@gmail.com>
  * @version NORD POS 3
  */
 public class DataLogicSystem extends BeanFactoryDataSingle {
 
+    private static SentenceFind m_resourcebytes;
+    private static Map<String, byte[]> resourcescache;
     protected String m_sInitScript;
-    private SentenceFind m_version;
-    private SentenceFind m_application;
-    private SentenceExec m_dummy;
-
     protected SentenceList m_peoplevisible;
     protected SentenceFind m_peoplebycard;
     protected SerializerRead peopleread;
-
-    private SentenceFind m_rolepermissions;
-    private SentenceExec m_changepassword;
-    private SentenceFind m_locationfind;
-
-    private static SentenceFind m_resourcebytes;
-    private SentenceExec m_resourcebytesinsert;
-    private SentenceExec m_resourcebytesupdate;
-
     protected SentenceFind m_sequencecash;
     protected SentenceFind m_activecash;
     protected SentenceExec m_insertcash;
-
-    private static Map<String, byte[]> resourcescache;
+    private SentenceFind m_version;
+    private SentenceFind m_application;
+    private SentenceExec m_dummy;
+    private SentenceFind m_rolepermissions;
+    private SentenceExec m_changepassword;
+    private SentenceFind m_locationfind;
+    private SentenceExec m_resourcebytesinsert;
+    private SentenceExec m_resourcebytesupdate;
 
     public DataLogicSystem() {
     }
 
+    private static byte[] getResource(String name) {
+
+        byte[] resource;
+
+        resource = resourcescache.get(name);
+
+        if (resource == null) {
+            // Primero trato de obtenerlo de la tabla de recursos
+            try {
+                resource = (byte[]) m_resourcebytes.find(name);
+                resourcescache.put(name, resource);
+            } catch (BasicException e) {
+                resource = null;
+            }
+        }
+
+        return resource;
+    }
+
+    public static String getResourceAsText(String sName) {
+        return Formats.BYTEA.formatValue(getResource(sName));
+    }
+
+    public static BufferedImage getResourceAsImage(String sName) {
+        try {
+            byte[] img = getResource(sName); // , ".png"
+            return img == null ? null : ImageIO.read(new ByteArrayInputStream(img));
+        } catch (IOException e) {
+            return null;
+        }
+    }
+
     @Override
-    public void init(Session s){
+    public void init(Session s) {
 
         m_sInitScript = "/com/openbravo/pos/scripts/" + s.DB.getName();
 
-        m_version = new StaticSentence(s, "SELECT VERSION FROM APPLICATIONS",  null, SerializerReadString.INSTANCE);
+        m_version = new StaticSentence(s, "SELECT VERSION FROM APPLICATIONS", null, SerializerReadString.INSTANCE);
         m_application = new StaticSentence(s, "SELECT ID FROM APPLICATIONS", null, SerializerReadString.INSTANCE);
         m_dummy = new StaticSentence(s, "SELECT * FROM PEOPLE WHERE 1 = 0");
 
@@ -101,49 +128,49 @@ public class DataLogicSystem extends BeanFactoryDataSingle {
         };
 
         m_peoplevisible = new StaticSentence(s
-            , "SELECT ID, NAME, APPPASSWORD, CARD, ROLE, IMAGE, PROPERTIES FROM PEOPLE WHERE VISIBLE = " + s.DB.TRUE()
-            , null
-            , peopleread);
+                , "SELECT ID, NAME, APPPASSWORD, CARD, ROLE, IMAGE, PROPERTIES FROM PEOPLE WHERE VISIBLE = " + s.DB.TRUE()
+                , null
+                , peopleread);
 
         m_peoplebycard = new PreparedSentence(s
-            , "SELECT ID, NAME, APPPASSWORD, CARD, ROLE, IMAGE, PROPERTIES FROM PEOPLE WHERE CARD = ? AND VISIBLE = " + s.DB.TRUE()
-            , SerializerWriteString.INSTANCE
-            , peopleread);
+                , "SELECT ID, NAME, APPPASSWORD, CARD, ROLE, IMAGE, PROPERTIES FROM PEOPLE WHERE CARD = ? AND VISIBLE = " + s.DB.TRUE()
+                , SerializerWriteString.INSTANCE
+                , peopleread);
 
         m_resourcebytes = new PreparedSentence(s
-            , "SELECT CONTENT FROM RESOURCES WHERE NAME = ?"
-            , SerializerWriteString.INSTANCE
-            , SerializerReadBytes.INSTANCE);
+                , "SELECT CONTENT FROM RESOURCES WHERE NAME = ?"
+                , SerializerWriteString.INSTANCE
+                , SerializerReadBytes.INSTANCE);
 
-        Datas[] resourcedata = new Datas[] {Datas.STRING, Datas.STRING, Datas.INT, Datas.BYTES};
+        Datas[] resourcedata = new Datas[]{Datas.STRING, Datas.STRING, Datas.INT, Datas.BYTES};
         m_resourcebytesinsert = new PreparedSentence(s
                 , "INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES (?, ?, ?, ?)"
                 , new SerializerWriteBasic(resourcedata));
         m_resourcebytesupdate = new PreparedSentence(s
                 , "UPDATE RESOURCES SET NAME = ?, RESTYPE = ?, CONTENT = ? WHERE NAME = ?"
-                , new SerializerWriteBasicExt(resourcedata, new int[] {1, 2, 3, 1}));
+                , new SerializerWriteBasicExt(resourcedata, new int[]{1, 2, 3, 1}));
 
         m_rolepermissions = new PreparedSentence(s
                 , "SELECT PERMISSIONS FROM ROLES WHERE ID = ?"
-            , SerializerWriteString.INSTANCE
-            , SerializerReadBytes.INSTANCE);
+                , SerializerWriteString.INSTANCE
+                , SerializerReadBytes.INSTANCE);
 
         m_changepassword = new StaticSentence(s
                 , "UPDATE PEOPLE SET APPPASSWORD = ? WHERE ID = ?"
-                ,new SerializerWriteBasic(new Datas[] {Datas.STRING, Datas.STRING}));
+                , new SerializerWriteBasic(new Datas[]{Datas.STRING, Datas.STRING}));
 
         m_sequencecash = new StaticSentence(s,
                 "SELECT MAX(HOSTSEQUENCE) FROM CLOSEDCASH WHERE HOST = ?",
                 SerializerWriteString.INSTANCE,
                 SerializerReadInteger.INSTANCE);
         m_activecash = new StaticSentence(s
-            , "SELECT HOST, HOSTSEQUENCE, DATESTART, DATEEND FROM CLOSEDCASH WHERE MONEY = ?"
-            , SerializerWriteString.INSTANCE
-            , new SerializerReadBasic(new Datas[] {Datas.STRING, Datas.INT, Datas.TIMESTAMP, Datas.TIMESTAMP}));
+                , "SELECT HOST, HOSTSEQUENCE, DATESTART, DATEEND FROM CLOSEDCASH WHERE MONEY = ?"
+                , SerializerWriteString.INSTANCE
+                , new SerializerReadBasic(new Datas[]{Datas.STRING, Datas.INT, Datas.TIMESTAMP, Datas.TIMESTAMP}));
         m_insertcash = new StaticSentence(s
                 , "INSERT INTO CLOSEDCASH(MONEY, HOST, HOSTSEQUENCE, DATESTART, DATEEND) " +
-                  "VALUES (?, ?, ?, ?, ?)"
-                , new SerializerWriteBasic(new Datas[] {Datas.STRING, Datas.STRING, Datas.INT, Datas.TIMESTAMP, Datas.TIMESTAMP}));
+                "VALUES (?, ?, ?, ?, ?)"
+                , new SerializerWriteBasic(new Datas[]{Datas.STRING, Datas.STRING, Datas.INT, Datas.TIMESTAMP, Datas.TIMESTAMP}));
 
         m_locationfind = new StaticSentence(s
                 , "SELECT NAME FROM LOCATIONS WHERE ID = ?"
@@ -152,7 +179,6 @@ public class DataLogicSystem extends BeanFactoryDataSingle {
 
         resetResourcesCache();
     }
-
 
     public String getInitScript() {
         return m_sInitScript;
@@ -173,6 +199,7 @@ public class DataLogicSystem extends BeanFactoryDataSingle {
     public final List listPeopleVisible() throws BasicException {
         return m_peoplevisible.list();
     }
+
     public final AppUser findPeopleByCard(String card) throws BasicException {
         return (AppUser) m_peoplebycard.find(card);
     }
@@ -194,28 +221,9 @@ public class DataLogicSystem extends BeanFactoryDataSingle {
         resourcescache = new HashMap<String, byte[]>();
     }
 
-    private static byte[] getResource(String name) {
-
-        byte[] resource;
-
-        resource = resourcescache.get(name);
-
-        if (resource == null) {
-            // Primero trato de obtenerlo de la tabla de recursos
-            try {
-                resource = (byte[]) m_resourcebytes.find(name);
-                resourcescache.put(name, resource);
-            } catch (BasicException e) {
-                resource = null;
-            }
-        }
-
-        return resource;
-    }
-
     public final void setResource(String name, int type, byte[] data) {
 
-        Object[] value = new Object[] {UUID.randomUUID().toString(), name, new Integer(type), data};
+        Object[] value = new Object[]{UUID.randomUUID().toString(), name, new Integer(type), data};
         try {
             if (m_resourcebytesupdate.exec(value) == 0) {
                 m_resourcebytesinsert.exec(value);
@@ -233,21 +241,8 @@ public class DataLogicSystem extends BeanFactoryDataSingle {
         return getResource(sName);
     }
 
-    public static String getResourceAsText(String sName) {
-        return Formats.BYTEA.formatValue(getResource(sName));
-    }
-
     public final String getResourceAsXML(String sName) {
         return Formats.BYTEA.formatValue(getResource(sName));
-    }
-
-    public static BufferedImage getResourceAsImage(String sName) {
-        try {
-            byte[] img = getResource(sName); // , ".png"
-            return img == null ? null : ImageIO.read(new ByteArrayInputStream(img));
-        } catch (IOException e) {
-            return null;
-        }
     }
 
     public final void setResourceAsProperties(String sName, Properties p) {

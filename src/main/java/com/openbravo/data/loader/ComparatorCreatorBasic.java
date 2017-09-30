@@ -22,49 +22,55 @@ package com.openbravo.data.loader;
 import java.util.Comparator;
 
 public class ComparatorCreatorBasic implements ComparatorCreator {
-    
+
     private String[] m_sHeaders;
     private Datas[] m_aDatas;
     private int[] m_iAvailableIndexes;
-    
-    /** Creates a new instance of ComparatorCreatorBasic */
+
+    /**
+     * Creates a new instance of ComparatorCreatorBasic
+     */
     public ComparatorCreatorBasic(String[] sHeaders, Datas[] aDatas, int[] iAvailableIndexes) {
-        
+
         m_sHeaders = sHeaders;
         m_aDatas = aDatas;
         m_iAvailableIndexes = iAvailableIndexes;
     }
+
     public ComparatorCreatorBasic(String[] sHeaders, Datas[] aDatas) {
-        m_sHeaders = sHeaders;        
+        m_sHeaders = sHeaders;
         m_aDatas = aDatas;
         m_iAvailableIndexes = new int[aDatas.length];
         for (int i = 0; i < aDatas.length; i++) {
             m_iAvailableIndexes[i] = i;
         }
     }
-    
+
     public String[] getHeaders() {
-        
+
         String[] sTempHeaders = new String[m_iAvailableIndexes.length];
-        
+
         for (int i = 0; i < m_iAvailableIndexes.length; i++) {
             sTempHeaders[i] = m_sHeaders[m_iAvailableIndexes[i]];
-        }         
+        }
         return sTempHeaders;
     }
-    
+
     public Comparator createComparator(int[] aiOrderBy) {
         return new ComparatorBasic(aiOrderBy);
     }
-    
+
     public class ComparatorBasic implements Comparator {
 
         private int[] m_aiOrderBy;
 
-        /** Creates a new instance of ComparatorBasic */
+        /**
+         * Creates a new instance of ComparatorBasic
+         */
         public ComparatorBasic(int[] aiOrderBy) {
             m_aiOrderBy = aiOrderBy;
         }
+
         public int compare(Object o1, Object o2) {
             if (o1 == null) {
                 if (o2 == null) {
@@ -87,5 +93,5 @@ public class ComparatorCreatorBasic implements ComparatorCreator {
                 return 0;
             }
         }
-    }    
+    }
 }

@@ -25,11 +25,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
  * @author adrianromero
  */
 public class ListKeyed<K extends IKeyed> extends ArrayList<K> {
-    
+
     public ListKeyed(List<K> list) {
         this.addAll(list);
     }

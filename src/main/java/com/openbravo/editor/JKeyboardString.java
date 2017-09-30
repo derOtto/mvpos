@@ -20,24 +20,25 @@
 package com.openbravo.editor;
 
 /**
- *
  * @author adrianromero
  * @author Andrey Svininykh <svininykh@gmail.com>
  */
 public class JKeyboardString extends JKeyboardText {
-    
-    /** Creates a new instance of JEditorString */
+
+    /**
+     * Creates a new instance of JEditorString
+     */
     public JKeyboardString() {
         super();
     }
-    
+
     protected final int getMode() {
         return EditorKeys.MODE_STRING;
     }
-        
+
     protected int getStartMode() {
         return MODE_Abc1;
     }
-    
+
 }
 

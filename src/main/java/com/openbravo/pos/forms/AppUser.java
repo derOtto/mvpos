@@ -21,6 +21,7 @@ package com.openbravo.pos.forms;
 import com.openbravo.data.loader.LocalRes;
 import com.openbravo.pos.ticket.UserInfo;
 import com.openbravo.pos.util.Hashcypher;
+
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.HashSet;
@@ -32,13 +33,13 @@ import javax.swing.Icon;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
+
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 /**
- *
  * @author adrianromero
  * @author Andrey Svininykh <svininykh@gmail.com>
  * @version NORD POS 3
@@ -52,11 +53,10 @@ public class AppUser {
     private final String m_sId;
     private final String m_sName;
     private final String m_sCard;
-    private String m_sPassword;
     private final String m_sRole;
     private final Icon m_Icon;
     private final Properties properties;
-
+    private String m_sPassword;
     private Set<String> m_apermissions;
 
     public AppUser(String id, String name, String password, String card, String role, Icon icon, Properties properties) {
@@ -68,6 +68,10 @@ public class AppUser {
         m_Icon = icon;
         m_apermissions = null;
         this.properties = properties;
+    }
+
+    private static String mapNewClass(String classname) {
+        return classname;
     }
 
     public Icon getIcon() {
@@ -82,12 +86,12 @@ public class AppUser {
         return m_sName;
     }
 
-    public void setPassword(String sValue) {
-        m_sPassword = sValue;
-    }
-
     public String getPassword() {
         return m_sPassword;
+    }
+
+    public void setPassword(String sValue) {
+        m_sPassword = sValue;
     }
 
     public String getRole() {
@@ -146,10 +150,6 @@ public class AppUser {
 
     public UserInfo getUserInfo() {
         return new UserInfo(m_sId, m_sName);
-    }
-
-    private static String mapNewClass(String classname) {
-        return classname;
     }
 
     private class ConfigurationHandler extends DefaultHandler {

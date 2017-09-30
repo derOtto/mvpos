@@ -24,58 +24,56 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
- *
  * @author adrianromero
  * Created on February 6, 2007, 4:06 PM
- *
  */
 public class Session {
-    
+
+    public final SessionDB DB;
     private String m_surl;
     private String m_suser;
     private String m_spassword;
-    
     private Connection m_c;
     private boolean m_bInTransaction;
 
-    public final SessionDB DB;
-    
-    /** Creates a new instance of Session */
+    /**
+     * Creates a new instance of Session
+     */
     public Session(String url, String user, String password) throws SQLException {
         m_surl = url;
         m_suser = user;
         m_spassword = password;
-        
+
         m_c = null;
         m_bInTransaction = false;
-        
+
         connect(); // no lazy connection
 
         DB = getDiff();
     }
-    
+
     public void connect() throws SQLException {
-        
+
         // primero cerramos si no estabamos cerrados
         close();
-        
+
         // creamos una nueva conexion.
         m_c = (m_suser == null && m_spassword == null)
-        ? DriverManager.getConnection(m_surl)
-        : DriverManager.getConnection(m_surl, m_suser, m_spassword);         
+                ? DriverManager.getConnection(m_surl)
+                : DriverManager.getConnection(m_surl, m_suser, m_spassword);
         m_c.setAutoCommit(true);
         m_bInTransaction = false;
-    }     
+    }
 
     public void close() {
-        
+
         if (m_c != null) {
             try {
                 if (m_bInTransaction) {
                     m_bInTransaction = false; // lo primero salimos del estado
                     m_c.rollback();
-                    m_c.setAutoCommit(true);  
-                }            
+                    m_c.setAutoCommit(true);
+                }
                 m_c.close();
             } catch (SQLException e) {
                 // me la como
@@ -84,17 +82,17 @@ public class Session {
             }
         }
     }
-    
+
     public Connection getConnection() throws SQLException {
-        
+
         if (!m_bInTransaction) {
             ensureConnection();
         }
         return m_c;
     }
-    
+
     public void begin() throws SQLException {
-        
+
         if (m_bInTransaction) {
             throw new SQLException("Already in transaction");
         } else {
@@ -103,31 +101,34 @@ public class Session {
             m_bInTransaction = true;
         }
     }
+
     public void commit() throws SQLException {
         if (m_bInTransaction) {
             m_bInTransaction = false; // lo primero salimos del estado
             m_c.commit();
-            m_c.setAutoCommit(true);          
+            m_c.setAutoCommit(true);
         } else {
             throw new SQLException("Transaction not started");
         }
     }
+
     public void rollback() throws SQLException {
         if (m_bInTransaction) {
             m_bInTransaction = false; // lo primero salimos del estado
             m_c.rollback();
-            m_c.setAutoCommit(true);            
+            m_c.setAutoCommit(true);
         } else {
             throw new SQLException("Transaction not started");
         }
     }
+
     public boolean isTransaction() {
         return m_bInTransaction;
     }
-    
+
     private void ensureConnection() throws SQLException {
         // solo se invoca si isTransaction == false
-        
+
         boolean bclosed;
         try {
             bclosed = m_c == null || m_c.isClosed();
@@ -139,7 +140,7 @@ public class Session {
         if (bclosed) {
             connect();
         }
-    }  
+    }
 
     public String getURL() throws SQLException {
         return getConnection().getMetaData().getURL();

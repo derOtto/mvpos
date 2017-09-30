@@ -21,14 +21,14 @@ package com.openbravo.pos.customers;
 
 import com.openbravo.format.Formats;
 import com.openbravo.pos.util.RoundUtils;
+
 import java.util.Date;
 
 /**
- *
  * @author adrianromero
  */
 public class CustomerInfoExt extends CustomerInfo {
-    
+
     protected String taxcustomerid;
     protected String notes;
     protected boolean visible;
@@ -48,20 +48,22 @@ public class CustomerInfoExt extends CustomerInfo {
     protected String city;
     protected String region;
     protected String country;
-    
-    /** Creates a new instance of UserInfoBasic */
+
+    /**
+     * Creates a new instance of UserInfoBasic
+     */
     public CustomerInfoExt(String id) {
         super(id);
-    } 
-  
+    }
+
     public String getTaxCustCategoryID() {
         return taxcustomerid;
     }
-    
+
     public void setTaxCustomerID(String taxcustomerid) {
         this.taxcustomerid = taxcustomerid;
     }
-    
+
     public String getNotes() {
         return notes;
     }
@@ -89,13 +91,13 @@ public class CustomerInfoExt extends CustomerInfo {
     public Double getMaxdebt() {
         return maxdebt;
     }
-    
-    public String printMaxDebt() {       
-        return Formats.CURRENCY.formatValue(RoundUtils.getValue(getMaxdebt()));
-    }
-    
+
     public void setMaxdebt(Double maxdebt) {
         this.maxdebt = maxdebt;
+    }
+
+    public String printMaxDebt() {
+        return Formats.CURRENCY.formatValue(RoundUtils.getValue(getMaxdebt()));
     }
 
     public Date getCurdate() {
@@ -109,17 +111,17 @@ public class CustomerInfoExt extends CustomerInfo {
     public Double getCurdebt() {
         return curdebt;
     }
-    
-    public String printCurDebt() {       
-        return Formats.CURRENCY.formatValue(RoundUtils.getValue(getCurdebt()));
-    }
-    
+
     public void setCurdebt(Double curdebt) {
         this.curdebt = curdebt;
     }
-    
+
+    public String printCurDebt() {
+        return Formats.CURRENCY.formatValue(RoundUtils.getValue(getCurdebt()));
+    }
+
     public void updateCurDebt(Double amount, Date d) {
-        
+
         curdebt = curdebt == null ? amount : curdebt + amount;
 
         if (RoundUtils.compare(curdebt, 0.0) > 0) {

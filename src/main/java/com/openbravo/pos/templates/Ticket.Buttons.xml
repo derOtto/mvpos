@@ -20,51 +20,52 @@
     along with Openbravo POS.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <configuration xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
-   xsi:noNamespaceSchemaLocation="Schema.Ticket.xsd">
-       
+               xsi:noNamespaceSchemaLocation="Schema.Ticket.xsd">
+
     <button key="button.print" titlekey="button.print" template="/com/nordpos/templates/Printer.TicketPreview.xml"/>
-    <button key="button.opendrawer" titlekey="button.opendrawer" template="/com/nordpos/templates/Printer.OpenDrawer.xml"/>
+    <button key="button.opendrawer" titlekey="button.opendrawer"
+            template="/com/nordpos/templates/Printer.OpenDrawer.xml"/>
 
-<!-- 
-    <event key="ticket.change" code="event.change"/>
-    <event key="ticket.addline" code="event.addline"/>
-    <event key="ticket.removeline" code="event.removeline"/>
-    <event key="ticket.setline" code="event.setline"/>
-    <event key="ticket.show" code="event.show"/>
-    <event key="ticket.total" code="event.total"/>
-    <event key="ticket.close" code="event.close"/>
--->
+    <!--
+        <event key="ticket.change" code="event.change"/>
+        <event key="ticket.addline" code="event.addline"/>
+        <event key="ticket.removeline" code="event.removeline"/>
+        <event key="ticket.setline" code="event.setline"/>
+        <event key="ticket.show" code="event.show"/>
+        <event key="ticket.total" code="event.total"/>
+        <event key="ticket.close" code="event.close"/>
+    -->
 
-<!--  
-    <event key="ticket.addline" code="Script.StockCurrentAdd"/>
-    <event key="ticket.setline" code="Script.StockCurrentSet"/>
--->
+    <!--
+        <event key="ticket.addline" code="Script.StockCurrentAdd"/>
+        <event key="ticket.setline" code="Script.StockCurrentSet"/>
+    -->
 
     <img-width value="96"/>
     <img-height value="96"/>
     <font-size value="12"/>
-    <catvisible value="true" />  
-    <cat-height value="256" />
-    <pricevisible value="true" />
-    
-    <taxesincluded value="true"/>   
-    
+    <catvisible value="true"/>
+    <cat-height value="256"/>
+    <pricevisible value="true"/>
+
+    <taxesincluded value="true"/>
+
     <attributesautoset value="true"/>
-    
+
     <printselected value="true"/>
-    <refmultcontrol value="true" />
-    
+    <refmultcontrol value="true"/>
+
     <discount-rate-visible value="true"/>
     <discount-rate-1 value="5"/>
     <discount-rate-2 value="10"/>
     <discount-rate-3 value="15"/>
 
-<!--
-    <discount-money-visible value="true"/>
-    <discount-money-1 value="1"/>
-    <discount-money-2 value="5"/>
-    <discount-money-3 value="10"/>   
--->
-    
-<!--    <price-is-zero value="true"/> -->
+    <!--
+        <discount-money-visible value="true"/>
+        <discount-money-1 value="1"/>
+        <discount-money-2 value="5"/>
+        <discount-money-3 value="10"/>
+    -->
+
+    <!--    <price-is-zero value="true"/> -->
 </configuration>

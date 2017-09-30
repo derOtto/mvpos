@@ -8,12 +8,11 @@ import com.openbravo.pos.ticket.TicketLineInfo;
 import com.openbravo.pos.util.RoundUtils;
 
 /**
- *
  * @author svininykh-av
  */
 public class DiscountPercent {
-    
-    
+
+
     public TicketLineInfo LineDiscountPercent(TicketLineInfo TicketLine, Double dDiscount) {
 
         double linediscount = TicketLine.getDiscountRate();
@@ -28,7 +27,7 @@ public class DiscountPercent {
             }
             TicketLine.setProperty("discountrate", Double.toString(dDiscount));
         }
-        
+
         return TicketLine;
     }
 }

@@ -6,7 +6,6 @@
 package com.openbravo.format;
 
 /**
- *
  * @author adrian
  */
 public class DoubleUtils {

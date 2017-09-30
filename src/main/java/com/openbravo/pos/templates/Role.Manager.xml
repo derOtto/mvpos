@@ -70,11 +70,11 @@
     <class name="/com/openbravo/reports/inventorydiff.bsh"/>
     <class name="/com/openbravo/reports/inventorydiffdetail.bsh"/>
     <class name="com.openbravo.pos.forms.MenuSalesManagement"/>
-<!--    <class name="/com/openbravo/reports/transregister.bsh"/> -->
+    <!--    <class name="/com/openbravo/reports/transregister.bsh"/> -->
     <class name="/com/openbravo/reports/usersales.bsh"/>
     <class name="/com/openbravo/reports/closedproducts.bsh"/>
     <class name="/com/openbravo/reports/taxes.bsh"/>
-<!--    <class name="/com/openbravo/reports/salecatalog.bsh"/> -->
+    <!--    <class name="/com/openbravo/reports/salecatalog.bsh"/> -->
     <class name="/com/openbravo/reports/chartsales.bsh"/>
     <class name="/com/nordpos/reports/piesalescat.bsh"/>
     <class name="Menu.ChangePassword"/>

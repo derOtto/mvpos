@@ -23,7 +23,6 @@ import com.nordpos.device.ticket.TicketPrinterException;
 import javax.swing.*;
 
 /**
- * 
  * @author adrianromero
  * @author Gennady Kovalev <gik@bigur.ru>
  * @author Andrey Svininykh <svininykh@gmail.com>
@@ -33,19 +32,26 @@ import javax.swing.*;
 public interface DeviceFiscalPrinter {
 
     public String getFiscalName();
+
     public JComponent getFiscalComponent();
 
     public void beginReceipt(String sType, int iNumber, String sDate, String sTime, String sCashier) throws TicketPrinterException;
+
     public void endReceipt() throws TicketPrinterException;
+
     public void printLine(String sproduct, double dprice, double dunits, int taxinfo) throws TicketPrinterException;
+
     public void printMessage(String smessage) throws TicketPrinterException;
+
     public void printTotal(String sPayment, double dpaid, String sPaymentType) throws TicketPrinterException;
 
     public void cutPaper(boolean complete) throws TicketPrinterException;
 
     public void printZReport() throws TicketPrinterException;
+
     public void printXReport() throws TicketPrinterException;
 
     public void printCashIn(double dsumm) throws TicketPrinterException;
+
     public void printCashOut(double dsumm) throws TicketPrinterException;
 }

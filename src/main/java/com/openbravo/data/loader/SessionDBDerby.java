@@ -20,7 +20,6 @@
 package com.openbravo.data.loader;
 
 /**
- *
  * @author adrianromero
  */
 public class SessionDBDerby implements SessionDB {
@@ -28,12 +27,15 @@ public class SessionDBDerby implements SessionDB {
     public String TRUE() {
         return "1";
     }
+
     public String FALSE() {
         return "0";
     }
+
     public String INTEGER_NULL() {
         return "CAST(NULL AS INTEGER)";
     }
+
     public String CHAR_NULL() {
         return "CAST(NULL AS CHAR)";
     }

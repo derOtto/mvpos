@@ -2,69 +2,40 @@
 
 <output xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
         xsi:noNamespaceSchemaLocation="Schema.Printer.xsd">
-        <label charset="Cp1251"
-               length="18"
-               width="28"
-               gap="2"
-               x="1"
-               y="1"
-               rotation="0"
-               resolution="8">
+    <label charset="Cp1251"
+           length="18"
+           width="28"
+           gap="2"
+           x="1"
+           y="1"
+           rotation="0"
+           resolution="8">
         <text font="B"
               orientation="0"
               x="16"
               y="4"
               font-height="1"
               font-width="1"
-              font-weight="B">${product.getReference().substring(5)}</text>
-        
+              font-weight="B">${product.getReference().substring(5)}
+        </text>
+
         <text font="B"
               orientation="0"
               x="16"
               y="28"
               font-height="1"
               font-width="1"
-              font-weight="B">NORD OnlineKZ</text>
-              
+              font-weight="B">NORD OnlineKZ
+        </text>
+
         <barcode type="CODE128"
                  x="0"
                  y="60"
                  orientation="0"
                  position="bottom"
                  height="40"
-                 dimension="2">${product.getCode()}</barcode>
-    </label>
-    <label charset="Cp1251"
-               length="18"
-               width="28"
-               gap="2"
-               x="1"
-               y="1"
-               rotation="0"
-               resolution="8">
-        <text font="B"
-              orientation="0"
-              x="16"
-              y="4"
-              font-height="1"
-              font-width="1"
-              font-weight="B">PAX S80</text>
-        
-        <text font="B"
-              orientation="0"
-              x="16"
-              y="28"
-              font-height="1"
-              font-width="1"
-              font-weight="B">NORD OnlineKZ</text>
-              
-        <barcode type="EAN13"
-                 x="0"
-                 y="60"
-                 orientation="0"
-                 position="bottom"
-                 height="40"
-                 dimension="2">${product.getCode()}</barcode>
+                 dimension="2">${product.getCode()}
+        </barcode>
     </label>
     <label charset="Cp1251"
            length="18"
@@ -80,22 +51,60 @@
               y="4"
               font-height="1"
               font-width="1"
-              font-weight="B">PAX S80</text>
-        
+              font-weight="B">PAX S80
+        </text>
+
         <text font="B"
               orientation="0"
               x="16"
               y="28"
               font-height="1"
               font-width="1"
-              font-weight="B">NORD OnlineKZ</text>
-              
+              font-weight="B">NORD OnlineKZ
+        </text>
+
         <barcode type="EAN13"
                  x="0"
                  y="60"
                  orientation="0"
                  position="bottom"
                  height="40"
-                 dimension="2">${product.getCode()}</barcode>
+                 dimension="2">${product.getCode()}
+        </barcode>
+    </label>
+    <label charset="Cp1251"
+           length="18"
+           width="28"
+           gap="2"
+           x="1"
+           y="1"
+           rotation="0"
+           resolution="8">
+        <text font="B"
+              orientation="0"
+              x="16"
+              y="4"
+              font-height="1"
+              font-width="1"
+              font-weight="B">PAX S80
+        </text>
+
+        <text font="B"
+              orientation="0"
+              x="16"
+              y="28"
+              font-height="1"
+              font-width="1"
+              font-weight="B">NORD OnlineKZ
+        </text>
+
+        <barcode type="EAN13"
+                 x="0"
+                 y="60"
+                 orientation="0"
+                 position="bottom"
+                 height="40"
+                 dimension="2">${product.getCode()}
+        </barcode>
     </label>
 </output>

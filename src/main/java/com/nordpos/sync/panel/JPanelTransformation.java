@@ -1,20 +1,19 @@
 /**
- *
  * NORD POS is a fork of Openbravo POS.
- *
+ * <p>
  * Copyright (C) 2009-2016 Nord Trading Ltd. <http://www.nordpos.com>
- *
+ * <p>
  * This file is part of NORD POS.
- *
+ * <p>
  * NORD POS is free software: you can redistribute it and/or modify it under the
  * terms of the GNU General Public License as published by the Free Software
  * Foundation, either version 3 of the License, or (at your option) any later
  * version.
- *
+ * <p>
  * NORD POS is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
  * A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU General Public License along with
  * NORD POS. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -45,9 +44,18 @@ import java.util.List;
 public abstract class JPanelTransformation extends JPanel implements JPanelView, BeanFactoryApp {
 
     protected AppView app;
-//    private DataLogicSystem dlSystem;
+    //    private DataLogicSystem dlSystem;
 //    private Properties hostProp;
     protected Trans trans;
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JTextArea jLogArea;
+    private javax.swing.JLabel jMessage;
+    private JPanel jPanel1;
+    private JPanel jPanel2;
+    private JPanel jPanelHeader;
+    private JPanel jPanelRows;
+    private javax.swing.JScrollPane m_jScrollTableRow;
 
     public JPanelTransformation() {
         initComponents();
@@ -55,7 +63,7 @@ public abstract class JPanelTransformation extends JPanel implements JPanelView,
 
     @Override
     public void init(AppView app) throws BeanFactoryException {
-        this.app = app;        
+        this.app = app;
 //        dlSystem = (DataLogicSystem) app.getBean(DataLogicSystem.class.getName());
 //        hostProp = dlSystem.getResourceAsProperties(app.getProperties() + "/properties");
 
@@ -76,6 +84,7 @@ public abstract class JPanelTransformation extends JPanel implements JPanelView,
     }
 
     protected abstract String getTransformation();
+
     protected abstract List<TransVariable> getTransVaribles();
 
     @Override
@@ -190,17 +199,6 @@ public abstract class JPanelTransformation extends JPanel implements JPanelView,
         this.app.waitCursorEnd();
 
     }//GEN-LAST:event_jButton1ActionPerformed
-
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JTextArea jLogArea;
-    private javax.swing.JLabel jMessage;
-    private JPanel jPanel1;
-    private JPanel jPanel2;
-    private JPanel jPanelHeader;
-    private JPanel jPanelRows;
-    private javax.swing.JScrollPane m_jScrollTableRow;
     // End of variables declaration//GEN-END:variables
 
     public Trans runTransformationFromResource(String resource, List<TransVariable> listVaribale) {

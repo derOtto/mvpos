@@ -25,15 +25,16 @@ import javax.swing.Action;
 import javax.swing.ImageIcon;
 
 /**
- *
  * @author adrianromero
  */
 public class MenuExecAction extends AbstractAction {
 
     private AppView m_App;
     private String m_sMyView;
-    
-    /** Creates a new instance of MenuExecAction */
+
+    /**
+     * Creates a new instance of MenuExecAction
+     */
     public MenuExecAction(AppView app, String icon, String keytext, String sMyView) {
         putValue(Action.SMALL_ICON, new ImageIcon(JPrincipalApp.class.getResource(icon)));
         putValue(Action.NAME, AppLocal.getIntString(keytext));
@@ -41,8 +42,9 @@ public class MenuExecAction extends AbstractAction {
         m_App = app;
         m_sMyView = sMyView;
     }
+
     public void actionPerformed(ActionEvent evt) {
 
-        m_App.getAppUserView().executeTask(m_sMyView);            
-    }     
+        m_App.getAppUserView().executeTask(m_sMyView);
+    }
 }

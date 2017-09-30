@@ -24,13 +24,14 @@ import com.openbravo.pos.forms.AppConfig;
 import javax.swing.*;
 
 /**
- *
  * @author Mikel Irurita
  */
 public interface PaymentGatewayConfiguration {
-    
+
     public JPanel getComponent();
+
     public void loadProperties(AppConfig config);
+
     public void saveProperties(AppConfig config);
-    
+
 }

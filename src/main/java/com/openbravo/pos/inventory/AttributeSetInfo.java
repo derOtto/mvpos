@@ -22,7 +22,6 @@ package com.openbravo.pos.inventory;
 import com.openbravo.data.loader.IKeyed;
 
 /**
- *
  * @author adrianromero
  */
 public class AttributeSetInfo implements IKeyed {
