@@ -18,6 +18,13 @@
 //    along with Openbravo POS.  If not, see <http://www.gnu.org/licenses/>.
 package com.openbravo.pos.forms;
 
+import com.nordpos.device.plu.DeviceInputOutput;
+import com.nordpos.device.plu.DeviceInputOutputFactory;
+import com.nordpos.device.scale.DeviceScaleFactory;
+import com.nordpos.device.ticket.DeviceTicketFactory;
+import com.nordpos.device.ticket.TicketParser;
+import com.nordpos.device.ticket.TicketPrinterException;
+import com.nordpos.device.util.StringParser;
 import com.openbravo.basic.BasicException;
 import com.openbravo.beans.JFlowPanel;
 import com.openbravo.beans.JPasswordDialog;
@@ -26,21 +33,12 @@ import com.openbravo.data.gui.MessageInf;
 import com.openbravo.data.loader.BatchSentence;
 import com.openbravo.data.loader.BatchSentenceResource;
 import com.openbravo.data.loader.Session;
-import com.nordpos.device.plu.DeviceInputOutput;
-import com.nordpos.device.plu.DeviceInputOutputFactory;
-import com.nordpos.device.ticket.DeviceTicketFactory;
-import com.nordpos.device.ticket.TicketParser;
-import com.nordpos.device.ticket.TicketPrinterException;
-import com.nordpos.device.scale.DeviceScaleFactory;
-import com.nordpos.device.util.StringParser;
 import com.openbravo.pos.scripting.ScriptEngine;
 import com.openbravo.pos.scripting.ScriptException;
 import com.openbravo.pos.scripting.ScriptFactory;
 
-import java.awt.CardLayout;
-import java.awt.ComponentOrientation;
-import java.awt.Cursor;
-import java.awt.Dimension;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import java.io.InputStream;
@@ -48,8 +46,8 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.List;
 import java.util.regex.Matcher;
-import javax.swing.*;
 
 /**
  * @author adrianromero
@@ -116,6 +114,9 @@ public class JRootApp extends JPanel implements AppView {
 
         // Inicializo los componentes visuales
         initComponents();
+        // iButtonListener
+        Runnable runnable = new IButtonWatch();
+        new Thread(runnable).start();
         jScrollPane1.getVerticalScrollBar().setPreferredSize(new Dimension(35, 35));
     }
 
@@ -593,6 +594,20 @@ public class JRootApp extends JPanel implements AppView {
             }
             jScrollPane1.getViewport().setView(jPeople);
 
+            String loginmode = "iButton"; //m_props.getLoginMode();
+            if (loginmode != null) {
+                if (loginmode.equals("iButton")) {
+                    jScrollPane1.setVisible(false);
+                    jPanel3.setVisible(true);
+                    //jLabel3.setVisible(true);
+                } else {
+                    // Standard & Mixed Mode
+                    jScrollPane1.setVisible(true);
+                    jPanel3.setVisible(false);
+                    //jLabel3.setVisible(false);
+                }
+            }
+
         } catch (BasicException ee) {
             ee.printStackTrace();
         }
@@ -658,15 +673,17 @@ public class JRootApp extends JPanel implements AppView {
         // show welcome message
         printerStart();
 
+        IButtonWatch.putAppView(this);
+
         // keyboard listener activation
-        inputtext = new StringBuffer();
-        m_txtKeys.setText(null);
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                m_txtKeys.requestFocus();
-            }
-        });
+        // inputtext = new StringBuffer();
+        // m_txtKeys.setText(null);
+        //java.awt.EventQueue.invokeLater(new Runnable() {
+        //    @Override
+        //    public void run() {
+        //        m_txtKeys.requestFocus();
+        //    }
+        //});
     }
 
     private void processKey(char c) {
@@ -849,6 +866,30 @@ public class JRootApp extends JPanel implements AppView {
         processKey(evt.getKeyChar());
 
     }//GEN-LAST:event_m_txtKeysKeyTyped
+
+    void insertButton(String iButton_key) {
+        if (iButton_key != null) {
+            AppUser user = null;
+            try {
+                user = m_dlSystem.findPeopleByCard(iButton_key);
+            } catch (BasicException e) {
+                e.printStackTrace();
+            }
+            if (user == null)  {
+                // user not found
+                MessageInf msg = new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.nocard"));
+                msg.show(this);
+            } else {
+                openAppView(user);
+            }
+        }
+    }
+
+    void removeButton(String iButton_key) {
+        if (iButton_key != null) {
+            closeAppView();
+        }
+    }
 
     // La accion del selector
     private class AppUserAction extends AbstractAction {
