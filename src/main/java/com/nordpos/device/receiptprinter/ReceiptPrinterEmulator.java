@@ -25,7 +25,6 @@ import com.nordpos.device.writter.WritterFile;
 import java.awt.*;
 
 /**
- *
  * @author Andrey Svininykh <svininykh@gmail.com>
  */
 public class ReceiptPrinterEmulator implements ReceiptPrinterInterface {
@@ -48,6 +47,19 @@ public class ReceiptPrinterEmulator implements ReceiptPrinterInterface {
                         return new DevicePrinterPlainText(new WritterFile(sPrinterParam2), EOL_UNIX);
                     } else {
                         return new DevicePrinterPlainText(new WritterFile(sPrinterParam2), EOL_DOS);
+                    }
+
+                } else {
+                    return new DevicePrinterNull();
+                }
+            case "esc/pos":
+            case "pos":
+            case "esc":
+                if ("file".equals(sPrinterParam1)) {
+                    if ("unix".equals(sPrinterParam3)) {
+                        return new DevicePrinterEscPos(new WritterFile(sPrinterParam2), EOL_UNIX);
+                    } else {
+                        return new DevicePrinterEscPos(new WritterFile(sPrinterParam2), EOL_DOS);
                     }
 
                 } else {
