@@ -19,6 +19,10 @@
 
 package com.openbravo.pos.forms;
 
+import com.openbravo.basic.BasicException;
+import com.openbravo.data.loader.Session;
+
+import javax.swing.*;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -26,10 +30,6 @@ import java.net.URLClassLoader;
 import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-
-import com.openbravo.basic.BasicException;
-import com.openbravo.data.loader.Session;
-import com.openbravo.pos.util.AltEncrypter;
 
 /**
  * @author adrianromero
@@ -57,7 +57,27 @@ public class AppViewConnection {
             String sDBUser = props.getDBUser();
             String sDBPassword = props.getDBPassword();
 
-            return new Session(props.getDBURL(), sDBUser, sDBPassword);
+            Session session = null;
+            JOptionPane jOptionPane = new JOptionPane("Database not available. Waiting for some time.");
+            final JDialog jDialog = jOptionPane.createDialog("Warnung");
+            jDialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+            jDialog.setVisible(false);
+            for (int i = 0; i < 300; i++) {
+                try {
+                    session = new Session(props.getDBURL(), sDBUser, sDBPassword);
+                    break;
+                } catch (SQLException ignored) {
+                    jDialog.setVisible(true);
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            jDialog.setVisible(false);
+            
+            return session;
 
         } catch (InstantiationException e) {
             throw new BasicException(AppLocal.getIntString("message.databasedrivererror"), e);

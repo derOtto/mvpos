@@ -86,7 +86,7 @@ public class IButtonWatch implements Runnable {
             return false;
         }
         try {
-            serialPort = serialPortId.open("PORTID", 2000);
+            serialPort = (SerialPort) serialPortId.open("PORTID", 2000);
             System.out.println("hi");
         } catch (PortInUseException e) {
             System.out.println("Port in use");

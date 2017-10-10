@@ -594,7 +594,7 @@ public class JRootApp extends JPanel implements AppView {
             }
             jScrollPane1.getViewport().setView(jPeople);
 
-            String loginmode = "iButton"; //m_props.getLoginMode();
+            String loginmode = null; //m_props.getLoginMode();
             if (loginmode != null) {
                 if (loginmode.equals("iButton")) {
                     jScrollPane1.setVisible(false);
