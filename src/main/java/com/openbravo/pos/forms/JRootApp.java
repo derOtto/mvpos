@@ -676,14 +676,14 @@ public class JRootApp extends JPanel implements AppView {
         IButtonWatch.putAppView(this);
 
         // keyboard listener activation
-        // inputtext = new StringBuffer();
-        // m_txtKeys.setText(null);
-        //java.awt.EventQueue.invokeLater(new Runnable() {
-        //    @Override
-        //    public void run() {
-        //        m_txtKeys.requestFocus();
-        //    }
-        //});
+        inputtext = new StringBuffer();
+        m_txtKeys.setText(null);
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                m_txtKeys.requestFocus();
+            }
+        });
     }
 
     private void processKey(char c) {
