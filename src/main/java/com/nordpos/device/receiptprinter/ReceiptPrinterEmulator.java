@@ -19,6 +19,7 @@
  */
 package com.nordpos.device.receiptprinter;
 
+import com.nordpos.device.receiptprinter.escpos.DevicePrinterEscPos;
 import com.nordpos.device.util.StringParser;
 import com.nordpos.device.writter.WritterFile;
 
@@ -56,11 +57,7 @@ public class ReceiptPrinterEmulator implements ReceiptPrinterInterface {
             case "pos":
             case "esc":
                 if ("file".equals(sPrinterParam1)) {
-                    if ("unix".equals(sPrinterParam3)) {
-                        return new DevicePrinterEscPos(new WritterFile(sPrinterParam2), EOL_UNIX);
-                    } else {
-                        return new DevicePrinterEscPos(new WritterFile(sPrinterParam2), EOL_DOS);
-                    }
+                    return new DevicePrinterEscPos(new WritterFile(sPrinterParam2));
 
                 } else {
                     return new DevicePrinterNull();

@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU General Public License along with
  * NORD POS. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.nordpos.device.traslator;
+package com.nordpos.device.translator;
 
 /**
  *
@@ -28,6 +28,7 @@ public class UnicodeTranslatorInt extends UnicodeTranslator {
 
     @Override
     public final byte[] convertString(String sConvert) {
+        sConvert = sConvert.replaceAll("ß", "ss");
         byte bAux[] = new byte[sConvert.length()];
         for (int i = 0; i < sConvert.length(); i++) {
             bAux[i] = transChar(sConvert.charAt(i));
@@ -183,6 +184,7 @@ public class UnicodeTranslatorInt extends UnicodeTranslator {
                     return -0x2D; //
                 case '\u00c8':
                     return -0x2C; //
+                case '\u00A4': //currency sign
                 case '\u20ac':
                     return -0x2B; // Euro Sign
                 case '\u00cd':
@@ -215,10 +217,8 @@ public class UnicodeTranslatorInt extends UnicodeTranslator {
                     return -0x13; //
                 case '\u00b4':
                     return -0x11; //
-
                 case '\u00a8':
                     return -0x07; //
-
                 default:
                     return 0x3F; // ? Not valid character.
             }

@@ -29,6 +29,15 @@ import java.awt.image.BufferedImage;
  */
 public interface DevicePrinter {
 
+    public static final int SIZE_0 = 0;
+    public static final int SIZE_1 = 1;
+    public static final int SIZE_2 = 2;
+    public static final int SIZE_3 = 3;
+
+    public static final int STYLE_PLAIN = 0;
+    public static final int STYLE_BOLD = 1;
+    public static final int STYLE_UNDERLINE = 2;
+
     public static final int ALIGN_LEFT = 0;
     public static final int ALIGN_RIGHT = 1;
     public static final int ALIGN_CENTER = 2;
