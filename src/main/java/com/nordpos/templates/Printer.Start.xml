@@ -23,7 +23,7 @@
         xsi:noNamespaceSchemaLocation="Schema.Printer.xsd">
     <display animation="scroll">
         <line>
-            <text>NORD POS</text>
+            <text>Musikverein Angelbachtal</text>
         </line>
         <line>
             <text>${local.getScriptString("start.welcome")}</text>

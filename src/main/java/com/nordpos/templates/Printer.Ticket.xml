@@ -45,19 +45,22 @@
     #end
     #end
     <ticket>
+        <line></line>
+        <!--
         <image>Printer.Ticket.Logo</image>
         <line></line>
+        -->
         <line>
-            <text align="center" length="42">Musikverein Angelbachtal</text>
+            <text align="center" length="42">Musikverein Angelbachtal e.V.</text>
         </line>
-        #if (false)
+        <!--
         <line>
             <text align="center" length="42">${local.getScriptString("sale.header.2")}</text>
         </line>
         <line>
             <text align="center" length="42">${local.getScriptString("sale.header.3")}</text>
         </line>
-        #end
+        -->
         <line></line>
         #if (${ticket.ticketType} == 0)
         <line>
@@ -104,7 +107,7 @@
         #foreach ($ticketline in $ticket.getLines())
         <line>
             #if ($ticketline.isProductCom())
-            <text align="left" length="42">*${ticketline.printName()}</text>
+            <text align="left" length="42">--${ticketline.printName()}</text>
             #else
             <text align="left" length="42">${ticketline.printName()}</text>
             #end
@@ -139,6 +142,7 @@
             <text align="center" length="10">${ticket.printArticlesCount()}</text>
         </line>
 
+        #if ($ticket.printDiscountAvgRate() != "0%")
         <line></line>
         <line>
             <text align="left" length="16">${local.getScriptString("sale.discounts")}</text>
@@ -146,6 +150,7 @@
             <text align="center" length="6">${ticket.printDiscountAvgRate()}</text>
             <text align="right" length="10">${ticket.printDiscountTotal()}</text>
         </line>
+        #end
 
         <line></line>
         #foreach ($taxinfo in $taxes)

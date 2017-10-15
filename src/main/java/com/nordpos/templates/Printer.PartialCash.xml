@@ -21,7 +21,12 @@
 <output xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
         xsi:noNamespaceSchemaLocation="Schema.Printer.xsd">
     <ticket>
+        <!--
         <image>Printer.Ticket.Logo</image>
+        -->
+        <line>
+            <text align="center" length="42">Musikverein Angelbachtal e.V.</text>
+        </line>
         <line/>
         <line size="1">
             <text align="center" length="42" bold="true">${local.getScriptString("report.partialcash.header")}</text>

@@ -20,11 +20,11 @@
 -->
 <output xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
         xsi:noNamespaceSchemaLocation="Schema.Printer.xsd">
-    <ticket>
+    <ticket printer="2">
         <image>Printer.Ticket.Logo</image>
-        <line></line>
+        <!--
         <line>
-            <text align="center" length="42">NORD POS</text>
+            <text align="center" length="42">Musikverein Angelbachtal</text>
         </line>
         <line>
             <text align="center" length="42">${local.getScriptString("sale.header.2")}</text>
@@ -32,6 +32,7 @@
         <line>
             <text align="center" length="42">${local.getScriptString("sale.header.3")}</text>
         </line>
+        -->
         <line></line>
         <line>
             <text align="left" length="15">${local.getScriptString("inventory.date")}</text>

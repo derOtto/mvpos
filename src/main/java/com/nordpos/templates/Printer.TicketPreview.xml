@@ -20,7 +20,8 @@
 -->
 <output xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
         xsi:noNamespaceSchemaLocation="Schema.Printer.xsd">
-    <!--<display>
+    <!--
+    <display>
         <line>
             <text align="left" length="10">${local.getScriptString("sale.total")}</text>
             <text align="right" length="10">${ticket.printTotal()}</text>
@@ -33,19 +34,28 @@
             <text align="center" length="20">${local.getScriptString("sale.payments")}</text>
         #end
         </line>
-    </display>-->
+    </display>
+    -->
     <ticket>
+        <line></line>
+        <!--
         <image>Printer.Ticket.Logo</image>
         <line></line>
+        -->
         <line>
-            <text align="center" length="42">NORD POS</text>
+            <text align="center" length="42">Musikverein Angelbachtal e.V.</text>
         </line>
+        <line>
+            <text align="center" bold="true" length="42">!!! VORSCHAU !!!</text>
+        </line>
+        <!--
         <line>
             <text align="center" length="42">${local.getScriptString("sale.header.2")}</text>
         </line>
         <line>
             <text align="center" length="42">${local.getScriptString("sale.header.3")}</text>
         </line>
+        -->
         <line></line>
         #if (${ticket.ticketType} == 0)
         <line>
@@ -92,7 +102,7 @@
         #foreach ($ticketline in $ticket.getLines())
         <line>
             #if ($ticketline.isProductCom())
-            <text align="left" length="17">*${ticketline.printName()}</text>
+            <text align="left" length="17">--${ticketline.printName()}</text>
             #else
             <text align="left" length="17">${ticketline.printName()}</text>
             #end
@@ -121,10 +131,11 @@
             <text>------------------------------------------</text>
         </line>
         <line>
-            <text align="left" length="16">${local.getScriptString("sale.items")}</text>
-            <text align="left" length="26">${ticket.printArticlesCount()}</text>
+            <text align="left" length="22">${local.getScriptString("sale.items")}</text>
+            <text align="left" length="10">${ticket.printArticlesCount()}</text>
         </line>
 
+        #if ($ticket.printDiscountAvgRate() != "0%")
         <line></line>
         <line>
             <text align="left" length="16">${local.getScriptString("sale.discounts")}</text>
@@ -132,6 +143,7 @@
             <text align="center" length="6">${ticket.printDiscountAvgRate()}</text>
             <text align="right" length="10">${ticket.printDiscountTotal()}</text>
         </line>
+        #end
 
         <line></line>
         <line>
@@ -245,6 +257,8 @@
         <line>
             <text align="center" length="42">${local.getScriptString("label.thankyouvisit")}</text>
         </line>
-        <barcode type="QRCODE">http://nordpos.mobi</barcode>
+        <line>
+            <text align="center" bold="true" length="42">!!! VORSCHAU ENDE !!!</text>
+        </line>
     </ticket>
 </output>
