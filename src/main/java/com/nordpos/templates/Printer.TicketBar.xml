@@ -27,12 +27,10 @@
             <text align="center" length="42">Bar Bestellung</text>
         </line>
         <line></line>
-        #if (ticket.printID())
         <line>
             <text align="left" length="15">Bon:</text>
             <text>${ticket.printId()}</text>
         </line>
-        #end
         <line>
             <text align="left" length="15">Datum:</text>
             <text>${ticket.printDate()}</text>
