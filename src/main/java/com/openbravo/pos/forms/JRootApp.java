@@ -107,6 +107,7 @@ public class JRootApp extends JPanel implements AppView {
     private JPanel m_jPanelTitle;
     private JTextField m_txtKeys;
     private JPanel panelTask;
+    private Runnable iButtonWatch;
 
     public JRootApp() {
 
@@ -115,8 +116,8 @@ public class JRootApp extends JPanel implements AppView {
         // Inicializo los componentes visuales
         initComponents();
         // iButtonListener
-        Runnable runnable = new IButtonWatch();
-        new Thread(runnable).start();
+        iButtonWatch = new IButtonWatch();
+        new Thread(iButtonWatch).start();
         jScrollPane1.getVerticalScrollBar().setPreferredSize(new Dimension(35, 35));
     }
 
@@ -594,7 +595,7 @@ public class JRootApp extends JPanel implements AppView {
             }
             jScrollPane1.getViewport().setView(jPeople);
 
-            String loginmode = null; //m_props.getLoginMode();
+            String loginmode = m_props.getLoginMode(); //check
             if (loginmode != null) {
                 if (loginmode.equals("iButton")) {
                     jScrollPane1.setVisible(false);
@@ -676,14 +677,14 @@ public class JRootApp extends JPanel implements AppView {
         IButtonWatch.putAppView(this);
 
         // keyboard listener activation
-        inputtext = new StringBuffer();
-        m_txtKeys.setText(null);
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                m_txtKeys.requestFocus();
-            }
-        });
+        // inputtext = new StringBuffer();
+        // m_txtKeys.setText(null);
+        //java.awt.EventQueue.invokeLater(new Runnable() {
+        //    @Override
+        //    public void run() {
+        //        m_txtKeys.requestFocus();
+        //    }
+        // });
     }
 
     private void processKey(char c) {

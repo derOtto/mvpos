@@ -108,6 +108,10 @@ public class AppConfig implements AppProperties {
         return configfile;
     }
 
+    public String getLoginMode() {
+        return getProperty("login.Mode");
+    }
+
     public void setProperty(String sKey, String sValue) {
         if (sValue == null) {
             m_propsconfig.remove(sKey);

@@ -41,4 +41,6 @@ public interface AppProperties {
     public String getDBURL();
 
     public String getProperty(String sKey); // Config property.
+
+    String getLoginMode();
 }
