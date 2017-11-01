@@ -24,7 +24,7 @@ DIRNAME=`dirname $0`
 CP=$DIRNAME/nordpos.jar
 
 # LIB
-CP=$CP:$DIRNAME/lib/*.jar
+CP=$CP:$DIRNAME/lib/*
 CP=$CP:$DIRNAME/lib-ext/*
 CP=$CP:$DIRNAME/lib-ext/peripheral-device/commons-csv-1.2.jar
 CP=$CP:$DIRNAME/lib-jdbc/derbyclient.jar

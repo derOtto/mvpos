@@ -20,6 +20,8 @@
 package com.nordpos.device.receiptprinter;
 
 import com.nordpos.device.receiptprinter.escpos.DevicePrinterEscPos;
+import com.nordpos.device.receiptprinter.html.DevicePrinterHTML;
+import com.nordpos.device.receiptprinter.html.DevicePrinterHTMLServer;
 import com.nordpos.device.util.StringParser;
 import com.nordpos.device.writter.WritterFile;
 
@@ -40,6 +42,7 @@ public class ReceiptPrinterEmulator implements ReceiptPrinterInterface {
         String sPrinterParam1 = sp.nextToken(',');
         String sPrinterParam2 = sp.nextToken(',');
         String sPrinterParam3 = sp.nextToken(',');
+        String sPrinterParam4 = sp.nextToken(',');
 
         switch (sPrinterType) {
             case "plaintext":
@@ -58,10 +61,14 @@ public class ReceiptPrinterEmulator implements ReceiptPrinterInterface {
             case "esc":
                 if ("file".equals(sPrinterParam1)) {
                     return new DevicePrinterEscPos(new WritterFile(sPrinterParam2));
-
                 } else {
                     return new DevicePrinterNull();
                 }
+            case "html":
+                if (sPrinterParam1.equals("server"))
+                    return new DevicePrinterHTMLServer(sPrinterParam2, sPrinterParam3, sPrinterParam4);
+                else
+                    return new DevicePrinterHTML(new WritterFile(sPrinterParam1));
             case "screen":
                 return new DevicePrinterPanel();
             default:
