@@ -43,6 +43,7 @@ public class ReceiptPrinterEmulator implements ReceiptPrinterInterface {
         String sPrinterParam2 = sp.nextToken(',');
         String sPrinterParam3 = sp.nextToken(',');
         String sPrinterParam4 = sp.nextToken(',');
+        String sPrinterParam5 = sp.nextToken(',');
 
         switch (sPrinterType) {
             case "plaintext":
@@ -66,7 +67,7 @@ public class ReceiptPrinterEmulator implements ReceiptPrinterInterface {
                 }
             case "html":
                 if (sPrinterParam1.equals("server"))
-                    return new DevicePrinterHTMLServer(sPrinterParam2, sPrinterParam3, sPrinterParam4);
+                    return new DevicePrinterHTMLServer(sPrinterParam2, sPrinterParam3, sPrinterParam4, sPrinterParam5);
                 else
                     return new DevicePrinterHTML(new WritterFile(sPrinterParam1));
             case "screen":

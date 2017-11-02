@@ -16,12 +16,14 @@ public class DevicePrinterHTMLServer extends DevicePrinterHTML implements Device
     private String server;
     private String user;
     private String key;
+    private String workingdir;
 
-    public DevicePrinterHTMLServer(String server, String user, String key) {
+    public DevicePrinterHTMLServer(String server, String user, String key, String workingdir) {
         super(new WritterFile(tempFile), id);
         this.server = server;
         this.user = user;
         this.key = key;
+        this.workingdir = workingdir;
     }
 
     private void uploadFile() {
@@ -29,7 +31,7 @@ public class DevicePrinterHTMLServer extends DevicePrinterHTML implements Device
         int SFTPPORT = 22;
         String SFTPUSER = user;
         String SFTPKEY = key;
-        String SFTPWORKINGDIR = "/var/www/html/res/";
+        String SFTPWORKINGDIR = workingdir;
 
         Session session;
         Channel channel;
