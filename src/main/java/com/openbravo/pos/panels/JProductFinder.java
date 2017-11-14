@@ -19,18 +19,17 @@
 
 package com.openbravo.pos.panels;
 
+import com.openbravo.basic.BasicException;
+import com.openbravo.data.user.ListProvider;
+import com.openbravo.data.user.ListProviderCreator;
+import com.openbravo.pos.forms.AppLocal;
+import com.openbravo.pos.forms.DataLogicSales;
 import com.openbravo.pos.ticket.ProductFilterSales;
 import com.openbravo.pos.ticket.ProductInfoExt;
 import com.openbravo.pos.ticket.ProductRenderer;
 
 import javax.swing.*;
 import java.awt.*;
-
-import com.openbravo.pos.forms.AppLocal;
-import com.openbravo.basic.BasicException;
-import com.openbravo.data.user.ListProvider;
-import com.openbravo.data.user.ListProviderCreator;
-import com.openbravo.pos.forms.DataLogicSales;
 
 /**
  * @author adrianromero

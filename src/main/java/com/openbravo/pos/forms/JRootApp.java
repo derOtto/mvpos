@@ -36,14 +36,19 @@ import com.openbravo.data.loader.Session;
 import com.openbravo.pos.scripting.ScriptEngine;
 import com.openbravo.pos.scripting.ScriptException;
 import com.openbravo.pos.scripting.ScriptFactory;
+import org.apache.commons.lang.SystemUtils;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.List;
@@ -94,6 +99,7 @@ public class JRootApp extends JPanel implements AppView {
     private JPanel jPanel8;
     private JScrollPane jScrollPane1;
     private JButton m_jClose;
+    private JButton m_jRestart;
     private JLabel m_jHost;
     private JLabel m_jLblDescriptionFirst;
     private JLabel m_jLblDescriptionSecond;
@@ -735,6 +741,7 @@ public class JRootApp extends JPanel implements AppView {
         jPanel2 = new JPanel();
         jPanel8 = new JPanel();
         m_jClose = new JButton();
+        m_jRestart = new JButton();
         jPanel1 = new JPanel();
         m_txtKeys = new JTextField();
         m_jPanelDown = new JPanel();
@@ -814,7 +821,15 @@ public class JRootApp extends JPanel implements AppView {
                 m_jCloseActionPerformed(evt);
             }
         });
+        m_jRestart.setIcon(new ImageIcon(getClass().getResource("/com/openbravo/images/restart.png")));
+        m_jRestart.setText(AppLocal.getIntString("Button.Restart"));
+        m_jRestart.setFocusPainted(false);
+        m_jRestart.setFocusable(false);
+        m_jRestart.setRequestFocusEnabled(false);
+        //noinspection Convert2MethodRef
+        m_jRestart.addActionListener(evt -> m_jRestartActionPerformed(evt));
         jPanel8.add(m_jClose);
+        jPanel8.add(m_jRestart);
 
         jPanel2.add(jPanel8, java.awt.BorderLayout.NORTH);
 
@@ -860,6 +875,25 @@ public class JRootApp extends JPanel implements AppView {
 
     }//GEN-LAST:event_m_jCloseActionPerformed
 
+    private void m_jRestartActionPerformed(ActionEvent evt) {
+        URL jarUrl = null;
+        try {
+            jarUrl = Class.forName("com.openbravo.pos.forms.StartPOS").getProtectionDomain().getCodeSource().getLocation();
+            String jarAbsPath = new File(jarUrl.toURI()).getParent() + File.separator;
+            if (SystemUtils.IS_OS_UNIX) {
+                Runtime.getRuntime().exec(jarAbsPath + "start.sh " + m_props.getConfigFile().getAbsolutePath());
+                System.exit(0);
+            } else if (SystemUtils.IS_OS_WINDOWS) {
+                Runtime.getRuntime().exec("cmd /c " + jarAbsPath + "start.bat " + m_props.getConfigFile().getAbsolutePath());
+                System.exit(0);
+            } else {
+                System.err.println("OS not supported");
+            }
+        } catch (ClassNotFoundException | URISyntaxException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void m_txtKeysKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_m_txtKeysKeyTyped
 
         m_txtKeys.setText("0");
@@ -869,14 +903,16 @@ public class JRootApp extends JPanel implements AppView {
     }//GEN-LAST:event_m_txtKeysKeyTyped
 
     void insertButton(String iButton_key) {
+        System.out.println("button inserted: " + iButton_key);
         if (iButton_key != null) {
             AppUser user = null;
             try {
+                System.out.println(iButton_key);
                 user = m_dlSystem.findPeopleByCard(iButton_key);
             } catch (BasicException e) {
                 e.printStackTrace();
             }
-            if (user == null)  {
+            if (user == null) {
                 // user not found
                 MessageInf msg = new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.nocard"));
                 msg.show(this);
@@ -887,6 +923,7 @@ public class JRootApp extends JPanel implements AppView {
     }
 
     void removeButton(String iButton_key) {
+        System.out.println("button removed: " + iButton_key);
         if (iButton_key != null) {
             closeAppView();
         }
