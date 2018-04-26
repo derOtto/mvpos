@@ -1,6 +1,6 @@
 [submodule "nordpos-restaurant-service"]
 	path = nordpos-restaurant-service
-	url = https://git.jc-otto.de:3000/MV-Angelbachtal/nordpos-restaurant-service.git
+	url = git@github.com:derOtto/mvpos-restaurant-service.git
 [submodule "nordpos-product-catalog"]
 	path = nordpos-product-catalog
 	url = https://git.jc-otto.de:3000/MV-Angelbachtal/nordpos-product-catalog.git
