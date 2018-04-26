@@ -6,19 +6,19 @@
 	url = https://github.com/derOtto/mvpos-product-catalog.git
 [submodule "nordpos-escpos-display"]
 	path = nordpos-escpos-display
-	url = https://github.com/derOtto/nordpos-escpos-display
+	url = https://github.com/derOtto/nordpos-escpos-display.git
 [submodule "nordpos-device"]
 	path = nordpos-device
-	url = https://git.jc-otto.de:3000/MV-Angelbachtal/nordpos-device.git
+	url = https://github.com/derOtto/nordpos-device.git
 [submodule "nordpos-dao"]
 	path = nordpos-dao
-	url = https://git.jc-otto.de:3000/MV-Angelbachtal/nordpos-dao.git
+	url = https://github.com/derOtto/nordpos-dao.git
 [submodule "mobile-stripes"]
 	path = mobile-stripes
-	url = https://git.jc-otto.de:3000/MV-Angelbachtal/mobile-stripes.git
+	url = https://github.com/derOtto/mobile-stripes.git
 [submodule "nordpos-webapps"]
 	path = nordpos-webapps
-	url = https://git.jc-otto.de:3000/MV-Angelbachtal/nordpos-webapps.git
+	url = https://github.com/derOtto/nordpos-webapps.git
 [submodule "online-retail"]
 	path = online-retail
-	url = https://git.jc-otto.de:3000/MV-Angelbachtal/online-retail.git
+	url = https://github.com/derOtto/online-retail.git
