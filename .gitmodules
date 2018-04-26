@@ -1,12 +1,12 @@
 [submodule "nordpos-restaurant-service"]
 	path = nordpos-restaurant-service
-	url = git@github.com:derOtto/mvpos-restaurant-service.git
+	url = https://github.com/derOtto/mvpos-restaurant-service.git
 [submodule "nordpos-product-catalog"]
 	path = nordpos-product-catalog
-	url = https://git.jc-otto.de:3000/MV-Angelbachtal/nordpos-product-catalog.git
+	url = https://github.com/derOtto/mvpos-product-catalog.git
 [submodule "nordpos-escpos-display"]
 	path = nordpos-escpos-display
-	url = https://git.jc-otto.de:3000/MV-Angelbachtal/nordpos-escpos-display.git
+	url = https://github.com/derOtto/nordpos-escpos-display
 [submodule "nordpos-device"]
 	path = nordpos-device
 	url = https://git.jc-otto.de:3000/MV-Angelbachtal/nordpos-device.git
