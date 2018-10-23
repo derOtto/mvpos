@@ -903,11 +903,9 @@ public class JRootApp extends JPanel implements AppView {
     }//GEN-LAST:event_m_txtKeysKeyTyped
 
     void insertButton(String iButton_key) {
-        System.out.println("button inserted: " + iButton_key);
         if (iButton_key != null) {
             AppUser user = null;
             try {
-                System.out.println(iButton_key);
                 user = m_dlSystem.findPeopleByCard(iButton_key);
             } catch (BasicException e) {
                 e.printStackTrace();
@@ -923,7 +921,6 @@ public class JRootApp extends JPanel implements AppView {
     }
 
     void removeButton(String iButton_key) {
-        System.out.println("button removed: " + iButton_key);
         if (iButton_key != null) {
             closeAppView();
         }
