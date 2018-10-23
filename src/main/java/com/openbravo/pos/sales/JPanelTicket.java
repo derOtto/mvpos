@@ -18,6 +18,9 @@
 //    along with Openbravo POS.  If not, see <http://www.gnu.org/licenses/>.
 package com.openbravo.pos.sales;
 
+import com.nordpos.device.scale.ScaleException;
+import com.nordpos.device.ticket.TicketParser;
+import com.nordpos.device.ticket.TicketPrinterException;
 import com.openbravo.basic.BasicException;
 import com.openbravo.beans.JCurrencyDialog;
 import com.openbravo.beans.JNumberDialog;
@@ -37,11 +40,8 @@ import com.openbravo.pos.panels.JProductFinder;
 import com.openbravo.pos.payment.JPaymentSelect;
 import com.openbravo.pos.payment.JPaymentSelectReceipt;
 import com.openbravo.pos.payment.JPaymentSelectRefund;
-import com.nordpos.device.ticket.TicketParser;
-import com.nordpos.device.ticket.TicketPrinterException;
 import com.openbravo.pos.promotion.DiscountMoney;
 import com.openbravo.pos.promotion.DiscountPercent;
-import com.nordpos.device.scale.ScaleException;
 import com.openbravo.pos.scripting.ScriptEngine;
 import com.openbravo.pos.scripting.ScriptException;
 import com.openbravo.pos.scripting.ScriptFactory;
@@ -51,33 +51,25 @@ import com.openbravo.pos.ticket.TicketInfo;
 import com.openbravo.pos.ticket.TicketLineInfo;
 import com.openbravo.pos.util.JRPrinterAWT;
 import com.openbravo.pos.util.ReportUtils;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.data.JRMapArrayDataSource;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
 
-import java.awt.BorderLayout;
-import java.awt.CardLayout;
-import java.awt.Component;
-import java.awt.Toolkit;
+import javax.print.PrintService;
+import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.print.PrintService;
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperCompileManager;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.data.JRMapArrayDataSource;
-import net.sf.jasperreports.engine.design.JasperDesign;
-import net.sf.jasperreports.engine.xml.JRXmlLoader;
 
 /**
  * @author adrianromero
@@ -414,7 +406,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
             // Muestro el panel de nulos.
             cl.show(this, "null");
-            resetSouthComponent();
+            //don't change to default Category
+            //resetSouthComponent();
 
         } else {
             if (isMultiplyControl) {
@@ -453,7 +446,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
             // Muestro el panel de tickets.
             cl.show(this, "ticket");
-            resetSouthComponent();
+            //don't change to default Category
+            //resetSouthComponent();
 
             // activo el tecleador...
             m_jKeyFactory.setText(null);
