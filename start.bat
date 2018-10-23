@@ -38,4 +38,4 @@ set CP=%CP%;"%DIRNAME%services/"
 set CP=%CP%;"%DIRNAME%templates/"
 
 REM start NORD POS
-start /B javaw -cp %CP% -Djava.util.logging.config.file="%DIRNAME%logging.properties" -Djava.library.path="%DIRNAME%lib/Windows/i368-mingw32" -Ddirname.path="%DIRNAME%./" -DKETTLE_PLUGIN_BASE_FOLDERS="%DIRNAME%lib-ext/data-integration/plugins" com.openbravo.pos.forms.StartPOS %1
+java -cp %CP% -Djava.util.logging.config.file="%DIRNAME%logging.properties" -Djava.library.path="%DIRNAME%lib/Windows/i368-mingw32" -Ddirname.path="%DIRNAME%./" -DKETTLE_PLUGIN_BASE_FOLDERS="%DIRNAME%lib-ext/data-integration/plugins" com.openbravo.pos.forms.StartPOS %1
