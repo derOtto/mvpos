@@ -25,12 +25,11 @@ import com.openbravo.pos.catalog.JCatalog;
 import com.openbravo.pos.forms.AppView;
 import com.openbravo.pos.ticket.ProductInfoExt;
 
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * @author adrianromero
@@ -66,7 +65,7 @@ public class JPanelTicketSales extends JPanelTicket {
     }
 
     protected void resetSouthComponent() {
-        if ("false".equals(panelconfig.getProperty("catvisible")) == false) {
+        if (!"false".equals(panelconfig.getProperty("catvisible"))) {
             m_cat.showCatalogPanel(null);
         }
     }
@@ -78,7 +77,7 @@ public class JPanelTicketSales extends JPanelTicket {
     @Override
     public void activate() throws BasicException {
         super.activate();
-        if ("false".equals(panelconfig.getProperty("catvisible")) == false) {
+        if (!"false".equals(panelconfig.getProperty("catvisible"))) {
             m_cat.loadCatalog(m_App);
         }
     }
@@ -104,7 +103,7 @@ public class JPanelTicketSales extends JPanelTicket {
                     }
 
                     // Show the accurate catalog panel...
-                    if ("false".equals(panelconfig.getProperty("catvisible")) == false) {
+                    if (!"false".equals(panelconfig.getProperty("catvisible"))) {
 
                         if (i >= 0) {
                             m_cat.showCatalogPanel(m_oTicket.getLine(i).getProductID());
