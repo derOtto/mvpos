@@ -1,6 +1,7 @@
 package com.openbravo.pos.forms;
 
 import gnu.io.*;
+import org.mozilla.javascript.tools.shell.Main;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -49,7 +50,6 @@ public class IButtonWatch implements Runnable {
         Thread t1 = new Thread(new IButtonWatch());
         t1.start();
         while (true) {
-            System.out.println(getIButton_Key());
             try {
                 t1.sleep(5000);
             } catch (InterruptedException e) {
@@ -97,7 +97,6 @@ public class IButtonWatch implements Runnable {
         }
         try {
             serialPort = (SerialPort) serialPortId.open("PORTID", 2000);
-            System.out.println("hi");
         } catch (PortInUseException e) {
             System.out.println("Port in use");
         }
@@ -223,9 +222,13 @@ public class IButtonWatch implements Runnable {
 
     private class serialPortEventListener implements SerialPortEventListener {
         public void serialEvent(SerialPortEvent event) {
-            // System.out.println("serialPortEventlistener");
             switch (event.getEventType()) {
                 case SerialPortEvent.DATA_AVAILABLE:
+                    try {
+                        serialPortDataAvail();
+                    } catch (org.pushingpixels.substance.api.UiThreadingViolationException e) {
+                        //do nothing fix if time
+                    }
                     serialPortDataAvail();
                     break;
                 case SerialPortEvent.BI:
