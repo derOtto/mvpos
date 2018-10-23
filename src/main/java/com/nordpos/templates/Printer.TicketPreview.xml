@@ -145,6 +145,7 @@
         </line>
         #end
 
+        <!-- no taxes
         <line></line>
         <line>
             <text align="left" length="16">${local.getScriptString("sale.subtotal")}</text>
@@ -152,6 +153,7 @@
             <text align="right" length="13">${ticket.printSubTotal()}</text>
         </line>
         <line></line>
+        -->
         <line size="1">
             <text align="left" length="16" bold="true">${local.getScriptString("sale.total")}</text>
             <text align="right" length="26" bold="true">${ticket.printTotal()}</text>

@@ -153,6 +153,7 @@
         #end
 
         <line></line>
+        <!-- don't print taxes
         #foreach ($taxinfo in $taxes)
         #set( $taxline = $ticket.getTaxLine($taxinfo))
         <line>
@@ -161,6 +162,7 @@
             <text align="right" length="12">${taxline.printTax()}</text>
         </line>
         #end
+
         <line></line>
         <line>
             <text align="left" length="22">${local.getScriptString("sale.subtotal")}</text>
@@ -171,6 +173,7 @@
             <text align="right" length="20">${ticket.printTax()}</text>
         </line>
         <line></line>
+        -->
         <line size="1">
             <text align="left" length="22" bold="true">${local.getScriptString("sale.total")}</text>
             <text align="right" length="20" bold="true">${ticket.printTotal()}</text>
